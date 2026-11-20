@@ -1,0 +1,28 @@
+{
+  "name": "pc-building-simulator",
+  "version": "0.2.0",
+  "description": "Virtual PC Building Simulator and Test Bench in TypeScript and Rust",
+  "main": "dist/web/src/index.js",
+  "type": "module",
+  "scripts": {
+    "build": "tsc",
+    "start": "node dist/web/server.js",
+    "test": "node --test dist/tests-ts/*.test.js"
+  },
+  "keywords": [
+    "pc-builder",
+    "simulator",
+    "test-bench",
+    "threejs",
+    "rust",
+    "typescript",
+    "webgl"
+  ],
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "@types/three": "^0.170.0",
+    "typescript": "^5.7.0"
+  }
+}

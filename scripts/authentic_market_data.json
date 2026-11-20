@@ -1,0 +1,848 @@
+{
+  "crawledAt": "2026-11-20T14:41:23.879Z",
+  "totalCatalogItems": 50,
+  "matchedItemsCount": 41,
+  "totalScrapedDatabaseSize": 45951,
+  "networkLogs": [
+    {
+      "kind": "processor",
+      "url": "https://raw.githubusercontent.com/docyx/pc-part-dataset/main/data/json/cpu.json",
+      "count": 1413,
+      "status": 200,
+      "latencyMs": 1344
+    },
+    {
+      "kind": "graphics_card",
+      "url": "https://raw.githubusercontent.com/docyx/pc-part-dataset/main/data/json/video-card.json",
+      "count": 6636,
+      "status": 200,
+      "latencyMs": 627
+    },
+    {
+      "kind": "motherboard",
+      "url": "https://raw.githubusercontent.com/docyx/pc-part-dataset/main/data/json/motherboard.json",
+      "count": 4973,
+      "status": 200,
+      "latencyMs": 388
+    },
+    {
+      "kind": "memory",
+      "url": "https://raw.githubusercontent.com/docyx/pc-part-dataset/main/data/json/memory.json",
+      "count": 13553,
+      "status": 200,
+      "latencyMs": 493
+    },
+    {
+      "kind": "storage",
+      "url": "https://raw.githubusercontent.com/docyx/pc-part-dataset/main/data/json/internal-hard-drive.json",
+      "count": 6461,
+      "status": 200,
+      "latencyMs": 380
+    },
+    {
+      "kind": "power_supply",
+      "url": "https://raw.githubusercontent.com/docyx/pc-part-dataset/main/data/json/power-supply.json",
+      "count": 3438,
+      "status": 200,
+      "latencyMs": 1189
+    },
+    {
+      "kind": "cooler",
+      "url": "https://raw.githubusercontent.com/docyx/pc-part-dataset/main/data/json/cpu-cooler.json",
+      "count": 2851,
+      "status": 200,
+      "latencyMs": 449
+    },
+    {
+      "kind": "chassis",
+      "url": "https://raw.githubusercontent.com/docyx/pc-part-dataset/main/data/json/case.json",
+      "count": 6626,
+      "status": 200,
+      "latencyMs": 410
+    }
+  ],
+  "quotes": {
+    "cpu_7950x3d": {
+      "id": "cpu_7950x3d",
+      "matchedName": "AMD Ryzen 9 7950X3D",
+      "realPrice": 769,
+      "basePrice": 649,
+      "deltaUsd": 120,
+      "deltaPct": 18.5,
+      "retailerSource": "PCPartPicker Live Scraped Index",
+      "datasetUrl": "https://raw.githubusercontent.com/docyx/pc-part-dataset/main/data/json/cpu.json",
+      "inStock": true,
+      "lastCrawledAt": "2026-11-20T14:41:23.808Z",
+      "rawMatch": {
+        "name": "AMD Ryzen 9 7950X3D",
+        "price": 769.27
+      }
+    },
+    "cpu_7800x3d": {
+      "id": "cpu_7800x3d",
+      "matchedName": "AMD Ryzen 7 7800X3D",
+      "realPrice": 340,
+      "basePrice": 449,
+      "deltaUsd": -109,
+      "deltaPct": -24.3,
+      "retailerSource": "PCPartPicker Live Scraped Index",
+      "datasetUrl": "https://raw.githubusercontent.com/docyx/pc-part-dataset/main/data/json/cpu.json",
+      "inStock": true,
+      "lastCrawledAt": "2026-11-20T14:41:23.810Z",
+      "rawMatch": {
+        "name": "AMD Ryzen 7 7800X3D",
+        "price": 340.05
+      }
+    },
+    "cpu_14900ks": {
+      "id": "cpu_14900ks",
+      "matchedName": "Intel Core i9-14900KS",
+      "realPrice": 640,
+      "basePrice": 689,
+      "deltaUsd": -49,
+      "deltaPct": -7.1,
+      "retailerSource": "PCPartPicker Live Scraped Index",
+      "datasetUrl": "https://raw.githubusercontent.com/docyx/pc-part-dataset/main/data/json/cpu.json",
+      "inStock": true,
+      "lastCrawledAt": "2026-11-20T14:41:23.810Z",
+      "rawMatch": {
+        "name": "Intel Core i9-14900KS",
+        "price": 639.97
+      }
+    },
+    "cpu_14900k": {
+      "id": "cpu_14900k",
+      "matchedName": "Intel Core i9-14900K",
+      "realPrice": 439,
+      "basePrice": 549,
+      "deltaUsd": -110,
+      "deltaPct": -20,
+      "retailerSource": "PCPartPicker Live Scraped Index",
+      "datasetUrl": "https://raw.githubusercontent.com/docyx/pc-part-dataset/main/data/json/cpu.json",
+      "inStock": true,
+      "lastCrawledAt": "2026-11-20T14:41:23.813Z",
+      "rawMatch": {
+        "name": "Intel Core i9-14900K",
+        "price": 439
+      }
+    },
+    "cpu_14700k": {
+      "id": "cpu_14700k",
+      "matchedName": "Intel Core i7-14700K",
+      "realPrice": 297,
+      "basePrice": 399,
+      "deltaUsd": -102,
+      "deltaPct": -25.6,
+      "retailerSource": "PCPartPicker Live Scraped Index",
+      "datasetUrl": "https://raw.githubusercontent.com/docyx/pc-part-dataset/main/data/json/cpu.json",
+      "inStock": true,
+      "lastCrawledAt": "2026-11-20T14:41:23.813Z",
+      "rawMatch": {
+        "name": "Intel Core i7-14700K",
+        "price": 297.17
+      }
+    },
+    "cpu_7600x": {
+      "id": "cpu_7600x",
+      "matchedName": "AMD Ryzen 5 7600X",
+      "realPrice": 170,
+      "basePrice": 229,
+      "deltaUsd": -59,
+      "deltaPct": -25.8,
+      "retailerSource": "PCPartPicker Live Scraped Index",
+      "datasetUrl": "https://raw.githubusercontent.com/docyx/pc-part-dataset/main/data/json/cpu.json",
+      "inStock": true,
+      "lastCrawledAt": "2026-11-20T14:41:23.814Z",
+      "rawMatch": {
+        "name": "AMD Ryzen 5 7600X",
+        "price": 170.49
+      }
+    },
+    "cpu_14600k": {
+      "id": "cpu_14600k",
+      "matchedName": "Intel Core i5-14600K",
+      "realPrice": 190,
+      "basePrice": 319,
+      "deltaUsd": -129,
+      "deltaPct": -40.4,
+      "retailerSource": "PCPartPicker Live Scraped Index",
+      "datasetUrl": "https://raw.githubusercontent.com/docyx/pc-part-dataset/main/data/json/cpu.json",
+      "inStock": true,
+      "lastCrawledAt": "2026-11-20T14:41:23.814Z",
+      "rawMatch": {
+        "name": "Intel Core i5-14600K",
+        "price": 189.99
+      }
+    },
+    "cpu_5800x3d": {
+      "id": "cpu_5800x3d",
+      "matchedName": "AMD Ryzen 7 5800X3D",
+      "realPrice": 705,
+      "basePrice": 329,
+      "deltaUsd": 376,
+      "deltaPct": 114.3,
+      "retailerSource": "PCPartPicker Live Scraped Index",
+      "datasetUrl": "https://raw.githubusercontent.com/docyx/pc-part-dataset/main/data/json/cpu.json",
+      "inStock": true,
+      "lastCrawledAt": "2026-11-20T14:41:23.815Z",
+      "rawMatch": {
+        "name": "AMD Ryzen 7 5800X3D",
+        "price": 704.86
+      }
+    },
+    "gpu_rtx_4090_fe": {
+      "id": "gpu_rtx_4090_fe",
+      "matchedName": "NVIDIA Founders Edition",
+      "realPrice": 2996,
+      "basePrice": 1599,
+      "deltaUsd": 1397,
+      "deltaPct": 87.4,
+      "retailerSource": "PCPartPicker Live Scraped Index",
+      "datasetUrl": "https://raw.githubusercontent.com/docyx/pc-part-dataset/main/data/json/video-card.json",
+      "inStock": true,
+      "lastCrawledAt": "2026-11-20T14:41:23.820Z",
+      "rawMatch": {
+        "name": "NVIDIA Founders Edition",
+        "price": 2995.99,
+        "chipset": "GeForce RTX 4090"
+      }
+    },
+    "gpu_rtx_4090": {
+      "id": "gpu_rtx_4090",
+      "matchedName": "Asus ROG STRIX GAMING OC",
+      "realPrice": 3185,
+      "basePrice": 1999,
+      "deltaUsd": 1186,
+      "deltaPct": 59.3,
+      "retailerSource": "PCPartPicker Live Scraped Index",
+      "datasetUrl": "https://raw.githubusercontent.com/docyx/pc-part-dataset/main/data/json/video-card.json",
+      "inStock": true,
+      "lastCrawledAt": "2026-11-20T14:41:23.821Z",
+      "rawMatch": {
+        "name": "Asus ROG STRIX GAMING OC",
+        "price": 3185,
+        "chipset": "GeForce RTX 4090"
+      }
+    },
+    "gpu_rtx_4080s": {
+      "id": "gpu_rtx_4080s",
+      "matchedName": "NVIDIA Founders Edition",
+      "realPrice": 1850,
+      "basePrice": 999,
+      "deltaUsd": 851,
+      "deltaPct": 85.2,
+      "retailerSource": "PCPartPicker Live Scraped Index",
+      "datasetUrl": "https://raw.githubusercontent.com/docyx/pc-part-dataset/main/data/json/video-card.json",
+      "inStock": true,
+      "lastCrawledAt": "2026-11-20T14:41:23.823Z",
+      "rawMatch": {
+        "name": "NVIDIA Founders Edition",
+        "price": 1849.99,
+        "chipset": "GeForce RTX 4080"
+      }
+    },
+    "gpu_rtx_4070_ti_s": {
+      "id": "gpu_rtx_4070_ti_s",
+      "matchedName": "MSI VENTUS 2X OC",
+      "realPrice": 934,
+      "basePrice": 849,
+      "deltaUsd": 85,
+      "deltaPct": 10,
+      "retailerSource": "PCPartPicker Live Scraped Index",
+      "datasetUrl": "https://raw.githubusercontent.com/docyx/pc-part-dataset/main/data/json/video-card.json",
+      "inStock": true,
+      "lastCrawledAt": "2026-11-20T14:41:23.824Z",
+      "rawMatch": {
+        "name": "MSI VENTUS 2X OC",
+        "price": 933.74,
+        "chipset": "GeForce RTX 4070 SUPER"
+      }
+    },
+    "gpu_rtx_4070s": {
+      "id": "gpu_rtx_4070s",
+      "matchedName": "NVIDIA Founders Edition",
+      "realPrice": 899,
+      "basePrice": 599,
+      "deltaUsd": 300,
+      "deltaPct": 50.1,
+      "retailerSource": "PCPartPicker Live Scraped Index",
+      "datasetUrl": "https://raw.githubusercontent.com/docyx/pc-part-dataset/main/data/json/video-card.json",
+      "inStock": true,
+      "lastCrawledAt": "2026-11-20T14:41:23.826Z",
+      "rawMatch": {
+        "name": "NVIDIA Founders Edition",
+        "price": 899,
+        "chipset": "GeForce RTX 4070"
+      }
+    },
+    "gpu_rx_7900xtx": {
+      "id": "gpu_rx_7900xtx",
+      "matchedName": "AMD 100-300000074",
+      "realPrice": 3640,
+      "basePrice": 949,
+      "deltaUsd": 2691,
+      "deltaPct": 283.6,
+      "retailerSource": "PCPartPicker Live Scraped Index",
+      "datasetUrl": "https://raw.githubusercontent.com/docyx/pc-part-dataset/main/data/json/video-card.json",
+      "inStock": true,
+      "lastCrawledAt": "2026-11-20T14:41:23.828Z",
+      "rawMatch": {
+        "name": "AMD 100-300000074",
+        "price": 3640,
+        "chipset": "Radeon PRO W7900"
+      }
+    },
+    "gpu_rx_7900xt": {
+      "id": "gpu_rx_7900xt",
+      "matchedName": "ASRock Phantom Gaming OC",
+      "realPrice": 900,
+      "basePrice": 749,
+      "deltaUsd": 151,
+      "deltaPct": 20.2,
+      "retailerSource": "PCPartPicker Live Scraped Index",
+      "datasetUrl": "https://raw.githubusercontent.com/docyx/pc-part-dataset/main/data/json/video-card.json",
+      "inStock": true,
+      "lastCrawledAt": "2026-11-20T14:41:23.829Z",
+      "rawMatch": {
+        "name": "ASRock Phantom Gaming OC",
+        "price": 899.99,
+        "chipset": "Radeon RX 7900 XTX"
+      }
+    },
+    "gpu_rx_7800xt": {
+      "id": "gpu_rx_7800xt",
+      "matchedName": "PowerColor RX7800XT 16G-P",
+      "realPrice": 600,
+      "basePrice": 499,
+      "deltaUsd": 101,
+      "deltaPct": 20.2,
+      "retailerSource": "PCPartPicker Live Scraped Index",
+      "datasetUrl": "https://raw.githubusercontent.com/docyx/pc-part-dataset/main/data/json/video-card.json",
+      "inStock": true,
+      "lastCrawledAt": "2026-11-20T14:41:23.830Z",
+      "rawMatch": {
+        "name": "PowerColor RX7800XT 16G-P",
+        "price": 599.99,
+        "chipset": "Radeon RX 7800 XT"
+      }
+    },
+    "gpu_rtx_4060": {
+      "id": "gpu_rtx_4060",
+      "matchedName": "NVIDIA Founders Edition",
+      "realPrice": 399,
+      "basePrice": 299,
+      "deltaUsd": 100,
+      "deltaPct": 33.4,
+      "retailerSource": "PCPartPicker Live Scraped Index",
+      "datasetUrl": "https://raw.githubusercontent.com/docyx/pc-part-dataset/main/data/json/video-card.json",
+      "inStock": true,
+      "lastCrawledAt": "2026-11-20T14:41:23.832Z",
+      "rawMatch": {
+        "name": "NVIDIA Founders Edition",
+        "price": 399,
+        "chipset": "GeForce RTX 4060 Ti"
+      }
+    },
+    "mb_z790_dark_hero": {
+      "id": "mb_z790_dark_hero",
+      "matchedName": "Asus ROG STRIX Z790-A GAMING WIFI II",
+      "realPrice": 590,
+      "basePrice": 699,
+      "deltaUsd": -109,
+      "deltaPct": -15.6,
+      "retailerSource": "PCPartPicker Live Scraped Index",
+      "datasetUrl": "https://raw.githubusercontent.com/docyx/pc-part-dataset/main/data/json/motherboard.json",
+      "inStock": true,
+      "lastCrawledAt": "2026-11-20T14:41:23.834Z",
+      "rawMatch": {
+        "name": "Asus ROG STRIX Z790-A GAMING WIFI II",
+        "price": 590
+      }
+    },
+    "mb_b650e": {
+      "id": "mb_b650e",
+      "matchedName": "Asus B650E MAX GAMING WIFI W",
+      "realPrice": 150,
+      "basePrice": 349,
+      "deltaUsd": -199,
+      "deltaPct": -57,
+      "retailerSource": "PCPartPicker Live Scraped Index",
+      "datasetUrl": "https://raw.githubusercontent.com/docyx/pc-part-dataset/main/data/json/motherboard.json",
+      "inStock": true,
+      "lastCrawledAt": "2026-11-20T14:41:23.835Z",
+      "rawMatch": {
+        "name": "Asus B650E MAX GAMING WIFI W",
+        "price": 149.99
+      }
+    },
+    "mb_z790": {
+      "id": "mb_z790",
+      "matchedName": "Asus TUF GAMING Z790-PLUS WIFI",
+      "realPrice": 220,
+      "basePrice": 599,
+      "deltaUsd": -379,
+      "deltaPct": -63.3,
+      "retailerSource": "PCPartPicker Live Scraped Index",
+      "datasetUrl": "https://raw.githubusercontent.com/docyx/pc-part-dataset/main/data/json/motherboard.json",
+      "inStock": true,
+      "lastCrawledAt": "2026-11-20T14:41:23.835Z",
+      "rawMatch": {
+        "name": "Asus TUF GAMING Z790-PLUS WIFI",
+        "price": 219.99
+      }
+    },
+    "mb_x670e_aorus": {
+      "id": "mb_x670e_aorus",
+      "matchedName": "Gigabyte X670E AORUS XTREME (rev. 1.0)",
+      "realPrice": 950,
+      "basePrice": 449,
+      "deltaUsd": 501,
+      "deltaPct": 111.6,
+      "retailerSource": "PCPartPicker Live Scraped Index",
+      "datasetUrl": "https://raw.githubusercontent.com/docyx/pc-part-dataset/main/data/json/motherboard.json",
+      "inStock": true,
+      "lastCrawledAt": "2026-11-20T14:41:23.836Z",
+      "rawMatch": {
+        "name": "Gigabyte X670E AORUS XTREME (rev. 1.0)",
+        "price": 949.99
+      }
+    },
+    "mb_b650_tomahawk": {
+      "id": "mb_b650_tomahawk",
+      "matchedName": "MSI B650 GAMING PLUS WIFI",
+      "realPrice": 170,
+      "basePrice": 199,
+      "deltaUsd": -29,
+      "deltaPct": -14.6,
+      "retailerSource": "PCPartPicker Live Scraped Index",
+      "datasetUrl": "https://raw.githubusercontent.com/docyx/pc-part-dataset/main/data/json/motherboard.json",
+      "inStock": true,
+      "lastCrawledAt": "2026-11-20T14:41:23.837Z",
+      "rawMatch": {
+        "name": "MSI B650 GAMING PLUS WIFI",
+        "price": 169.99
+      }
+    },
+    "mb_b760_itx": {
+      "id": "mb_b760_itx",
+      "matchedName": "MSI MPG B760I EDGE WIFI",
+      "realPrice": 220,
+      "basePrice": 199,
+      "deltaUsd": 21,
+      "deltaPct": 10.6,
+      "retailerSource": "PCPartPicker Live Scraped Index",
+      "datasetUrl": "https://raw.githubusercontent.com/docyx/pc-part-dataset/main/data/json/motherboard.json",
+      "inStock": true,
+      "lastCrawledAt": "2026-11-20T14:41:23.838Z",
+      "rawMatch": {
+        "name": "MSI MPG B760I EDGE WIFI",
+        "price": 219.99
+      }
+    },
+    "mb_b650m": {
+      "id": "mb_b650m",
+      "matchedName": "MSI PRO B650M-P",
+      "realPrice": 150,
+      "basePrice": 179,
+      "deltaUsd": -29,
+      "deltaPct": -16.2,
+      "retailerSource": "PCPartPicker Live Scraped Index",
+      "datasetUrl": "https://raw.githubusercontent.com/docyx/pc-part-dataset/main/data/json/motherboard.json",
+      "inStock": true,
+      "lastCrawledAt": "2026-11-20T14:41:23.839Z",
+      "rawMatch": {
+        "name": "MSI PRO B650M-P",
+        "price": 149.99
+      }
+    },
+    "cooler_icue_titan_360": {
+      "id": "cooler_icue_titan_360",
+      "matchedName": "Corsair NAUTILUS 360 RS ARGB",
+      "realPrice": 130,
+      "basePrice": 199,
+      "deltaUsd": -69,
+      "deltaPct": -34.7,
+      "retailerSource": "PCPartPicker Live Scraped Index",
+      "datasetUrl": "https://raw.githubusercontent.com/docyx/pc-part-dataset/main/data/json/cpu-cooler.json",
+      "inStock": true,
+      "lastCrawledAt": "2026-11-20T14:41:23.841Z",
+      "rawMatch": {
+        "name": "Corsair NAUTILUS 360 RS ARGB",
+        "price": 129.99
+      }
+    },
+    "cooler_h150i_lcd": {
+      "id": "cooler_h150i_lcd",
+      "matchedName": "Corsair iCUE H150i ELITE CAPELLIX XT",
+      "realPrice": 368,
+      "basePrice": 289,
+      "deltaUsd": 79,
+      "deltaPct": 27.3,
+      "retailerSource": "PCPartPicker Live Scraped Index",
+      "datasetUrl": "https://raw.githubusercontent.com/docyx/pc-part-dataset/main/data/json/cpu-cooler.json",
+      "inStock": true,
+      "lastCrawledAt": "2026-11-20T14:41:23.842Z",
+      "rawMatch": {
+        "name": "Corsair iCUE H150i ELITE CAPELLIX XT",
+        "price": 368
+      }
+    },
+    "cooler_kraken_elite_360": {
+      "id": "cooler_kraken_elite_360",
+      "matchedName": "NZXT Kraken 360",
+      "realPrice": 180,
+      "basePrice": 299,
+      "deltaUsd": -119,
+      "deltaPct": -39.8,
+      "retailerSource": "PCPartPicker Live Scraped Index",
+      "datasetUrl": "https://raw.githubusercontent.com/docyx/pc-part-dataset/main/data/json/cpu-cooler.json",
+      "inStock": true,
+      "lastCrawledAt": "2026-11-20T14:41:23.843Z",
+      "rawMatch": {
+        "name": "NZXT Kraken 360",
+        "price": 179.99
+      }
+    },
+    "cooler_arctic_360": {
+      "id": "cooler_arctic_360",
+      "matchedName": "ARCTIC Liquid Freezer III Pro 360",
+      "realPrice": 85,
+      "basePrice": 110,
+      "deltaUsd": -25,
+      "deltaPct": -22.7,
+      "retailerSource": "PCPartPicker Live Scraped Index",
+      "datasetUrl": "https://raw.githubusercontent.com/docyx/pc-part-dataset/main/data/json/cpu-cooler.json",
+      "inStock": true,
+      "lastCrawledAt": "2026-11-20T14:41:23.844Z",
+      "rawMatch": {
+        "name": "ARCTIC Liquid Freezer III Pro 360",
+        "price": 84.99
+      }
+    },
+    "cooler_nh_d15": {
+      "id": "cooler_nh_d15",
+      "matchedName": "Noctua NH-D15 chromax.black",
+      "realPrice": 140,
+      "basePrice": 149,
+      "deltaUsd": -9,
+      "deltaPct": -6,
+      "retailerSource": "PCPartPicker Live Scraped Index",
+      "datasetUrl": "https://raw.githubusercontent.com/docyx/pc-part-dataset/main/data/json/cpu-cooler.json",
+      "inStock": true,
+      "lastCrawledAt": "2026-11-20T14:41:23.845Z",
+      "rawMatch": {
+        "name": "Noctua NH-D15 chromax.black",
+        "price": 139.94
+      }
+    },
+    "cooler_a115": {
+      "id": "cooler_a115",
+      "matchedName": "A115 Twin Tower Air Cooler",
+      "realPrice": 99,
+      "basePrice": 99,
+      "deltaUsd": 0,
+      "deltaPct": 0,
+      "retailerSource": "MSRP Reference (No Stock Live Feed)",
+      "datasetUrl": "https://raw.githubusercontent.com/docyx/pc-part-dataset/main/data/json/cpu-cooler.json",
+      "inStock": true,
+      "lastCrawledAt": "2026-11-20T14:41:23.846Z",
+      "rawMatch": null
+    },
+    "cooler_peerless_120": {
+      "id": "cooler_peerless_120",
+      "matchedName": "Thermalright Peerless Assassin 120 SE",
+      "realPrice": 35,
+      "basePrice": 35,
+      "deltaUsd": 0,
+      "deltaPct": 0,
+      "retailerSource": "PCPartPicker Live Scraped Index",
+      "datasetUrl": "https://raw.githubusercontent.com/docyx/pc-part-dataset/main/data/json/cpu-cooler.json",
+      "inStock": true,
+      "lastCrawledAt": "2026-11-20T14:41:23.847Z",
+      "rawMatch": {
+        "name": "Thermalright Peerless Assassin 120 SE",
+        "price": 34.9
+      }
+    },
+    "ram_dominator_titanium_64gb": {
+      "id": "ram_dominator_titanium_64gb",
+      "matchedName": "Dominator Titanium RGB 64GB (2x32GB)",
+      "realPrice": 289,
+      "basePrice": 289,
+      "deltaUsd": 0,
+      "deltaPct": 0,
+      "retailerSource": "MSRP Reference (No Stock Live Feed)",
+      "datasetUrl": "https://raw.githubusercontent.com/docyx/pc-part-dataset/main/data/json/memory.json",
+      "inStock": true,
+      "lastCrawledAt": "2026-11-20T14:41:23.854Z",
+      "rawMatch": null
+    },
+    "ram_dominator_64gb": {
+      "id": "ram_dominator_64gb",
+      "matchedName": "Dominator Platinum 64GB (2x32GB)",
+      "realPrice": 269,
+      "basePrice": 269,
+      "deltaUsd": 0,
+      "deltaPct": 0,
+      "retailerSource": "MSRP Reference (No Stock Live Feed)",
+      "datasetUrl": "https://raw.githubusercontent.com/docyx/pc-part-dataset/main/data/json/memory.json",
+      "inStock": true,
+      "lastCrawledAt": "2026-11-20T14:41:23.857Z",
+      "rawMatch": null
+    },
+    "ram_vengeance_rgb_32gb": {
+      "id": "ram_vengeance_rgb_32gb",
+      "matchedName": "Vengeance RGB 32GB (2x16GB)",
+      "realPrice": 129,
+      "basePrice": 129,
+      "deltaUsd": 0,
+      "deltaPct": 0,
+      "retailerSource": "MSRP Reference (No Stock Live Feed)",
+      "datasetUrl": "https://raw.githubusercontent.com/docyx/pc-part-dataset/main/data/json/memory.json",
+      "inStock": true,
+      "lastCrawledAt": "2026-11-20T14:41:23.860Z",
+      "rawMatch": null
+    },
+    "ram_trident_32gb": {
+      "id": "ram_trident_32gb",
+      "matchedName": "Trident Z5 RGB 32GB (2x16GB)",
+      "realPrice": 119,
+      "basePrice": 119,
+      "deltaUsd": 0,
+      "deltaPct": 0,
+      "retailerSource": "MSRP Reference (No Stock Live Feed)",
+      "datasetUrl": "https://raw.githubusercontent.com/docyx/pc-part-dataset/main/data/json/memory.json",
+      "inStock": true,
+      "lastCrawledAt": "2026-11-20T14:41:23.863Z",
+      "rawMatch": null
+    },
+    "ram_vengeance_32gb": {
+      "id": "ram_vengeance_32gb",
+      "matchedName": "Vengeance 32GB (2x16GB)",
+      "realPrice": 99,
+      "basePrice": 99,
+      "deltaUsd": 0,
+      "deltaPct": 0,
+      "retailerSource": "MSRP Reference (No Stock Live Feed)",
+      "datasetUrl": "https://raw.githubusercontent.com/docyx/pc-part-dataset/main/data/json/memory.json",
+      "inStock": true,
+      "lastCrawledAt": "2026-11-20T14:41:23.866Z",
+      "rawMatch": null
+    },
+    "ssd_mp700_pro_4tb": {
+      "id": "ssd_mp700_pro_4tb",
+      "matchedName": "MP700 PRO Gen5 PCIe 4TB M.2",
+      "realPrice": 569,
+      "basePrice": 569,
+      "deltaUsd": 0,
+      "deltaPct": 0,
+      "retailerSource": "MSRP Reference (No Stock Live Feed)",
+      "datasetUrl": "https://raw.githubusercontent.com/docyx/pc-part-dataset/main/data/json/internal-hard-drive.json",
+      "inStock": true,
+      "lastCrawledAt": "2026-11-20T14:41:23.869Z",
+      "rawMatch": null
+    },
+    "ssd_samsung_990pro": {
+      "id": "ssd_samsung_990pro",
+      "matchedName": "Samsung 990 Pro w/Heatsink",
+      "realPrice": 160,
+      "basePrice": 199,
+      "deltaUsd": -39,
+      "deltaPct": -19.6,
+      "retailerSource": "PCPartPicker Live Scraped Index",
+      "datasetUrl": "https://raw.githubusercontent.com/docyx/pc-part-dataset/main/data/json/internal-hard-drive.json",
+      "inStock": true,
+      "lastCrawledAt": "2026-11-20T14:41:23.871Z",
+      "rawMatch": {
+        "name": "Samsung 990 Pro w/Heatsink",
+        "price": 159.99
+      }
+    },
+    "ssd_crucial_t700": {
+      "id": "ssd_crucial_t700",
+      "matchedName": "Crucial T700",
+      "realPrice": 380,
+      "basePrice": 249,
+      "deltaUsd": 131,
+      "deltaPct": 52.6,
+      "retailerSource": "PCPartPicker Live Scraped Index",
+      "datasetUrl": "https://raw.githubusercontent.com/docyx/pc-part-dataset/main/data/json/internal-hard-drive.json",
+      "inStock": true,
+      "lastCrawledAt": "2026-11-20T14:41:23.873Z",
+      "rawMatch": {
+        "name": "Crucial T700",
+        "price": 379.99
+      }
+    },
+    "ssd_sn850x": {
+      "id": "ssd_sn850x",
+      "matchedName": "Western Digital WD_Black SN850X",
+      "realPrice": 155,
+      "basePrice": 159,
+      "deltaUsd": -4,
+      "deltaPct": -2.5,
+      "retailerSource": "PCPartPicker Live Scraped Index",
+      "datasetUrl": "https://raw.githubusercontent.com/docyx/pc-part-dataset/main/data/json/internal-hard-drive.json",
+      "inStock": true,
+      "lastCrawledAt": "2026-11-20T14:41:23.874Z",
+      "rawMatch": {
+        "name": "Western Digital WD_Black SN850X",
+        "price": 154.54
+      }
+    },
+    "psu_rm1000x_shift": {
+      "id": "psu_rm1000x_shift",
+      "matchedName": "Corsair RM1000x SHIFT",
+      "realPrice": 200,
+      "basePrice": 209,
+      "deltaUsd": -9,
+      "deltaPct": -4.3,
+      "retailerSource": "PCPartPicker Live Scraped Index",
+      "datasetUrl": "https://raw.githubusercontent.com/docyx/pc-part-dataset/main/data/json/power-supply.json",
+      "inStock": true,
+      "lastCrawledAt": "2026-11-20T14:41:23.874Z",
+      "rawMatch": {
+        "name": "Corsair RM1000x SHIFT",
+        "price": 199.99
+      }
+    },
+    "psu_hx1500i": {
+      "id": "psu_hx1500i",
+      "matchedName": "Corsair HX1500i (2023)",
+      "realPrice": 259,
+      "basePrice": 399,
+      "deltaUsd": -140,
+      "deltaPct": -35.1,
+      "retailerSource": "PCPartPicker Live Scraped Index",
+      "datasetUrl": "https://raw.githubusercontent.com/docyx/pc-part-dataset/main/data/json/power-supply.json",
+      "inStock": true,
+      "lastCrawledAt": "2026-11-20T14:41:23.874Z",
+      "rawMatch": {
+        "name": "Corsair HX1500i (2023)",
+        "price": 258.99
+      }
+    },
+    "psu_seasonic_1000w": {
+      "id": "psu_seasonic_1000w",
+      "matchedName": "SeaSonic VERTEX GX-1000",
+      "realPrice": 200,
+      "basePrice": 199,
+      "deltaUsd": 1,
+      "deltaPct": 0.5,
+      "retailerSource": "PCPartPicker Live Scraped Index",
+      "datasetUrl": "https://raw.githubusercontent.com/docyx/pc-part-dataset/main/data/json/power-supply.json",
+      "inStock": true,
+      "lastCrawledAt": "2026-11-20T14:41:23.875Z",
+      "rawMatch": {
+        "name": "SeaSonic VERTEX GX-1000",
+        "price": 199.99
+      }
+    },
+    "psu_corsair_750w": {
+      "id": "psu_corsair_750w",
+      "matchedName": "RM750e ATX 3.0",
+      "realPrice": 99,
+      "basePrice": 99,
+      "deltaUsd": 0,
+      "deltaPct": 0,
+      "retailerSource": "MSRP Reference (No Stock Live Feed)",
+      "datasetUrl": "https://raw.githubusercontent.com/docyx/pc-part-dataset/main/data/json/power-supply.json",
+      "inStock": true,
+      "lastCrawledAt": "2026-11-20T14:41:23.875Z",
+      "rawMatch": null
+    },
+    "psu_bequiet_1200w": {
+      "id": "psu_bequiet_1200w",
+      "matchedName": "Straight Power 12 1200W",
+      "realPrice": 249,
+      "basePrice": 249,
+      "deltaUsd": 0,
+      "deltaPct": 0,
+      "retailerSource": "MSRP Reference (No Stock Live Feed)",
+      "datasetUrl": "https://raw.githubusercontent.com/docyx/pc-part-dataset/main/data/json/power-supply.json",
+      "inStock": true,
+      "lastCrawledAt": "2026-11-20T14:41:23.875Z",
+      "rawMatch": null
+    },
+    "case_5000d_airflow": {
+      "id": "case_5000d_airflow",
+      "matchedName": "Corsair 5000D AIRFLOW",
+      "realPrice": 175,
+      "basePrice": 174,
+      "deltaUsd": 1,
+      "deltaPct": 0.6,
+      "retailerSource": "PCPartPicker Live Scraped Index",
+      "datasetUrl": "https://raw.githubusercontent.com/docyx/pc-part-dataset/main/data/json/case.json",
+      "inStock": true,
+      "lastCrawledAt": "2026-11-20T14:41:23.876Z",
+      "rawMatch": {
+        "name": "Corsair 5000D AIRFLOW",
+        "price": 174.99
+      }
+    },
+    "case_4000d_airflow": {
+      "id": "case_4000d_airflow",
+      "matchedName": "Corsair 4000D Airflow",
+      "realPrice": 95,
+      "basePrice": 104,
+      "deltaUsd": -9,
+      "deltaPct": -8.7,
+      "retailerSource": "PCPartPicker Live Scraped Index",
+      "datasetUrl": "https://raw.githubusercontent.com/docyx/pc-part-dataset/main/data/json/case.json",
+      "inStock": true,
+      "lastCrawledAt": "2026-11-20T14:41:23.877Z",
+      "rawMatch": {
+        "name": "Corsair 4000D Airflow",
+        "price": 94.99
+      }
+    },
+    "case_o11_evo": {
+      "id": "case_o11_evo",
+      "matchedName": "Lian Li O11D EVO RGB",
+      "realPrice": 160,
+      "basePrice": 159,
+      "deltaUsd": 1,
+      "deltaPct": 0.6,
+      "retailerSource": "PCPartPicker Live Scraped Index",
+      "datasetUrl": "https://raw.githubusercontent.com/docyx/pc-part-dataset/main/data/json/case.json",
+      "inStock": true,
+      "lastCrawledAt": "2026-11-20T14:41:23.878Z",
+      "rawMatch": {
+        "name": "Lian Li O11D EVO RGB",
+        "price": 159.99
+      }
+    },
+    "case_north": {
+      "id": "case_north",
+      "matchedName": "Fractal Design North",
+      "realPrice": 140,
+      "basePrice": 139,
+      "deltaUsd": 1,
+      "deltaPct": 0.7,
+      "retailerSource": "PCPartPicker Live Scraped Index",
+      "datasetUrl": "https://raw.githubusercontent.com/docyx/pc-part-dataset/main/data/json/case.json",
+      "inStock": true,
+      "lastCrawledAt": "2026-11-20T14:41:23.878Z",
+      "rawMatch": {
+        "name": "Fractal Design North",
+        "price": 139.99
+      }
+    },
+    "case_terra": {
+      "id": "case_terra",
+      "matchedName": "Fractal Design Terra",
+      "realPrice": 180,
+      "basePrice": 179,
+      "deltaUsd": 1,
+      "deltaPct": 0.6,
+      "retailerSource": "PCPartPicker Live Scraped Index",
+      "datasetUrl": "https://raw.githubusercontent.com/docyx/pc-part-dataset/main/data/json/case.json",
+      "inStock": true,
+      "lastCrawledAt": "2026-11-20T14:41:23.879Z",
+      "rawMatch": {
+        "name": "Fractal Design Terra",
+        "price": 179.99
+      }
+    }
+  }
+}
