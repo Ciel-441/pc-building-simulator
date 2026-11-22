@@ -42,9 +42,9 @@ fn test_end_to_end_system_pipeline() {
     // Step 3: Game Benchmark Matrix Verification
     // -------------------------------------------------------------
     let bench = simulate_benchmarks(&build, "4k");
-    assert_eq!(bench.len(), 6, "All 6 AAA gaming benchmark simulations calculated");
+    assert_eq!(bench.len(), 40, "All 40 AAA and esports gaming benchmark simulations calculated");
 
-    let cp2077 = &bench[0];
+    let cp2077 = bench.iter().find(|b| b.game_name == "Cyberpunk 2077").expect("Cyberpunk 2077 present");
     assert!(cp2077.avg_fps >= 70, "RTX 4090 4K Cyberpunk 2077 benchmark verified");
     assert!(cp2077.low_1pct_fps >= 50, "Cyberpunk 1% lows verified");
 
