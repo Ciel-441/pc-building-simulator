@@ -71,8 +71,8 @@
     /* Floating Re-Open Pills (When panels are closed) */
     .floating-reopen-btn { position: absolute; z-index: 15; background: var(--bg-panel); border: 1px solid var(--accent-cyan); color: #fff; padding: 8px 14px; border-radius: 8px; font-family: var(--font-display); font-size: 11px; font-weight: 700; cursor: pointer; display: none; align-items: center; gap: 8px; box-shadow: 0 8px 24px rgba(16, 240, 106, 0.2); backdrop-filter: blur(16px); transition: all 0.2s; }
     .floating-reopen-btn:hover { background: var(--accent-cyan); color: #000; transform: translateY(-2px); }
-    .floating-reopen-btn.right-edge { top: 16px; right: 16px; }
-    .floating-reopen-btn.bottom-edge { bottom: 65px; left: 16px; }
+    .floating-reopen-btn.right-edge { top: 72px; right: 16px; }
+    .floating-reopen-btn.bottom-edge { bottom: 58px; left: 16px; }
     .reopen-badge { background: rgba(16, 240, 106, 0.2); color: var(--accent-cyan); font-family: var(--font-mono); font-size: 10px; padding: 2px 6px; border-radius: 4px; }
     .floating-reopen-btn:hover .reopen-badge { background: #000; color: #fff; }
 
@@ -341,10 +341,7 @@
   </div>
 
   <!-- Floating Re-Open Buttons when panels are closed -->
-  <button class="floating-reopen-btn right-edge" id="btn-reopen-sidebar">
-    <span>HARDWARE RIG</span>
-    <span class="rig-counter-badge" id="reopen-rig-badge"><span class="badge-num" id="reopen-badge-rig-count">8</span><span class="badge-sep">/</span><span class="badge-total">8</span></span>
-  </button>
+
   <button class="floating-reopen-btn bottom-edge" id="btn-reopen-bench">
     <span>GAMING BENCHMARKS</span>
     <span class="reopen-badge">FPS TELEMETRY</span>
@@ -374,6 +371,10 @@
           <span class="telem-val"><span id="telem-thermal-cpu">28</span><span class="telem-unit">°C</span> / <span id="telem-thermal-gpu">26</span><span class="telem-unit">°C</span></span>
         </div>
         <button class="compat-badge" id="compat-status-btn">Clearances Verified</button>
+        <button class="topbar-rig-toggle" id="btn-reopen-sidebar" title="Open Hardware Rig Workstation">
+          <span>HARDWARE RIG</span>
+          <span class="rig-counter-badge" id="reopen-rig-badge"><span class="badge-num" id="reopen-badge-rig-count">8</span><span class="badge-sep">/</span><span class="badge-total">8</span></span>
+        </button>
       </div>
     </div>
   </div>
@@ -412,7 +413,7 @@
     <!-- Lighting Profiles (Studio, Lime Neon, Stealth) -->
     <div class="tool-group">
       <button class="tool-btn active" data-light="studio">STUDIO</button>
-      <button class="tool-btn" data-light="lime">LIME NEON</button>
+      <button class="tool-btn" data-light="ice">ICE GLOW</button>
       <button class="tool-btn" data-light="stealth">STEALTH</button>
     </div>
     <div class="tool-group">
@@ -426,9 +427,9 @@
       <div class="panel-switcher-tabs">
         <button class="tab-switch-btn active" data-tab="chosen">My Rig <span class="rig-counter-badge" id="tab-chosen-badge"><span class="badge-num" id="badge-rig-count">8</span><span class="badge-sep">/</span><span class="badge-total">8</span></span></button>
         <button class="tab-switch-btn" data-tab="catalog">Catalog</button>
-        <button class="tab-switch-btn" data-tab="benchmarks">FPS Bench</button>
         <button class="tab-switch-btn" data-tab="build">Specs</button>
         <button class="tab-switch-btn" data-tab="market">Deals</button>
+        <button class="tab-switch-btn" data-tab="thermal">Thermals</button>
       </div>
       <button class="panel-close-btn" id="btn-close-sidebar" aria-label="Close Sidebar">✕</button>
     </div>
@@ -464,44 +465,7 @@
     </div>
 
 
-    <!-- VIEW 2: DEDICATED GAMING FPS BENCHMARK PANEL (Requested by User!) -->
-    <div class="panel-view benchmark-tray" id="view-benchmarks" style="display: none;">
-      <div class="bench-panel-view">
-        <div class="bench-panel-header">
-          <div class="bench-header-top">
-            <div>
-              <div class="bench-panel-title">GAMING FPS BENCHMARKS</div>
-              <div class="bench-panel-sub">Simulated Ray Tracing & Frametime Telemetry</div>
-            </div>
-            <div class="res-toggles">
-              <button class="res-btn" data-res="1080p">1080p</button>
-              <button class="res-btn active" data-res="1440p">1440p</button>
-              <button class="res-btn" data-res="4k">4K UHD</button>
-            </div>
-          </div>
-          <div class="bench-search-wrap">
-            <input type="text" class="game-search-input" id="game-search-input" placeholder="Search benchmarks (Cyberpunk, Wukong, CS2)..." />
-          </div>
-        </div>
-
-        <div class="bench-summary-card">
-          <div class="bench-stat-col">
-            <span class="stat-micro-lbl">AVERAGE FRAMERATE</span>
-            <span class="bench-headline-stat"><span id="bench-avg-fps">176</span> <span class="unit">FPS</span></span>
-            <span class="bench-tier-badge" id="bench-tier-badge">4K ENTHUSIAST</span>
-          </div>
-          <div class="bench-stat-col align-right">
-            <span class="stat-micro-lbl">1% LOW STABILITY</span>
-            <span class="bench-sub-headline"><span id="bench-low-fps">128</span> <span class="unit">FPS</span></span>
-            <span class="bench-stability-sub">GPU Bound (98%) - Optimal Balance</span>
-          </div>
-        </div>
-
-        <div class="game-bench-feed" id="game-grid"></div>
-      </div>
-    </div>
-
-    <!-- VIEW 3: ACTIVE BUILD SPEC -->
+    <!-- VIEW 2: ACTIVE BUILD SPEC -->
     <div class="panel-view" id="view-build" style="display: none;">
       <div class="spec-sheet-container" id="spec-sheet-container"></div>
     </div>
@@ -517,7 +481,32 @@
     </div>
   </div>
 
-  <!-- Benchmark Tray is now an integrated first-class panel in view-benchmarks -->
+  <!-- Floating Bottom Gaming Benchmark Tray: Custom Moving Carousel (No Native White Bar!) -->
+  <div class="benchmark-tray" id="benchmark-tray">
+    <div class="tray-header">
+      <div class="tray-title-cluster">
+        <div class="tray-title">REAL-WORLD GAMING BENCHMARKS</div>
+        <div class="tray-subtitle">Simulated Ray Tracing & Frametime Telemetry</div>
+      </div>
+      <div class="game-search-box">
+        <input type="text" class="game-search-input" id="game-search-input" placeholder="Search benchmarks (Cyberpunk, Wukong, CS2)..." />
+      </div>
+      <div class="res-toggles">
+        <button class="res-btn" data-res="1080p">1080p FHD</button>
+        <button class="res-btn active" data-res="1440p">1440p QHD</button>
+        <button class="res-btn" data-res="4k">4K UHD</button>
+      </div>
+      <div class="tray-carousel-nav">
+        <button class="tray-header-nav-btn" id="tray-nav-left" aria-label="Previous Games">‹</button>
+        <button class="tray-header-nav-btn" id="tray-nav-right" aria-label="Next Games">›</button>
+      </div>
+      <button class="panel-close-btn" id="btn-close-bench" aria-label="Hide Gaming Benchmarks">✕</button>
+    </div>
+    
+    <div class="game-carousel-wrap">
+      <div class="game-grid" id="game-grid"></div>
+    </div>
+  </div>
 
   <script>
     const activeBuild = { cpu: null, gpu: null, motherboard: null, memory: null, storage: null, cooler: null, psu: null, chassis: null };
@@ -774,7 +763,7 @@
     fillLight.position.set(-200, 180, -160);
     scene.add(fillLight);
 
-    const rimLight = new THREE.DirectionalLight(0x10f06a, 1.1);
+    const rimLight = new THREE.DirectionalLight(0xf1f5f9, 1.3);
     rimLight.position.set(0, 180, -260);
     scene.add(rimLight);
 
@@ -783,7 +772,7 @@
     scene.add(benchGroup);
 
     const pedestalGeo = new THREE.CylinderGeometry(200, 205, 12, 64);
-    const pedestalMat = new THREE.MeshStandardMaterial({ color: 0x10131c, metalness: 0.9, roughness: 0.28 });
+    const pedestalMat = new THREE.MeshStandardMaterial({ color: 0x0c0f16, metalness: 0.92, roughness: 0.35 });
     const pedestal = new THREE.Mesh(pedestalGeo, pedestalMat);
     pedestal.position.y = -6;
     pedestal.receiveShadow = true;
@@ -1478,7 +1467,7 @@
         stick.add(topFin);
 
         // Multi-Zone Addressable RGB Diffuser Lightbar
-        const rgbColor = isTitanium ? 0x10f06a : 0x84cc16;
+        const rgbColor = 0xe2e8f0;
         const diffuser = new THREE.Mesh(
           new THREE.BoxGeometry(4.4, 4, 76),
           new THREE.MeshStandardMaterial({ color: rgbColor, roughness: 0.1, emissive: rgbColor, emissiveIntensity: 0.7 })
@@ -3052,15 +3041,11 @@
       });
 
       const existingCards = {};
-      grid.querySelectorAll('.game-card-row').forEach(c => {
+      grid.querySelectorAll('.game-card').forEach(c => {
         if (c.dataset.game) existingCards[c.dataset.game] = c;
       });
 
       grid.innerHTML = '';
-
-      let totalFps = 0;
-      let totalLow = 0;
-      let count = 0;
 
       filtered.forEach(g => {
         const steamMeta = STEAM_GAME_ASSETS[g.gameName] || {
@@ -3073,42 +3058,34 @@
         const prevLow1 = prevCard ? (prevCard._prevLow1 || low1) : Math.round(low1 * 0.75);
         const prevGpu = prevCard ? (prevCard._prevGpu || g.gpuBottleneckPct) : 50;
 
-        totalFps += g.avgFps;
-        totalLow += low1;
-        count++;
-
         const card = document.createElement('div');
-        card.className = 'game-card-row';
+        card.className = 'game-card';
         card.dataset.game = g.gameName;
         card._prevFps = g.avgFps;
         card._prevLow1 = low1;
         card._prevGpu = g.gpuBottleneckPct;
 
         card.innerHTML =
-          '<div class="game-row-thumb">' +
+          '<div class="game-banner-box">' +
             '<img src="' + steamMeta.header + '" alt="' + g.gameName + '" />' +
+            '<span class="game-preset-tag">' + (g.qualityPreset || 'Ultra') + '</span>' +
           '</div>' +
-          '<div class="game-row-info">' +
-            '<div class="game-row-title-bar">' +
-              '<span class="game-title">' + g.gameName + '</span>' +
-              '<span class="game-preset-tag">' + (g.qualityPreset || 'Ultra') + '</span>' +
+          '<div class="game-meta-box">' +
+            '<div class="game-title" title="' + g.gameName + '">' + g.gameName + '</div>' +
+            '<div class="game-fps-row">' +
+              '<div class="game-fps"><span class="fps-num">' + prevFps + '</span><span class="game-fps-unit">FPS</span></div>' +
+              '<span class="game-badge-load">' + g.gpuBottleneckPct + '% GPU</span>' +
             '</div>' +
-            '<div class="game-row-stats">' +
-              '<div class="game-fps-box">' +
-                '<span class="fps-num">' + prevFps + '</span>' +
-                '<span class="fps-unit">FPS</span>' +
-              '</div>' +
-              '<div class="game-sub-stats">' +
-                '<div class="sub-stat-line"><span class="lbl">1% LOW</span> <span class="val low1-val">' + prevLow1 + '</span></div>' +
-                '<div class="sub-stat-line"><span class="lbl">GPU LOAD</span> <span class="val gpu-val">' + prevGpu + '%</span></div>' +
-              '</div>' +
+            '<div class="game-sub">' +
+              '<div class="bench-sub-stat"><span class="stat-lbl">1% LOW</span> <span class="stat-val low1-val">' + prevLow1 + ' FPS</span></div>' +
+              '<div class="bench-sub-stat"><span class="stat-lbl">STATUS</span> <span class="stat-val">' + (g.gpuBottleneckPct > 88 ? 'OPTIMAL' : 'BALANCED') + '</span></div>' +
             '</div>' +
             '<div class="bottle-bar"><div class="bottle-fill" style="width: ' + g.gpuBottleneckPct + '%"></div></div>' +
           '</div>';
 
         grid.appendChild(card);
 
-        const bImg = card.querySelector('.game-row-thumb img');
+        const bImg = card.querySelector('.game-banner-box img');
         if (bImg) {
           bImg.onerror = function() {
             this.onerror = null;
@@ -3119,31 +3096,9 @@
         // Animate rolling numbers smoothly
         const fpsEl = card.querySelector('.fps-num');
         const low1El = card.querySelector('.low1-val');
-        const gpuEl = card.querySelector('.gpu-val');
         animateRollingNumber(fpsEl, prevFps, g.avgFps, 420, v => Math.round(v));
-        animateRollingNumber(low1El, prevLow1, low1, 420, v => Math.round(v));
-        animateRollingNumber(gpuEl, prevGpu, g.gpuBottleneckPct, 420, v => Math.round(v) + '%');
+        animateRollingNumber(low1El, prevLow1, low1, 420, v => Math.round(v) + ' FPS');
       });
-
-      // Update Top Benchmark Summary Numbers
-      if (count > 0) {
-        const avgOverall = Math.round(totalFps / count);
-        const lowOverall = Math.round(totalLow / count);
-        const prevAvg = window._currentBenchAvg || avgOverall;
-        const prevLow = window._currentBenchLow || lowOverall;
-        window._currentBenchAvg = avgOverall;
-        window._currentBenchLow = lowOverall;
-
-        const avgEl = document.getElementById('bench-avg-fps');
-        const lowEl = document.getElementById('bench-low-fps');
-        if (avgEl) animateRollingNumber(avgEl, prevAvg, avgOverall, 450, v => Math.round(v));
-        if (lowEl) animateRollingNumber(lowEl, prevLow, lowOverall, 450, v => Math.round(v));
-
-        const tierEl = document.getElementById('bench-tier-badge');
-        if (tierEl) {
-          tierEl.textContent = avgOverall > 140 ? '4K ENTHUSIAST' : (avgOverall > 85 ? '1440p COMPETITIVE' : '1080p SMOOTH');
-        }
-      }
     }
 
     // Sleek Custom Floating Carousel Chevrons
@@ -3164,7 +3119,7 @@
 
     document.getElementById('btn-close-sidebar')?.addEventListener('click', () => {
       sidebar.classList.add('collapsed');
-      reopenSidebarBtn.style.display = 'flex';
+      reopenSidebarBtn.style.display = 'inline-flex';
       spatialHud.classList.add('expanded');
       benchTray.classList.add('expanded');
       viewportTools.classList.add('full-width');
@@ -3195,14 +3150,14 @@
     document.getElementById('part-sort-select')?.addEventListener('change', renderCatalog);
     document.getElementById('game-search-input')?.addEventListener('input', renderBenchmarks);
 
-    // Panel Switcher Tabs with Dedicated FPS Benchmark Panel
+    // Panel Switcher Tabs
     document.querySelectorAll('.tab-switch-btn').forEach(btn => {
       btn.onclick = () => {
         document.querySelectorAll('.tab-switch-btn').forEach(b => b.classList.remove('active'));
         btn.classList.add('active');
         activeTab = btn.dataset.tab;
 
-        const views = ['chosen', 'catalog', 'benchmarks', 'build', 'market'];
+        const views = ['chosen', 'catalog', 'build', 'market', 'thermal'];
         views.forEach(v => {
           const el = document.getElementById('view-' + v);
           if (el) {
@@ -3219,9 +3174,9 @@
 
         if (activeTab === 'chosen') renderChosenRigView();
         if (activeTab === 'catalog') renderCatalog();
-        if (activeTab === 'benchmarks') renderBenchmarks();
         if (activeTab === 'build') renderBuildSpecView();
         if (activeTab === 'market') renderMarketDealsView();
+        if (activeTab === 'thermal') renderThermalBenchView();
       };
     });
 
@@ -3272,19 +3227,19 @@
         if (activeLightMode === 'studio') {
           ambientLight.color.setHex(0xffffff);
           ambientLight.intensity = 1.4;
-          keyLight.color.setHex(0xfefefe);
-          keyLight.intensity = 2.0;
-          rimLight.color.setHex(0x10f06a);
-          rimLight.intensity = 1.1;
+          keyLight.color.setHex(0xffffff);
+          keyLight.intensity = 2.2;
+          rimLight.color.setHex(0xf1f5f9);
+          rimLight.intensity = 1.3;
           scene.background.setHex(0x07090e);
-        } else if (activeLightMode === 'lime') {
-          ambientLight.color.setHex(0x122216);
+        } else if (activeLightMode === 'ice') {
+          ambientLight.color.setHex(0xe2e8f0);
           ambientLight.intensity = 1.3;
-          keyLight.color.setHex(0x10f06a);
-          keyLight.intensity = 2.4;
-          rimLight.color.setHex(0xa6ff00);
-          rimLight.intensity = 1.5;
-          scene.background.setHex(0x040806);
+          keyLight.color.setHex(0xffffff);
+          keyLight.intensity = 2.0;
+          rimLight.color.setHex(0x93c5fd);
+          rimLight.intensity = 1.2;
+          scene.background.setHex(0x060910);
         } else if (activeLightMode === 'stealth') {
           ambientLight.color.setHex(0x94a3b8);
           ambientLight.intensity = 0.8;
@@ -3297,152 +3252,7 @@
       };
     });
 
-    // Smooth Animated Camera Angle Presets
-    document.getElementById('btn-cam-iso').onclick = () => {
-      smoothTransitionCamera(new THREE.Vector3(240, 180, 290), new THREE.Vector3(0, 42, 0));
-      controls.autoRotate = false;
-      document.getElementById('btn-auto-rotate').classList.remove('active');
-    };
-    document.getElementById('btn-cam-front').onclick = () => {
-      smoothTransitionCamera(new THREE.Vector3(0, 50, 410), new THREE.Vector3(0, 50, 0));
-      controls.autoRotate = false;
-      document.getElementById('btn-auto-rotate').classList.remove('active');
-    };
-    document.getElementById('btn-cam-top').onclick = () => {
-      smoothTransitionCamera(new THREE.Vector3(0, 430, 0.1), new THREE.Vector3(0, 30, 0));
-      controls.autoRotate = false;
-      document.getElementById('btn-auto-rotate').classList.remove('active');
-    };
-    document.getElementById('btn-cam-side').onclick = () => {
-      smoothTransitionCamera(new THREE.Vector3(420, 50, 0), new THREE.Vector3(0, 50, 0));
-      controls.autoRotate = false;
-      document.getElementById('btn-auto-rotate').classList.remove('active');
-    };
-    document.getElementById('btn-auto-rotate').onclick = (e) => {
-      controls.autoRotate = !controls.autoRotate;
-      controls.autoRotateSpeed = 2.0;
-      e.target.classList.toggle('active', controls.autoRotate);
-    };
-
-    // Smooth Animated Zoom Buttons & Distance Range Slider
-    const zoomSlider = document.getElementById('cam-zoom-slider');
-    document.getElementById('btn-zoom-in').onclick = () => {
-      const curDist = camera.position.distanceTo(controls.target);
-      const newDist = Math.max(controls.minDistance, curDist * 0.75);
-      const dir = camera.position.clone().sub(controls.target).normalize();
-      const newPos = controls.target.clone().addScaledVector(dir, newDist);
-      smoothTransitionCamera(newPos, controls.target);
-    };
-    document.getElementById('btn-zoom-out').onclick = () => {
-      const curDist = camera.position.distanceTo(controls.target);
-      const newDist = Math.min(controls.maxDistance, curDist * 1.30);
-      const dir = camera.position.clone().sub(controls.target).normalize();
-      const newPos = controls.target.clone().addScaledVector(dir, newDist);
-      smoothTransitionCamera(newPos, controls.target);
-    };
-    zoomSlider.addEventListener('input', () => {
-      const targetDist = parseFloat(zoomSlider.value);
-      const dir = camera.position.clone().sub(controls.target).normalize();
-      const newPos = controls.target.clone().addScaledVector(dir, targetDist);
-      smoothTransitionCamera(newPos, controls.target);
-    });
-
-    // Reset Camera
-    document.getElementById('btn-reset-cam').onclick = () => {
-      smoothTransitionCamera(new THREE.Vector3(240, 180, 290), new THREE.Vector3(0, 42, 0));
-      controls.autoRotate = false;
-      document.getElementById('btn-auto-rotate').classList.remove('active');
-    };
-
-    // Toggle Labels Button & Hotkey L
-    function toggleLabelsState() {
-      showLabels = !showLabels;
-      const btn = document.getElementById('btn-toggle-labels');
-      btn.textContent = showLabels ? 'LABELS: ON' : 'LABELS: OFF';
-      btn.classList.toggle('active-cyan', showLabels);
-      showToast(showLabels ? '3D Floating Part Labels Shown' : '3D Part Labels Hidden');
-    }
-    document.getElementById('btn-toggle-labels').onclick = toggleLabelsState;
-    window.addEventListener('keydown', (e) => {
-      if (e.target.tagName === 'INPUT' || e.target.tagName === 'SELECT') return;
-      if (e.key === 'l' || e.key === 'L') {
-        toggleLabelsState();
-      }
-    });
-
-    // Exploded View
-    document.getElementById('btn-explode').onclick = (e) => {
-      exploded = !exploded;
-      e.target.classList.toggle('active', exploded);
-    };
-
-    // Wireframe
-    document.getElementById('btn-wireframe').onclick = (e) => {
-      wireframeMode = !wireframeMode;
-      e.target.classList.toggle('active', wireframeMode);
-      benchGroup.traverse(node => {
-        if (node.isMesh && node !== basePlate && node !== meshNodes.glassPanel && node !== meshNodes.aioScreenMesh) {
-          node.material.wireframe = wireframeMode;
-        }
-      });
-    };
-
-    // Thermal Heatmap
-    document.getElementById('btn-thermal').onclick = (e) => {
-      thermalMode = !thermalMode;
-      e.target.classList.toggle('active', thermalMode);
-      benchGroup.traverse(node => {
-        if (node.isMesh && node !== basePlate && node !== meshNodes.glassPanel && node !== meshNodes.aioScreenMesh) {
-          if (thermalMode) {
-            node.userData.originalMat = node.material;
-            const heatColor = currentCpuTemp > 80 ? 0xef4444 : currentCpuTemp > 65 ? 0xf59e0b : 0x22c55e;
-            node.material = new THREE.MeshBasicMaterial({ color: heatColor, wireframe: false });
-          } else if (node.userData.originalMat) {
-            node.material = node.userData.originalMat;
-          }
-        }
-      });
-    };
-
-    // Side Glass Toggle
-    document.getElementById('btn-glass').onclick = (e) => {
-      showGlass = !showGlass;
-      e.target.classList.toggle('active', showGlass);
-      buildGlassPanel();
-      showToast(showGlass ? 'Mounted Smoked Tempered Glass' : 'Removed Tempered Glass');
-    };
-
-    // Stress Test (Compact text so it never overflows)
-    document.getElementById('btn-stress').onclick = (e) => {
-      stressActive = !stressActive;
-      e.target.classList.toggle('active', stressActive);
-      e.target.textContent = stressActive ? 'STRESSING' : 'STRESS 100%';
-
-      const prevCpu = currentCpuTemp;
-      const prevGpu = currentGpuTemp;
-
-      if (stressActive) {
-        currentCpuTemp = 82;
-        currentGpuTemp = 74;
-        if (meshNodes.gpuLogoMat) {
-          meshNodes.gpuLogoMat.color.setHex(0xef4444);
-          meshNodes.gpuLogoMat.emissive.setHex(0xef4444);
-        }
-      } else {
-        currentCpuTemp = 36;
-        currentGpuTemp = 32;
-        if (meshNodes.gpuLogoMat) {
-          meshNodes.gpuLogoMat.color.setHex(0x10f06a);
-          meshNodes.gpuLogoMat.emissive.setHex(0x10f06a);
-        }
-      }
-      animateRollingNumber(document.getElementById('telem-thermal-cpu'), prevCpu, currentCpuTemp, 400, v => Math.round(v));
-      animateRollingNumber(document.getElementById('telem-thermal-gpu'), prevGpu, currentGpuTemp, 400, v => Math.round(v));
-      updateAioLcdDisplay();
-      if (activeTab === 'thermal') renderThermalBenchView();
-    };
-
-    // Animation Loop with Smooth Camera Dampening
+    // Animation Loop
     let lastTime = performance.now();
     function animate() {
       requestAnimationFrame(animate);
@@ -3450,18 +3260,7 @@
       const dt = (now - lastTime) / 1000;
       lastTime = now;
 
-      if (isCameraTransitioning) {
-        camera.position.lerp(targetCameraPos, 0.08);
-        controls.target.lerp(targetCameraTarget, 0.08);
-        controls.update();
-        if (camera.position.distanceTo(targetCameraPos) < 0.6 && controls.target.distanceTo(targetCameraTarget) < 0.6) {
-          camera.position.copy(targetCameraPos);
-          controls.target.copy(targetCameraTarget);
-          isCameraTransitioning = false;
-        }
-      } else {
-        controls.update();
-      }
+      controls.update();
 
       // Sync Zoom Slider with Current Camera Distance
       const curDist = camera.position.distanceTo(controls.target);
