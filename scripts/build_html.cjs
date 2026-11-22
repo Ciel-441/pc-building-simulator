@@ -16,17 +16,17 @@ const htmlContent = `<!DOCTYPE html>
   <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
   <style>
     :root {
-      --bg-studio: #07090e;
-      --bg-panel: rgba(13, 17, 26, 0.94);
-      --bg-card: rgba(19, 25, 38, 0.90);
+      --bg-studio: #050806;
+      --bg-panel: rgba(8, 14, 10, 0.94);
+      --bg-card: rgba(12, 20, 15, 0.92);
       --border-panel: rgba(255, 255, 255, 0.10);
-      --border-panel-hover: rgba(0, 240, 255, 0.45);
-      --border-accent: #00f0ff;
+      --border-panel-hover: rgba(16, 240, 106, 0.45);
+      --border-accent: #10f06a;
       --text-white: #f8fafc;
       --text-dim: #94a3b8;
       --text-muted: #64748b;
-      --accent-cyan: #00f0ff;
-      --accent-blue: #38bdf8;
+      --accent-cyan: #10f06a;
+      --accent-blue: #84cc16;
       --accent-amber: #f59e0b;
       --accent-emerald: #10b981;
       --accent-crimson: #ef4444;
@@ -42,7 +42,7 @@ const htmlContent = `<!DOCTYPE html>
     canvas { width: 100%; height: 100%; display: block; }
 
     /* Top Telemetry Header */
-    .spatial-hud { position: absolute; top: 16px; left: 16px; right: 460px; z-index: 10; display: flex; flex-direction: column; gap: 8px; pointer-events: none; transition: right 0.3s cubic-bezier(0.16, 1, 0.3, 1); }
+    .spatial-hud { position: absolute; top: 16px; left: 16px; right: 500px; z-index: 10; display: flex; flex-direction: column; gap: 8px; pointer-events: none; transition: right 0.3s cubic-bezier(0.16, 1, 0.3, 1); }
     .spatial-hud.expanded { right: 16px; }
     .hud-header { display: flex; align-items: center; justify-content: space-between; background: var(--bg-panel); backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px); border: 1px solid var(--border-panel); border-radius: 10px; padding: 12px 22px; pointer-events: auto; box-shadow: 0 16px 36px rgba(0,0,0,0.55); }
     .brand-cluster { display: flex; align-items: center; gap: 14px; }
@@ -59,40 +59,61 @@ const htmlContent = `<!DOCTYPE html>
     .compat-badge.incompatible { border-color: var(--accent-crimson); background: rgba(239, 68, 68, 0.2); color: #f87171; }
 
     /* 3D Viewport Navigation & Zoom Floating Dock */
-    .viewport-tools { position: absolute; left: 16px; bottom: 16px; z-index: 10; display: flex; flex-wrap: wrap; gap: 8px; pointer-events: auto; max-width: calc(100% - 490px); transition: max-width 0.3s; }
+    .viewport-tools { position: absolute; left: 16px; bottom: 16px; z-index: 10; display: flex; flex-wrap: nowrap; align-items: center; gap: 6px; pointer-events: auto; max-width: calc(100% - 510px);; overflow-x: auto; scrollbar-width: none; -ms-overflow-style: none; transition: max-width 0.35s cubic-bezier(0.16, 1, 0.3, 1); }
+    .viewport-tools::-webkit-scrollbar { display: none; width: 0; height: 0; }
     .viewport-tools.full-width { max-width: calc(100% - 32px); }
-    .tool-group { display: flex; align-items: center; gap: 4px; background: var(--bg-panel); backdrop-filter: blur(20px); border: 1px solid var(--border-panel); padding: 4px 6px; border-radius: 8px; box-shadow: 0 10px 24px rgba(0,0,0,0.45); }
-    .tool-btn { background: transparent; border: 1px solid transparent; color: var(--text-dim); font-family: var(--font-mono); font-size: 11px; font-weight: 700; padding: 7px 11px; border-radius: 5px; cursor: pointer; transition: all 0.18s; letter-spacing: 0.3px; white-space: nowrap; }
-    .tool-btn:hover { color: #fff; background: rgba(255,255,255,0.08); border-color: rgba(255,255,255,0.15); }
-    .tool-btn.active { color: #fff; background: rgba(0, 240, 255, 0.18); border-color: var(--accent-cyan); }
-    .tool-btn.active-cyan { color: #00f0ff; background: rgba(0, 240, 255, 0.15); border-color: #00f0ff; }
-    .tool-btn.stress-btn.active { background: rgba(239, 68, 68, 0.25); border-color: var(--accent-crimson); color: #fca5a5; }
+    .tool-group { display: flex; align-items: center; gap: 3px; background: var(--bg-panel); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border: 1px solid var(--border-panel); padding: 3px 5px; border-radius: 8px; box-shadow: 0 10px 24px rgba(0,0,0,0.45); flex-shrink: 0; }
+    .tool-btn { background: transparent; border: 1px solid transparent; color: var(--text-dim); font-family: var(--font-mono); font-size: 10.5px; font-weight: 700; padding: 6px 9px; border-radius: 5px; cursor: pointer; transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1); letter-spacing: 0.3px; white-space: nowrap; }
+    .tool-btn:hover { color: #fff; background: rgba(255,255,255,0.08); border-color: rgba(255,255,255,0.15); transform: translateY(-1px); }
+    .tool-btn.active { color: #fff; background: rgba(16, 240, 106, 0.18); border-color: var(--accent-cyan); box-shadow: 0 0 10px rgba(16, 240, 106, 0.2); }
+    .tool-btn.active-cyan { color: #10f06a; background: rgba(16, 240, 106, 0.15); border-color: #10f06a; box-shadow: 0 0 10px rgba(16, 240, 106, 0.2); }
+    .tool-btn.stress-btn.active { background: rgba(239, 68, 68, 0.25); border-color: var(--accent-crimson); color: #fca5a5; box-shadow: 0 0 12px rgba(239, 68, 68, 0.3); }
 
-    .zoom-slider-wrap { display: flex; align-items: center; padding: 0 6px; }
-    .zoom-slider-wrap input[type=range] { width: 75px; height: 4px; accent-color: var(--accent-cyan); cursor: pointer; }
-    .zoom-btn { font-size: 13px; font-weight: 900; padding: 4px 8px; }
+    .zoom-slider-wrap { display: flex; align-items: center; padding: 0 4px; }
+    .zoom-slider-wrap input[type=range] { width: 68px; height: 4px; accent-color: var(--accent-cyan); cursor: pointer; }
+    .zoom-btn { font-size: 13px; font-weight: 900; padding: 4px 7px; }
 
     /* Floating Re-Open Pills (When panels are closed) */
-    .floating-reopen-btn { position: absolute; z-index: 15; background: var(--bg-panel); border: 1px solid var(--accent-cyan); color: #fff; padding: 8px 14px; border-radius: 8px; font-family: var(--font-display); font-size: 11px; font-weight: 700; cursor: pointer; display: none; align-items: center; gap: 8px; box-shadow: 0 8px 24px rgba(0, 240, 255, 0.2); backdrop-filter: blur(16px); transition: all 0.2s; }
+    .floating-reopen-btn { position: absolute; z-index: 15; background: var(--bg-panel); border: 1px solid var(--accent-cyan); color: #fff; padding: 8px 14px; border-radius: 8px; font-family: var(--font-display); font-size: 11px; font-weight: 700; cursor: pointer; display: none; align-items: center; gap: 8px; box-shadow: 0 8px 24px rgba(16, 240, 106, 0.2); backdrop-filter: blur(16px); transition: all 0.2s; }
     .floating-reopen-btn:hover { background: var(--accent-cyan); color: #000; transform: translateY(-2px); }
     .floating-reopen-btn.right-edge { top: 16px; right: 16px; }
     .floating-reopen-btn.bottom-edge { bottom: 65px; left: 16px; }
-    .reopen-badge { background: rgba(0, 240, 255, 0.2); color: var(--accent-cyan); font-family: var(--font-mono); font-size: 10px; padding: 2px 6px; border-radius: 4px; }
+    .reopen-badge { background: rgba(16, 240, 106, 0.2); color: var(--accent-cyan); font-family: var(--font-mono); font-size: 10px; padding: 2px 6px; border-radius: 4px; }
     .floating-reopen-btn:hover .reopen-badge { background: #000; color: #fff; }
 
     /* Workstation Multi-Panel Sidebar */
-    .workstation-sidebar { position: absolute; top: 16px; right: 16px; bottom: 16px; width: 440px; background: var(--bg-panel); backdrop-filter: blur(28px); -webkit-backdrop-filter: blur(28px); border: 1px solid var(--border-panel); border-radius: 12px; z-index: 10; display: flex; flex-direction: column; overflow: hidden; box-shadow: 0 20px 48px rgba(0,0,0,0.55); transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.25s; }
+    .workstation-sidebar { position: absolute; top: 16px; right: 16px; bottom: 16px; width: 480px; background: var(--bg-panel); backdrop-filter: blur(28px); -webkit-backdrop-filter: blur(28px); border: 1px solid var(--border-panel); border-radius: 12px; z-index: 10; display: flex; flex-direction: column; overflow: hidden; box-shadow: 0 20px 48px rgba(0,0,0,0.55); transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.25s; }
     .workstation-sidebar.collapsed { transform: translateX(calc(100% + 24px)); pointer-events: none; opacity: 0; }
     
-    /* Sidebar Header with Close Button */
-    .sidebar-header-bar { display: flex; align-items: center; background: rgba(0,0,0,0.35); border-bottom: 1px solid var(--border-panel); padding: 4px 8px; gap: 4px; }
-    .panel-switcher-tabs { display: flex; flex: 1; gap: 4px; overflow-x: auto; scrollbar-width: none; }
-    .panel-switcher-tabs::-webkit-scrollbar { display: none; }
+    /* Sidebar Header with Segmented Modern Tabs */
+    .sidebar-header-bar { display: flex; align-items: center; justify-content: space-between; background: rgba(6, 12, 8, 0.94); border-bottom: 1px solid rgba(16, 240, 106, 0.22); padding: 8px 10px; gap: 6px; flex-shrink: 0; }
+    .panel-switcher-tabs { display: flex; flex: 1; gap: 3px; background: rgba(0, 0, 0, 0.6); padding: 3px; border-radius: 8px; border: 1px solid rgba(255, 255, 255, 0.08); }
     
-    .tab-switch-btn { flex: 1; min-width: 65px; padding: 8px 4px; font-family: var(--font-sans); font-size: 11px; font-weight: 700; letter-spacing: 0.2px; text-transform: uppercase; background: transparent; border: 1px solid transparent; color: var(--text-dim); border-radius: 6px; cursor: pointer; transition: all 0.18s; text-align: center; white-space: nowrap; display: flex; align-items: center; justify-content: center; gap: 4px; }
-    .tab-switch-btn:hover { color: #fff; background: rgba(255,255,255,0.05); }
-    .tab-switch-btn.active { color: #fff; background: rgba(0, 240, 255, 0.15); border-color: var(--accent-cyan); }
-    .tab-badge { background: var(--accent-cyan); color: #000; font-family: var(--font-mono); font-size: 9px; font-weight: 900; padding: 1px 5px; border-radius: 10px; }
+    .tab-switch-btn { flex: 1; min-width: 0; padding: 7px 5px; font-family: var(--font-display); font-size: 10px; font-weight: 700; letter-spacing: 0.3px; text-transform: uppercase; background: transparent; border: none; color: #94a3b8; border-radius: 6px; cursor: pointer; transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1); text-align: center; white-space: nowrap; display: inline-flex; align-items: center; justify-content: center; gap: 5px; }
+    .tab-switch-btn:hover { color: #ffffff; background: rgba(255, 255, 255, 0.07); transform: translateY(-1px); }
+    .tab-switch-btn.active { color: #040805 !important; background: #10f06a !important; font-weight: 800; box-shadow: 0 0 16px rgba(16, 240, 106, 0.45); transform: scale(1.02); }
+    .tab-switch-btn.active .rig-counter-badge { background: #040805; color: #10f06a; border-color: rgba(0, 0, 0, 0.4); }
+    .tab-switch-btn.active .badge-num { color: #10f06a; }
+    .tab-switch-btn.active .badge-total { color: #a6ff00; }
+    
+    /* Dedicated High-Tech Counter Badge with Pulse Animation */
+    @keyframes badgePulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.22); }
+      100% { transform: scale(1); }
+    }
+    .rig-counter-badge { display: inline-flex; align-items: center; gap: 1px; padding: 1px 6px; background: rgba(16, 240, 106, 0.15); border: 1px solid rgba(16, 240, 106, 0.4); border-radius: 5px; font-family: var(--font-mono); font-size: 9px; font-weight: 800; color: #10f06a; line-height: 1.2; transition: all 0.2s ease; }
+    .rig-counter-badge.pulse { animation: badgePulse 0.35s cubic-bezier(0.16, 1, 0.3, 1); }
+    .badge-num { color: #ffffff; }
+    .badge-sep { color: rgba(255, 255, 255, 0.45); margin: 0 1px; font-weight: 400; }
+    .badge-total { color: #10f06a; }
+
+    /* Tab Transition Smooth Zoom-In / Zoom-Out Animation */
+    @keyframes panelZoomFadeIn {
+      0% { opacity: 0; transform: scale(0.97) translateY(8px); }
+      100% { opacity: 1; transform: scale(1) translateY(0); }
+    }
+    .panel-view.tab-entering { animation: panelZoomFadeIn 0.30s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
 
     /* Close Button */
     .panel-close-btn { width: 30px; height: 30px; display: flex; align-items: center; justify-content: center; background: transparent; border: 1px solid transparent; color: var(--text-dim); border-radius: 6px; cursor: pointer; font-size: 15px; font-weight: 700; transition: all 0.18s; flex-shrink: 0; }
@@ -118,10 +139,58 @@ const htmlContent = `<!DOCTYPE html>
 
     .component-feed { padding: 12px; display: flex; flex-direction: column; gap: 10px; }
 
+    /* Dedicated Gaming FPS Benchmark Panel View */
+    .bench-panel-view { padding: 14px; display: flex; flex-direction: column; gap: 12px; }
+    .bench-panel-header { display: flex; flex-direction: column; gap: 10px; background: rgba(0,0,0,0.4); border: 1px solid rgba(16, 240, 106, 0.2); border-radius: 8px; padding: 12px; }
+    .bench-header-top { display: flex; justify-content: space-between; align-items: center; }
+    .bench-panel-title { font-size: 11.5px; font-weight: 800; font-family: var(--font-display); letter-spacing: 0.6px; text-transform: uppercase; color: #10f06a; }
+    .bench-panel-sub { font-size: 9.5px; font-family: var(--font-sans); color: var(--text-dim); }
+    .res-toggles { display: flex; gap: 3px; background: rgba(0,0,0,0.4); padding: 2px; border-radius: 6px; border: 1px solid var(--border-panel); }
+    .res-btn { font-family: var(--font-mono); font-size: 10px; font-weight: 700; padding: 4px 8px; border-radius: 4px; border: none; background: transparent; color: var(--text-dim); cursor: pointer; transition: all 0.15s; }
+    .res-btn:hover { color: #fff; }
+    .res-btn.active { background: #10f06a; color: #040805; font-weight: 800; box-shadow: 0 0 10px rgba(16, 240, 106, 0.3); }
+
+    .bench-search-wrap input { width: 100%; background: rgba(0,0,0,0.5); border: 1px solid var(--border-panel); border-radius: 6px; padding: 7px 12px; color: #fff; font-family: var(--font-sans); font-size: 11px; outline: none; }
+    .bench-search-wrap input:focus { border-color: #10f06a; }
+
+    /* Performance Summary Card in Benchmark Panel */
+    .bench-summary-card { background: rgba(16, 240, 106, 0.08); border: 1px solid rgba(16, 240, 106, 0.3); border-radius: 8px; padding: 12px 14px; display: flex; justify-content: space-between; align-items: center; }
+    .bench-stat-col { display: flex; flex-direction: column; gap: 2px; }
+    .bench-stat-col.align-right { align-items: flex-end; }
+    .stat-micro-lbl { font-size: 8.5px; font-family: var(--font-mono); font-weight: 700; text-transform: uppercase; color: var(--text-muted); letter-spacing: 0.6px; }
+    .bench-headline-stat { font-size: 22px; font-family: var(--font-mono); font-weight: 800; color: #fff; display: flex; align-items: baseline; gap: 4px; text-shadow: 0 0 12px rgba(16, 240, 106, 0.3); }
+    .bench-headline-stat .unit { font-size: 11px; color: #10f06a; font-weight: 700; }
+    .bench-sub-headline { font-size: 16px; font-family: var(--font-mono); font-weight: 700; color: #e2e8f0; display: flex; align-items: baseline; gap: 3px; }
+    .bench-sub-headline .unit { font-size: 10px; color: #84cc16; }
+    .bench-tier-badge { display: inline-block; background: #10f06a; color: #040805; font-family: var(--font-mono); font-size: 9px; font-weight: 800; padding: 2px 6px; border-radius: 4px; letter-spacing: 0.5px; width: fit-content; margin-top: 2px; }
+    .bench-stability-sub { font-size: 9.5px; font-family: var(--font-mono); color: #84cc16; margin-top: 2px; }
+
+    /* Game Row Cards inside Benchmark Panel */
+    .game-bench-feed { display: flex; flex-direction: column; gap: 10px; padding-bottom: 20px; }
+    .game-card-row { background: var(--bg-card); border: 1px solid var(--border-panel); border-radius: 8px; overflow: hidden; display: flex; flex-direction: column; gap: 0; transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.2s ease, box-shadow 0.2s ease; }
+    .game-card-row:hover { transform: translateY(-2px); border-color: #10f06a; box-shadow: 0 8px 24px rgba(16, 240, 106, 0.15); }
+    .game-row-thumb { width: 100%; height: 74px; overflow: hidden; background: #000; position: relative; }
+    .game-row-thumb img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.3s ease; }
+    .game-card-row:hover .game-row-thumb img { transform: scale(1.03); }
+    .game-row-info { padding: 10px 12px; display: flex; flex-direction: column; gap: 6px; }
+    .game-row-title-bar { display: flex; justify-content: space-between; align-items: center; }
+    .game-title { font-size: 12px; font-weight: 700; color: #f8fafc; font-family: var(--font-sans); }
+    .game-preset-tag { font-size: 9px; font-family: var(--font-mono); font-weight: 700; color: #a6ff00; background: rgba(166, 255, 0, 0.12); padding: 2px 6px; border-radius: 4px; border: 1px solid rgba(166, 255, 0, 0.25); }
+    .game-row-stats { display: flex; justify-content: space-between; align-items: center; }
+    .game-fps-box { display: flex; align-items: baseline; gap: 3px; font-family: var(--font-mono); font-size: 20px; font-weight: 800; color: #fff; text-shadow: 0 0 10px rgba(16, 240, 106, 0.25); }
+    .game-fps-box .fps-unit { font-size: 10px; color: #10f06a; font-weight: 700; }
+    .game-sub-stats { display: flex; gap: 14px; font-family: var(--font-mono); font-size: 9.5px; }
+    .sub-stat-line { display: flex; align-items: baseline; gap: 4px; }
+    .sub-stat-line .lbl { color: var(--text-dim); font-size: 8.5px; }
+    .sub-stat-line .val { color: #cbd5e1; font-weight: 700; }
+    .bottle-bar { width: 100%; height: 4px; background: rgba(255,255,255,0.08); border-radius: 2px; overflow: hidden; display: flex; }
+    .bottle-fill { height: 100%; background: linear-gradient(90deg, #10f06a, #a6ff00); border-radius: 2px; transition: width 0.4s cubic-bezier(0.16, 1, 0.3, 1); }
+
+
     /* Component Cards with Authentic Real Product Photos */
     .part-card { background: var(--bg-card); border: 1px solid var(--border-panel); border-radius: 8px; padding: 12px; display: flex; flex-direction: column; gap: 10px; transition: all 0.2s; position: relative; flex-shrink: 0; min-height: 110px; }
-    .part-card:hover { border-color: var(--border-panel-hover); transform: translateY(-1px); box-shadow: 0 8px 24px rgba(0, 240, 255, 0.12); }
-    .part-card.installed { border-color: var(--accent-cyan); background: rgba(0, 240, 255, 0.08); }
+    .part-card:hover { border-color: var(--border-panel-hover); transform: translateY(-1px); box-shadow: 0 8px 24px rgba(16, 240, 106, 0.12); }
+    .part-card.installed { border-color: var(--accent-cyan); background: rgba(16, 240, 106, 0.08); }
     .part-card.installed::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 3px; background: var(--accent-cyan); }
     
     .part-main-row { display: flex; gap: 12px; align-items: flex-start; }
@@ -158,7 +227,7 @@ const htmlContent = `<!DOCTYPE html>
 
     /* Dedicated "MY RIG / CHOSEN SETUP" Panel */
     .chosen-rig-container { padding: 14px; display: flex; flex-direction: column; gap: 12px; }
-    .chosen-summary-card { background: rgba(0, 240, 255, 0.06); border: 1px solid rgba(0, 240, 255, 0.25); border-radius: 8px; padding: 12px 14px; display: flex; flex-direction: column; gap: 8px; }
+    .chosen-summary-card { background: rgba(16, 240, 106, 0.06); border: 1px solid rgba(16, 240, 106, 0.25); border-radius: 8px; padding: 12px 14px; display: flex; flex-direction: column; gap: 8px; }
     .chosen-summary-header { display: flex; justify-content: space-between; align-items: center; }
     .chosen-summary-title { font-family: var(--font-display); font-size: 12px; font-weight: 800; color: #fff; }
     .chosen-summary-actions { display: flex; gap: 6px; margin-top: 4px; }
@@ -194,65 +263,69 @@ const htmlContent = `<!DOCTYPE html>
     .crawler-title { font-size: 12px; font-weight: 700; font-family: var(--font-display); color: #34d399; letter-spacing: 0.3px; }
     .crawler-sub { font-size: 10px; font-family: var(--font-sans); color: var(--text-dim); }
     .crawler-btn-group { display: flex; gap: 6px; flex-wrap: wrap; }
-    .crawler-action-btn { background: #1e293b; color: #38bdf8; border: 1px solid rgba(56, 189, 248, 0.3); padding: 6px 12px; border-radius: 4px; font-family: var(--font-sans); font-size: 11px; font-weight: 700; cursor: pointer; transition: all 0.18s; }
-    .crawler-action-btn:hover { background: #38bdf8; color: #000; }
+    .crawler-action-btn { background: #1e293b; color: #84cc16; border: 1px solid rgba(132, 204, 22, 0.3); padding: 6px 12px; border-radius: 4px; font-family: var(--font-sans); font-size: 11px; font-weight: 700; cursor: pointer; transition: all 0.18s; }
+    .crawler-action-btn:hover { background: #84cc16; color: #000; }
     .crawler-action-btn.active-green { background: #34d399; color: #000; border-color: #34d399; }
     .crawler-action-btn.active-green:hover { background: #10b981; }
     .crawler-log-box { background: #070a13; border: 1px solid #1e293b; border-radius: 6px; padding: 10px; font-family: var(--font-mono); font-size: 10px; color: #94a3b8; max-height: 140px; overflow-y: auto; line-height: 1.5; white-space: pre-wrap; }
-    .crawler-raw-json { background: #05070f; border: 1px dashed rgba(56, 189, 248, 0.25); border-radius: 4px; padding: 8px; font-family: var(--font-mono); font-size: 9px; color: #6ee7b7; max-height: 120px; overflow-y: auto; margin-top: 8px; white-space: pre-wrap; }
+    .crawler-raw-json { background: #05070f; border: 1px dashed rgba(132, 204, 22, 0.25); border-radius: 4px; padding: 8px; font-family: var(--font-mono); font-size: 9px; color: #6ee7b7; max-height: 120px; overflow-y: auto; margin-top: 8px; white-space: pre-wrap; }
     .market-delta-pill { font-size: 9px; font-weight: 700; padding: 2px 6px; border-radius: 4px; font-family: var(--font-mono); display: inline-block; }
     .delta-discount { background: rgba(16, 185, 129, 0.15); color: #34d399; border: 1px solid rgba(16, 185, 129, 0.35); }
     .delta-scalp { background: rgba(239, 68, 68, 0.15); color: #f87171; border: 1px solid rgba(239, 68, 68, 0.35); }
     .delta-neutral { background: rgba(148, 163, 184, 0.15); color: #94a3b8; border: 1px solid rgba(148, 163, 184, 0.3); }
 
     /* Bottom Gaming Benchmark Tray: Custom Moving Carousel (No Native White Bar!) */
-    .benchmark-tray { position: absolute; left: 16px; right: 460px; bottom: 65px; z-index: 10; background: var(--bg-panel); backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px); border: 1px solid var(--border-panel); border-radius: 10px; padding: 14px 20px; display: flex; flex-direction: column; gap: 10px; pointer-events: auto; max-height: 240px; box-shadow: 0 16px 36px rgba(0,0,0,0.55); overflow: hidden !important; transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.25s, right 0.3s cubic-bezier(0.16, 1, 0.3, 1); }
+    .benchmark-tray { position: absolute; left: 16px; right: 500px; bottom: 65px; z-index: 10; background: var(--bg-panel); backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px); border: 1px solid var(--border-panel); border-radius: 10px; padding: 12px 18px; display: flex; flex-direction: column; gap: 8px; pointer-events: auto; max-height: 240px; box-shadow: 0 16px 36px rgba(0,0,0,0.55); overflow: hidden !important; transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.3s, right 0.35s cubic-bezier(0.16, 1, 0.3, 1); }
     .benchmark-tray.collapsed { transform: translateY(calc(100% + 40px)); pointer-events: none; opacity: 0; }
     .benchmark-tray.expanded { right: 16px; }
 
-    .tray-header { display: flex; justify-content: space-between; align-items: center; gap: 16px; }
+    .tray-header { display: flex; justify-content: space-between; align-items: center; gap: 12px; }
     .tray-title-cluster { display: flex; align-items: center; gap: 12px; flex-shrink: 0; }
-    .tray-title { font-size: 12px; font-weight: 700; letter-spacing: 0.5px; text-transform: uppercase; color: #fff; font-family: var(--font-display); }
-    .game-search-box { flex: 1; max-width: 320px; }
-    .game-search-input { width: 100%; background: rgba(0,0,0,0.4); border: 1px solid var(--border-panel); border-radius: 6px; padding: 6px 12px; color: #fff; font-family: var(--font-sans); font-size: 11px; outline: none; }
+    .tray-title { font-size: 11.5px; font-weight: 700; letter-spacing: 0.5px; text-transform: uppercase; color: #fff; font-family: var(--font-display); }
+    .game-search-box { flex: 1; max-width: 300px; }
+    .game-search-input { width: 100%; background: rgba(0,0,0,0.4); border: 1px solid var(--border-panel); border-radius: 6px; padding: 5px 10px; color: #fff; font-family: var(--font-sans); font-size: 11px; outline: none; }
     .game-search-input:focus { border-color: var(--accent-cyan); }
-    .res-toggles { display: flex; gap: 4px; background: rgba(0,0,0,0.3); padding: 3px; border-radius: 6px; border: 1px solid var(--border-panel); flex-shrink: 0; }
-    .res-btn { font-family: var(--font-mono); font-size: 10px; font-weight: 700; padding: 4px 10px; border-radius: 4px; border: none; background: transparent; color: var(--text-dim); cursor: pointer; transition: all 0.15s; }
+    .res-toggles { display: flex; gap: 3px; background: rgba(0,0,0,0.3); padding: 2px; border-radius: 6px; border: 1px solid var(--border-panel); flex-shrink: 0; }
+    .res-btn { font-family: var(--font-mono); font-size: 10px; font-weight: 700; padding: 4px 8px; border-radius: 4px; border: none; background: transparent; color: var(--text-dim); cursor: pointer; transition: all 0.15s; }
     .res-btn:hover { color: #fff; }
     .res-btn.active { background: #fff; color: #000; font-weight: 800; }
 
-    /* Custom Moving Carousel Wrapper with Sleek Floating Arrow Buttons */
+    /* Carousel Nav Arrows in the Header (Clean & Unobstructed!) */
+    .tray-carousel-nav { display: flex; gap: 4px; align-items: center; flex-shrink: 0; }
+    .tray-header-nav-btn { width: 26px; height: 24px; background: rgba(255, 255, 255, 0.05); border: 1px solid var(--border-panel); border-radius: 5px; color: var(--text-dim); font-size: 15px; font-weight: 800; line-height: 1; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1); }
+    .tray-header-nav-btn:hover { background: var(--accent-cyan); color: #000; border-color: var(--accent-cyan); transform: translateY(-1px); box-shadow: 0 0 8px rgba(16, 240, 106, 0.3); }
+
+    /* Custom Moving Carousel Wrapper - Completely Open & Unobstructed */
     .game-carousel-wrap { position: relative; width: 100%; overflow: hidden; display: flex; align-items: center; }
-    
-    .tray-nav-btn { position: absolute; top: 50%; transform: translateY(-50%); width: 28px; height: 48px; background: rgba(13, 17, 26, 0.88); border: 1px solid var(--border-panel); color: #fff; font-size: 18px; font-weight: 900; display: flex; align-items: center; justify-content: center; cursor: pointer; z-index: 12; border-radius: 4px; backdrop-filter: blur(8px); transition: all 0.2s; opacity: 0.75; }
-    .tray-nav-btn:hover { opacity: 1; background: var(--accent-cyan); color: #000; border-color: var(--accent-cyan); }
-    .tray-nav-btn.left { left: 0; }
-    .tray-nav-btn.right { right: 0; }
 
     /* ZERO NATIVE SCROLLBAR - Drag & Cursor Inspection */
-    .game-grid { display: flex; gap: 12px; overflow-x: auto; padding: 2px 4px; width: 100%; cursor: grab; scrollbar-width: none !important; -ms-overflow-style: none !important; scroll-behavior: smooth; }
+    .game-grid { display: flex; gap: 12px; overflow-x: auto; padding: 2px 2px; width: 100%; cursor: grab; scrollbar-width: none !important; -ms-overflow-style: none !important; scroll-behavior: smooth; }
     .game-grid::-webkit-scrollbar { display: none !important; width: 0 !important; height: 0 !important; }
     .game-grid.grabbing { cursor: grabbing !important; scroll-behavior: auto !important; }
 
-    .game-card { width: 175px; flex-shrink: 0; background: var(--bg-card); border: 1px solid var(--border-panel); border-radius: 8px; overflow: hidden; display: flex; flex-direction: column; transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease; transform-style: preserve-3d; }
-    .game-card:hover { transform: translateY(-3px) scale(1.02); border-color: var(--accent-cyan); box-shadow: 0 10px 24px rgba(0, 240, 255, 0.15); }
-    .game-banner-box { width: 100%; height: 58px; overflow: hidden; background: #000; position: relative; }
-    .game-banner-box img { width: 100%; height: 100%; object-fit: cover; }
-    .game-meta-box { padding: 8px; display: flex; flex-direction: column; gap: 4px; }
-    .game-title { font-size: 11px; font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: #e2e8f0; font-family: var(--font-sans); }
+    .game-card { width: 180px; flex-shrink: 0; background: var(--bg-card); border: 1px solid var(--border-panel); border-radius: 8px; overflow: hidden; display: flex; flex-direction: column; transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.2s ease, box-shadow 0.25s ease; transform-style: preserve-3d; }
+    .game-card:hover { transform: translateY(-4px) scale(1.02); border-color: var(--accent-cyan); box-shadow: 0 10px 24px rgba(16, 240, 106, 0.18); }
+    .game-banner-box { width: 100%; height: 60px; overflow: hidden; background: #000; position: relative; }
+    .game-banner-box img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.3s ease; }
+    .game-card:hover .game-banner-box img { transform: scale(1.04); }
+    .game-meta-box { padding: 9px 10px; display: flex; flex-direction: column; gap: 5px; }
+    .game-title { font-size: 11px; font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: #f1f5f9; font-family: var(--font-sans); }
     .game-fps-row { display: flex; justify-content: space-between; align-items: baseline; }
-    .game-fps { font-family: var(--font-mono); font-size: 18px; font-weight: 800; color: #fff; }
-    .game-fps-unit { font-size: 10px; color: var(--text-dim); font-weight: 600; margin-left: 2px; }
-    .game-preset-tag { font-size: 9px; font-family: var(--font-mono); color: var(--accent-blue); }
+    .game-fps { font-family: var(--font-mono); font-size: 18px; font-weight: 800; color: #fff; text-shadow: 0 0 10px rgba(16, 240, 106, 0.2); }
+    .game-fps-unit { font-size: 10px; color: var(--accent-cyan); font-weight: 700; margin-left: 2px; }
+    .game-preset-tag { font-size: 9px; font-family: var(--font-mono); font-weight: 700; color: #84cc16; background: rgba(132, 204, 22, 0.12); padding: 2px 5px; border-radius: 4px; border: 1px solid rgba(132, 204, 22, 0.25); }
     .game-sub { display: flex; justify-content: space-between; font-size: 9px; font-family: var(--font-mono); color: var(--text-muted); }
-    .bottle-bar { width: 100%; height: 3px; background: rgba(255,255,255,0.1); border-radius: 2px; overflow: hidden; display: flex; }
-    .bottle-fill { height: 100%; background: var(--accent-cyan); border-radius: 2px; }
+    .bench-sub-stat { display: flex; align-items: baseline; gap: 3px; }
+    .stat-lbl { color: var(--text-dim); font-size: 8.5px; }
+    .stat-val { color: #cbd5e1; font-weight: 700; }
+    .bottle-bar { width: 100%; height: 3px; background: rgba(255,255,255,0.08); border-radius: 2px; overflow: hidden; display: flex; margin-top: 2px; }
+    .bottle-fill { height: 100%; background: linear-gradient(90deg, #10f06a, #84cc16); border-radius: 2px; transition: width 0.4s cubic-bezier(0.16, 1, 0.3, 1); }
 
     /* 3D Floating Part Labels */
     .part-label-tag { position: absolute; pointer-events: none !important; user-select: none; transform: translate(-50%, -100%); transition: opacity 0.2s; z-index: 5; }
-    .part-label-content { pointer-events: none !important; background: rgba(13, 17, 26, 0.92); backdrop-filter: blur(12px); border: 1px solid rgba(0, 240, 255, 0.45); padding: 3px 8px; border-radius: 4px; font-family: var(--font-mono); font-size: 9.5px; font-weight: 700; color: #fff; display: flex; align-items: center; gap: 6px; white-space: nowrap; box-shadow: 0 4px 16px rgba(0,0,0,0.6); }
+    .part-label-content { pointer-events: none !important; background: rgba(13, 17, 26, 0.92); backdrop-filter: blur(12px); border: 1px solid rgba(16, 240, 106, 0.45); padding: 3px 8px; border-radius: 4px; font-family: var(--font-mono); font-size: 9.5px; font-weight: 700; color: #fff; display: flex; align-items: center; gap: 6px; white-space: nowrap; box-shadow: 0 4px 16px rgba(0,0,0,0.6); }
     .part-label-dot { width: 5px; height: 5px; border-radius: 50%; background: var(--accent-cyan); box-shadow: 0 0 8px var(--accent-cyan); }
-    .part-label-arrow { width: 0; height: 0; border-left: 4px solid transparent; border-right: 4px solid transparent; border-top: 4px solid rgba(0, 240, 255, 0.45); margin: 0 auto; }
+    .part-label-arrow { width: 0; height: 0; border-left: 4px solid transparent; border-right: 4px solid transparent; border-top: 4px solid rgba(16, 240, 106, 0.45); margin: 0 auto; }
 
     /* Interactive Holographic HUD Cursor Inspection Chip */
     .cursor-inspect-chip { position: absolute; pointer-events: none; z-index: 25; background: rgba(10, 15, 24, 0.92); backdrop-filter: blur(12px); border: 1px solid var(--accent-cyan); padding: 6px 12px; border-radius: 6px; font-family: var(--font-mono); font-size: 10px; color: #fff; display: none; transform: translate(15px, 15px); box-shadow: 0 8px 24px rgba(0,0,0,0.6); }
@@ -275,7 +348,7 @@ const htmlContent = `<!DOCTYPE html>
   <!-- Floating Re-Open Buttons when panels are closed -->
   <button class="floating-reopen-btn right-edge" id="btn-reopen-sidebar">
     <span>HARDWARE RIG</span>
-    <span class="reopen-badge" id="reopen-rig-count">8/8</span>
+    <span class="rig-counter-badge" id="reopen-rig-badge"><span class="badge-num" id="reopen-badge-rig-count">8</span><span class="badge-sep">/</span><span class="badge-total">8</span></span>
   </button>
   <button class="floating-reopen-btn bottom-edge" id="btn-reopen-bench">
     <span>GAMING BENCHMARKS</span>
@@ -314,38 +387,41 @@ const htmlContent = `<!DOCTYPE html>
   <div class="viewport-tools" id="viewport-tools">
     <!-- Camera View Presets -->
     <div class="tool-group">
-      <button class="tool-btn active" id="btn-cam-iso" title="Isometric 3D Perspective">ISO 3D</button>
-      <button class="tool-btn" id="btn-cam-front" title="Front Elevation View">FRONT</button>
-      <button class="tool-btn" id="btn-cam-top" title="Top-Down Plan View">TOP</button>
-      <button class="tool-btn" id="btn-cam-side" title="Side Profile Clearance">SIDE</button>
-      <button class="tool-btn" id="btn-auto-rotate" title="Toggle Smooth Showroom Turntable Rotation">AUTO ORBIT</button>
+      <button class="tool-btn active" id="btn-cam-iso">ISO 3D</button>
+      <button class="tool-btn" id="btn-cam-front">FRONT</button>
+      <button class="tool-btn" id="btn-cam-top">TOP</button>
+      <button class="tool-btn" id="btn-cam-side">SIDE</button>
+      <button class="tool-btn" id="btn-auto-rotate">AUTO ORBIT</button>
     </div>
 
     <!-- Zoom In/Out & Distance Range Slider -->
     <div class="tool-group">
-      <button class="tool-btn zoom-btn" id="btn-zoom-in" title="Zoom In (+)">+</button>
+      <button class="tool-btn zoom-btn" id="btn-zoom-in">+</button>
       <div class="zoom-slider-wrap">
-        <input type="range" id="cam-zoom-slider" min="50" max="900" value="390" step="5" title="Smooth Distance Zoom Slider" />
+        <input type="range" id="cam-zoom-slider" min="50" max="900" value="390" step="5" />
       </div>
-      <button class="tool-btn zoom-btn" id="btn-zoom-out" title="Zoom Out (-)">-</button>
-      <button class="tool-btn" id="btn-reset-cam" title="Reset Viewport Center">RESET</button>
+      <button class="tool-btn zoom-btn" id="btn-zoom-out">-</button>
+      <button class="tool-btn" id="btn-reset-cam">RESET</button>
     </div>
 
     <!-- 3D Inspection Tools & Labels Toggle -->
     <div class="tool-group">
-      <button class="tool-btn" id="btn-toggle-labels" title="Toggle 3D Floating Part Labels (Hotkey: L)">LABELS: OFF</button>
-      <button class="tool-btn" id="btn-glass" title="Toggle Smoked Tempered Glass Side Panel">SIDE GLASS</button>
-      <button class="tool-btn" id="btn-explode" title="Exploded Mechanical Separation View">EXPLODED VIEW</button>
-      <button class="tool-btn" id="btn-wireframe" title="Toggle CAD Wireframe Mesh">WIREFRAME</button>
-      <button class="tool-btn" id="btn-thermal" title="Toggle Thermal Infrared Heatmap">THERMAL HEATMAP</button>
-      <button class="tool-btn stress-btn" id="btn-stress" title="Run 100% Thermal & Acoustics Stress Test">STRESS TEST 100%</button>
+      <button class="tool-btn" id="btn-toggle-labels">LABELS: OFF</button>
+      <button class="tool-btn" id="btn-glass">GLASS</button>
+      <button class="tool-btn" id="btn-explode">EXPLODE</button>
+      <button class="tool-btn" id="btn-wireframe">WIREFRAME</button>
+      <button class="tool-btn" id="btn-thermal">HEATMAP</button>
+      <button class="tool-btn stress-btn" id="btn-stress">STRESS 100%</button>
     </div>
 
-    <!-- Lighting Profiles -->
+    <!-- Lighting Profiles (Studio, Lime Neon, Stealth) -->
     <div class="tool-group">
       <button class="tool-btn active" data-light="studio">STUDIO</button>
-      <button class="tool-btn" data-light="cyber">CYBER</button>
+      <button class="tool-btn" data-light="lime">LIME NEON</button>
       <button class="tool-btn" data-light="stealth">STEALTH</button>
+    </div>
+    <div class="tool-group">
+      <button class="tool-btn" id="btn-quick-bench" style="color: #10f06a; border-color: rgba(16, 240, 106, 0.4); background: rgba(16, 240, 106, 0.1);">FPS BENCHMARKS</button>
     </div>
   </div>
 
@@ -353,13 +429,13 @@ const htmlContent = `<!DOCTYPE html>
   <div class="workstation-sidebar" id="workstation-sidebar">
     <div class="sidebar-header-bar">
       <div class="panel-switcher-tabs">
-        <button class="tab-switch-btn active" data-tab="chosen">My Rig <span class="tab-badge" id="tab-chosen-badge">8/8</span></button>
+        <button class="tab-switch-btn active" data-tab="chosen">My Rig <span class="rig-counter-badge" id="tab-chosen-badge"><span class="badge-num" id="badge-rig-count">8</span><span class="badge-sep">/</span><span class="badge-total">8</span></span></button>
         <button class="tab-switch-btn" data-tab="catalog">Catalog</button>
+        <button class="tab-switch-btn" data-tab="benchmarks">FPS Bench</button>
         <button class="tab-switch-btn" data-tab="build">Specs</button>
         <button class="tab-switch-btn" data-tab="market">Deals</button>
-        <button class="tab-switch-btn" data-tab="thermal">Thermals</button>
       </div>
-      <button class="panel-close-btn" id="btn-close-sidebar" title="Close Sidebar (Full Screen 3D)">✕</button>
+      <button class="panel-close-btn" id="btn-close-sidebar" aria-label="Close Sidebar">✕</button>
     </div>
 
     <!-- VIEW 0: CHOSEN RIG SETUP (The user's configured PC parts tab) -->
@@ -392,7 +468,45 @@ const htmlContent = `<!DOCTYPE html>
       <div class="component-feed" id="component-feed"></div>
     </div>
 
-    <!-- VIEW 2: ACTIVE BUILD SPEC -->
+
+    <!-- VIEW 2: DEDICATED GAMING FPS BENCHMARK PANEL (Requested by User!) -->
+    <div class="panel-view benchmark-tray" id="view-benchmarks" style="display: none;">
+      <div class="bench-panel-view">
+        <div class="bench-panel-header">
+          <div class="bench-header-top">
+            <div>
+              <div class="bench-panel-title">GAMING FPS BENCHMARKS</div>
+              <div class="bench-panel-sub">Simulated Ray Tracing & Frametime Telemetry</div>
+            </div>
+            <div class="res-toggles">
+              <button class="res-btn" data-res="1080p">1080p</button>
+              <button class="res-btn active" data-res="1440p">1440p</button>
+              <button class="res-btn" data-res="4k">4K UHD</button>
+            </div>
+          </div>
+          <div class="bench-search-wrap">
+            <input type="text" class="game-search-input" id="game-search-input" placeholder="Search benchmarks (Cyberpunk, Wukong, CS2)..." />
+          </div>
+        </div>
+
+        <div class="bench-summary-card">
+          <div class="bench-stat-col">
+            <span class="stat-micro-lbl">AVERAGE FRAMERATE</span>
+            <span class="bench-headline-stat"><span id="bench-avg-fps">176</span> <span class="unit">FPS</span></span>
+            <span class="bench-tier-badge" id="bench-tier-badge">4K ENTHUSIAST</span>
+          </div>
+          <div class="bench-stat-col align-right">
+            <span class="stat-micro-lbl">1% LOW STABILITY</span>
+            <span class="bench-sub-headline"><span id="bench-low-fps">128</span> <span class="unit">FPS</span></span>
+            <span class="bench-stability-sub">GPU Bound (98%) - Optimal Balance</span>
+          </div>
+        </div>
+
+        <div class="game-bench-feed" id="game-grid"></div>
+      </div>
+    </div>
+
+    <!-- VIEW 3: ACTIVE BUILD SPEC -->
     <div class="panel-view" id="view-build" style="display: none;">
       <div class="spec-sheet-container" id="spec-sheet-container"></div>
     </div>
@@ -408,29 +522,7 @@ const htmlContent = `<!DOCTYPE html>
     </div>
   </div>
 
-  <!-- Bottom Gaming Benchmark Tray: Custom Moving Carousel (No Native White Bar!) -->
-  <div class="benchmark-tray" id="benchmark-tray">
-    <div class="tray-header">
-      <div class="tray-title-cluster">
-        <div class="tray-title">Real-World Gaming Performance</div>
-      </div>
-      <div class="game-search-box">
-        <input type="text" class="game-search-input" id="game-search-input" placeholder="Search benchmarks (e.g. Cyberpunk, Wukong)..." />
-      </div>
-      <div class="res-toggles">
-        <button class="res-btn" data-res="1080p">1080p FHD</button>
-        <button class="res-btn active" data-res="1440p">1440p QHD</button>
-        <button class="res-btn" data-res="4k">4K UHD</button>
-      </div>
-      <button class="panel-close-btn" id="btn-close-bench" title="Hide Gaming Benchmarks">✕</button>
-    </div>
-    
-    <div class="game-carousel-wrap">
-      <button class="tray-nav-btn left" id="tray-nav-left" title="Scroll Left">‹</button>
-      <div class="game-grid" id="game-grid"></div>
-      <button class="tray-nav-btn right" id="tray-nav-right" title="Scroll Right">›</button>
-    </div>
-  </div>
+  <!-- Benchmark Tray is now an integrated first-class panel in view-benchmarks -->
 
   <script>
     const activeBuild = { cpu: null, gpu: null, motherboard: null, memory: null, storage: null, cooler: null, psu: null, chassis: null };
@@ -582,12 +674,12 @@ const htmlContent = `<!DOCTYPE html>
       p1.rotation.x = Math.PI / 2;
       envScene.add(p1);
 
-      const p2 = new THREE.Mesh(new THREE.PlaneGeometry(160, 90), new THREE.MeshBasicMaterial({ color: 0x00f0ff }));
+      const p2 = new THREE.Mesh(new THREE.PlaneGeometry(160, 90), new THREE.MeshBasicMaterial({ color: 0x10f06a }));
       p2.position.set(60, 20, 0);
       p2.rotation.y = -Math.PI / 2;
       envScene.add(p2);
 
-      const p3 = new THREE.Mesh(new THREE.PlaneGeometry(160, 90), new THREE.MeshBasicMaterial({ color: 0x38bdf8 }));
+      const p3 = new THREE.Mesh(new THREE.PlaneGeometry(160, 90), new THREE.MeshBasicMaterial({ color: 0x84cc16 }));
       p3.position.set(-60, 20, 0);
       p3.rotation.y = Math.PI / 2;
       envScene.add(p3);
@@ -611,6 +703,66 @@ const htmlContent = `<!DOCTYPE html>
     controls.screenSpacePanning = true;
     controls.target.set(0, 42, 0);
 
+    // Smooth Camera Transition State
+    let isCameraTransitioning = false;
+    const targetCameraPos = new THREE.Vector3(240, 180, 290);
+    const targetCameraTarget = new THREE.Vector3(0, 42, 0);
+
+    function smoothTransitionCamera(newPos, newTarget) {
+      targetCameraPos.copy(newPos);
+      if (newTarget) targetCameraTarget.copy(newTarget);
+      isCameraTransitioning = true;
+    }
+
+    renderer.domElement.addEventListener('pointerdown', () => {
+      isCameraTransitioning = false;
+      targetCameraPos.copy(camera.position);
+      targetCameraTarget.copy(controls.target);
+    });
+
+    // Smooth Rolling Number Counter Animation (Ease-Out Cubic)
+    function animateRollingNumber(element, startVal, endVal, duration = 400, formatter = v => Math.round(v).toString()) {
+      if (!element) return;
+      const start = (typeof startVal === 'number' && !isNaN(startVal)) ? startVal : 0;
+      const end = (typeof endVal === 'number' && !isNaN(endVal)) ? endVal : 0;
+      element._animTargetVal = end;
+
+      if (Math.abs(end - start) < 0.001) {
+        const res = formatter(end);
+        if (typeof res === 'string' && res.includes('<')) element.innerHTML = res;
+        else element.textContent = res;
+        return;
+      }
+
+      const startTime = performance.now();
+      const diff = end - start;
+
+      function updateNumber(now) {
+        const elapsed = now - startTime;
+        const progress = Math.min(elapsed / duration, 1);
+        const ease = 1 - Math.pow(1 - progress, 3);
+        const current = start + diff * ease;
+        const formatted = formatter(current);
+        if (typeof formatted === 'string' && formatted.includes('<')) {
+          element.innerHTML = formatted;
+        } else {
+          element.textContent = formatted;
+        }
+
+        if (progress < 1) {
+          requestAnimationFrame(updateNumber);
+        } else {
+          const finalFormatted = formatter(end);
+          if (typeof finalFormatted === 'string' && finalFormatted.includes('<')) {
+            element.innerHTML = finalFormatted;
+          } else {
+            element.textContent = finalFormatted;
+          }
+        }
+      }
+      requestAnimationFrame(updateNumber);
+    }
+
     // Studio 3-Point Lighting Setup with Rich Contrast
     const ambientLight = new THREE.HemisphereLight(0xffffff, 0x141824, 1.4);
     scene.add(ambientLight);
@@ -627,7 +779,7 @@ const htmlContent = `<!DOCTYPE html>
     fillLight.position.set(-200, 180, -160);
     scene.add(fillLight);
 
-    const rimLight = new THREE.DirectionalLight(0x00f0ff, 1.1);
+    const rimLight = new THREE.DirectionalLight(0x10f06a, 1.1);
     rimLight.position.set(0, 180, -260);
     scene.add(rimLight);
 
@@ -766,7 +918,7 @@ const htmlContent = `<!DOCTYPE html>
     gpuBracket.castShadow = true;
     const gpuCradle = new THREE.Mesh(
       new THREE.BoxGeometry(10, 3, 10),
-      new THREE.MeshStandardMaterial({ color: 0x0ea5e9, metalness: 0.8, roughness: 0.2 })
+      new THREE.MeshStandardMaterial({ color: 0x10f06a, metalness: 0.8, roughness: 0.2 })
     );
     gpuCradle.position.set(118, 25, 46);
     rigChassis.add(gpuBracket, gpuCradle);
@@ -814,7 +966,7 @@ const htmlContent = `<!DOCTYPE html>
       ctx.stroke();
 
       const tempNorm = Math.min(Math.max((currentCpuTemp - 20) / 75, 0), 1);
-      const arcColor = currentCpuTemp > 80 ? '#ef4444' : currentCpuTemp > 65 ? '#f59e0b' : '#00f0ff';
+      const arcColor = currentCpuTemp > 80 ? '#ef4444' : currentCpuTemp > 65 ? '#f59e0b' : '#10f06a';
       ctx.strokeStyle = arcColor;
       ctx.lineWidth = 12;
       ctx.beginPath();
@@ -836,7 +988,7 @@ const htmlContent = `<!DOCTYPE html>
         ctx.fillText(rpm, 128, 185);
       } else if (aioDisplayMetric === 1) {
         ctx.fillText('COOLANT TEMP', 128, 75);
-        ctx.fillStyle = '#38bdf8';
+        ctx.fillStyle = '#84cc16';
         ctx.font = '900 66px monospace';
         const coolant = Math.round(24 + currentCpuTemp * 0.18);
         ctx.fillText(coolant + '°C', 128, 142);
@@ -999,7 +1151,7 @@ const htmlContent = `<!DOCTYPE html>
       ctx.font = 'bold 24px sans-serif';
       ctx.textAlign = 'left';
       ctx.fillText('GEFORCE RTX', 42, 68);
-      ctx.fillStyle = '#00f0ff';
+      ctx.fillStyle = '#10f06a';
       ctx.font = '900 19px monospace';
       ctx.fillText('4080 SUPER // 16GB G6X', 42, 96);
 
@@ -1120,7 +1272,7 @@ const htmlContent = `<!DOCTYPE html>
       ctx.textAlign = 'center';
       ctx.textBaseline = 'middle';
       ctx.fillText('GEFORCE', cx, cy - 6);
-      ctx.fillStyle = '#00f0ff';
+      ctx.fillStyle = '#10f06a';
       ctx.font = '900 13px sans-serif';
       ctx.fillText('RTX', cx, cy + 8);
 
@@ -1212,13 +1364,13 @@ const htmlContent = `<!DOCTYPE html>
 
       const ioEmblem = new THREE.Mesh(
         new THREE.BoxGeometry(28.2, 10, 24),
-        new THREE.MeshStandardMaterial({ color: 0x00f0ff, emissive: 0x00f0ff, emissiveIntensity: 0.65, roughness: 0.1 })
+        new THREE.MeshStandardMaterial({ color: 0x10f06a, emissive: 0x10f06a, emissiveIntensity: 0.65, roughness: 0.1 })
       );
       ioEmblem.position.set(isITX ? -52 : -73, 38, -40);
       group.add(ioArmor, ioEmblem);
 
       // Gold USB & Audio Ports on I/O Shield
-      const usbPortMat = new THREE.MeshStandardMaterial({ color: 0x00f0ff, metalness: 0.8 });
+      const usbPortMat = new THREE.MeshStandardMaterial({ color: 0x10f06a, metalness: 0.8 });
       for (let p = 0; p < 4; p++) {
         const port = new THREE.Mesh(new THREE.BoxGeometry(2.5, 4.5, 8.5), usbPortMat);
         port.position.set(isITX ? -66.5 : -87.5, 25 + (p % 2) * 8.5, -60 + Math.floor(p / 2) * 18);
@@ -1331,7 +1483,7 @@ const htmlContent = `<!DOCTYPE html>
         stick.add(topFin);
 
         // Multi-Zone Addressable RGB Diffuser Lightbar
-        const rgbColor = isTitanium ? 0x00f0ff : 0x38bdf8;
+        const rgbColor = isTitanium ? 0x10f06a : 0x84cc16;
         const diffuser = new THREE.Mesh(
           new THREE.BoxGeometry(4.4, 4, 76),
           new THREE.MeshStandardMaterial({ color: rgbColor, roughness: 0.1, emissive: rgbColor, emissiveIntensity: 0.7 })
@@ -1366,7 +1518,7 @@ const htmlContent = `<!DOCTYPE html>
       const isFounders = gpu.visualStyle === 'founders_hourglass' || (gpu.id && (gpu.id.includes('fe') || gpu.id.includes('rtx_4080s')));
       const isStrix = gpu.visualStyle === 'rog_strix_triple' || (gpu.id && gpu.id === 'gpu_rtx_4090');
 
-      // 1. Gold PCIe 5.0 x16 Connector Blade (Plugs cleanly into SafeSlot at Y = 20.5, Z = 32)
+      // 1. Gold-Plated PCIe 5.0 x16 Connector Blade (Plugs cleanly into SafeSlot at Y = 18.5, Z = 32)
       const pcieBlade = new THREE.Mesh(
         new THREE.BoxGeometry(85, 4.5, 2.4),
         new THREE.MeshStandardMaterial({ color: 0xd4af37, metalness: 0.96, roughness: 0.12 })
@@ -1374,7 +1526,7 @@ const htmlContent = `<!DOCTYPE html>
       pcieBlade.position.set(8, 18.5, 32);
       group.add(pcieBlade);
 
-      // 2. Stainless Steel 3-Slot I/O Bracket (Locks to rear expansion frame at X = -45.5)
+      // 2. Stainless Steel 3-Slot I/O Expansion Bracket (Locks to rear frame at X = -45.5)
       const bracketMat = new THREE.MeshStandardMaterial({ color: 0xe2e8f0, metalness: 0.96, roughness: 0.15 });
       const ioBracket = new THREE.Mesh(new THREE.BoxGeometry(2.4, 54, 42), bracketMat);
       ioBracket.position.set(gpuOriginX - 0.5, 49, 32);
@@ -1397,7 +1549,7 @@ const htmlContent = `<!DOCTYPE html>
       hdmiCutout.position.set(gpuOriginX - 0.5, 41, 41);
       group.add(hdmiCutout);
 
-      // 3. High-Density Matte Black Multi-Layer GPU PCB
+      // 3. Multi-Layer Matte Black GPU Circuit Board (PCB)
       const gpuPcb = new THREE.Mesh(
         new THREE.BoxGeometry(length - 4, 46, 2.6),
         new THREE.MeshStandardMaterial({ color: 0x101319, roughness: 0.55, metalness: 0.25 })
@@ -1408,104 +1560,211 @@ const htmlContent = `<!DOCTYPE html>
 
       // 4. Aluminum Heatsink Fin Array & Sintered Copper Heatpipe Core
       const finStackMat = new THREE.MeshStandardMaterial({ color: 0xc8ceda, metalness: 0.94, roughness: 0.22 });
-      const finBlock = new THREE.Mesh(new THREE.BoxGeometry(length - 10, 44, 22), finStackMat);
-      finBlock.position.set(gpuCenterX, 49, 33);
+      const finBlock = new THREE.Mesh(new THREE.BoxGeometry(length - 10, 44, 20), finStackMat);
+      finBlock.position.set(gpuCenterX, 49, 32);
       finBlock.castShadow = true;
       group.add(finBlock);
 
-      // 28 Detailed Individual Heatsink Fin Plates
-      for (let f = 0; f < 28; f++) {
+      // 32 Precision Heatsink Fin Plates Visible Through Intake Vents
+      for (let f = 0; f < 32; f++) {
         const finPlate = new THREE.Mesh(
-          new THREE.BoxGeometry(1.6, 45, 23),
-          new THREE.MeshStandardMaterial({ color: 0xa4acbc, metalness: 0.96, roughness: 0.18 })
+          new THREE.BoxGeometry(1.4, 45, 21),
+          new THREE.MeshStandardMaterial({ color: 0xa4acbc, metalness: 0.96, roughness: 0.16 })
         );
-        finPlate.position.set(gpuOriginX + 6 + f * ((length - 16) / 28), 49, 33);
+        finPlate.position.set(gpuOriginX + 6 + f * ((length - 14) / 32), 49, 32);
         group.add(finPlate);
       }
 
-      // Sintered Copper Heatpipes (5 mirror-polished copper heatpipes running through fins)
-      const copperMat = new THREE.MeshStandardMaterial({ color: 0xd97706, metalness: 0.98, roughness: 0.14 });
+      // Sintered Copper Heatpipes (5 polished copper heatpipes running through fins)
+      const copperMat = new THREE.MeshStandardMaterial({ color: 0xd97706, metalness: 0.98, roughness: 0.12 });
       [-14, -7, 0, 7, 14].forEach(yOff => {
-        const heatpipe = new THREE.Mesh(new THREE.CylinderGeometry(2.3, 2.3, length - 8, 16), copperMat);
+        const heatpipe = new THREE.Mesh(new THREE.CylinderGeometry(2.4, 2.4, length - 8, 16), copperMat);
         heatpipe.rotation.z = Math.PI / 2;
-        heatpipe.position.set(gpuCenterX, 49 + yOff, 33);
+        heatpipe.position.set(gpuCenterX, 49 + yOff, 32);
         group.add(heatpipe);
         meshNodes.gpuHeatpipes.push(heatpipe);
       });
 
-      // 5. Contoured Armor Shroud Body with High-Resolution Procedural Texture
-      const shroudTex = createGpuShroudTexture(isFounders, isStrix);
+      // 5. Sculpted Armor Shroud Framing (Completely Open Fan Apertures - Zero Z-Clipping!)
       const shroudMat = new THREE.MeshStandardMaterial({
-        map: shroudTex,
+        color: 0x181e28,
         metalness: 0.88,
         roughness: 0.25
       });
+      const shroudAccentMat = new THREE.MeshStandardMaterial({
+        color: 0x222a38,
+        metalness: 0.92,
+        roughness: 0.18
+      });
 
-      // Sculpted Front Shroud Face Plate
-      const shroudFace = new THREE.Mesh(new THREE.BoxGeometry(length, 48, 3.5), shroudMat);
-      shroudFace.position.set(gpuCenterX, 49, 45.5);
-      shroudFace.castShadow = true;
-      group.add(shroudFace);
-
-      // Chamfered Aerodynamic Top & Bottom Lips
-      const lipMat = new THREE.MeshStandardMaterial({ color: 0x161a24, metalness: 0.9, roughness: 0.22 });
-      const shroudTop = new THREE.Mesh(new THREE.BoxGeometry(length, 2.5, 24), lipMat);
-      shroudTop.position.set(gpuCenterX, 72.5, 34);
-      shroudTop.castShadow = true;
-      const shroudBottom = new THREE.Mesh(new THREE.BoxGeometry(length, 2.5, 24), lipMat);
-      shroudBottom.position.set(gpuCenterX, 25.5, 34);
-      shroudBottom.castShadow = true;
-      group.add(shroudTop, shroudBottom);
-
-      // 6. Axial-Tech Cooling Fans (Photorealistic Procedural Sickle Blades on Rotating Discs)
       const fanCount = 3;
       const fanSpacing = (length - 14) / fanCount;
       const fanRadius = 15.2;
-      const fanTex = createGpuFanTexture();
+
+      // Fan X center coordinates
+      const fanCenters = [];
+      for (let i = 0; i < fanCount; i++) {
+        fanCenters.push(gpuOriginX + 7 + fanSpacing * (i + 0.5));
+      }
+
+      // Left Shroud Wing (from I/O bracket to fan 1)
+      const leftWingWidth = (fanCenters[0] - fanRadius - 0.5) - gpuOriginX;
+      if (leftWingWidth > 2) {
+        const leftWing = new THREE.Mesh(new THREE.BoxGeometry(leftWingWidth, 48, 4.0), shroudMat);
+        leftWing.position.set(gpuOriginX + leftWingWidth / 2, 49, 44.5);
+        leftWing.castShadow = true;
+        group.add(leftWing);
+      }
+
+      // Right Shroud Wing (from fan 3 to tail end)
+      const rightWingStart = fanCenters[2] + fanRadius + 0.5;
+      const rightWingWidth = (gpuOriginX + length) - rightWingStart;
+      if (rightWingWidth > 2) {
+        const rightWing = new THREE.Mesh(new THREE.BoxGeometry(rightWingWidth, 48, 4.0), shroudMat);
+        rightWing.position.set(rightWingStart + rightWingWidth / 2, 49, 44.5);
+        rightWing.castShadow = true;
+        group.add(rightWing);
+
+        // Angular Geometric Cutouts on Tail Shroud
+        for (let v = 0; v < 3; v++) {
+          const tailVent = new THREE.Mesh(
+            new THREE.BoxGeometry(2.2, 28, 4.4),
+            new THREE.MeshStandardMaterial({ color: 0x090b10, metalness: 0.8 })
+          );
+          tailVent.position.set(rightWingStart + 5 + v * 4.5, 49, 44.5);
+          tailVent.rotation.z = 0.25;
+          group.add(tailVent);
+        }
+      }
+
+      // Top Armor Bar (above all 3 fans)
+      const topBar = new THREE.Mesh(new THREE.BoxGeometry(length, 7.5, 4.2), shroudAccentMat);
+      topBar.position.set(gpuCenterX, 69.25, 44.5);
+      topBar.castShadow = true;
+      group.add(topBar);
+
+      // Bottom Armor Bar (below all 3 fans)
+      const bottomBar = new THREE.Mesh(new THREE.BoxGeometry(length, 7.5, 4.2), shroudAccentMat);
+      bottomBar.position.set(gpuCenterX, 28.75, 44.5);
+      bottomBar.castShadow = true;
+      group.add(bottomBar);
+
+      // Vertical Support Bridges between Fan 1 & 2, and Fan 2 & 3
+      for (let s = 0; s < 2; s++) {
+        const strutX = (fanCenters[s] + fanCenters[s + 1]) / 2;
+        const strutWidth = (fanCenters[s + 1] - fanRadius) - (fanCenters[s] + fanRadius);
+        const strut = new THREE.Mesh(new THREE.BoxGeometry(Math.max(3.0, strutWidth), 34, 4.0), shroudMat);
+        strut.position.set(strutX, 49, 44.5);
+        strut.castShadow = true;
+        group.add(strut);
+      }
+
+      // Aerodynamic Chamfered Cowl Lip along top and bottom
+      const cowlTop = new THREE.Mesh(new THREE.BoxGeometry(length, 2.5, 23), shroudAccentMat);
+      cowlTop.position.set(gpuCenterX, 72.5, 33.5);
+      cowlTop.castShadow = true;
+      const cowlBottom = new THREE.Mesh(new THREE.BoxGeometry(length, 2.5, 23), shroudAccentMat);
+      cowlBottom.position.set(gpuCenterX, 25.5, 33.5);
+      cowlBottom.castShadow = true;
+      group.add(cowlTop, cowlBottom);
+
+      // 6. TRUE 3D PHYSICAL AXIAL-TECH FANS WITH AERODYNAMIC CURVED SICKLE BLADES
+      const bladeMat = new THREE.MeshStandardMaterial({
+        color: 0x141a24,
+        metalness: 0.88,
+        roughness: 0.18,
+        side: THREE.DoubleSide
+      });
+      const hubMat = new THREE.MeshStandardMaterial({
+        color: 0x0e1219,
+        metalness: 0.94,
+        roughness: 0.14
+      });
+      const emblemMat = new THREE.MeshStandardMaterial({
+        color: 0x242d3c,
+        metalness: 0.98,
+        roughness: 0.10
+      });
+      const cowlRingMat = new THREE.MeshStandardMaterial({
+        color: 0x64748b,
+        metalness: 0.96,
+        roughness: 0.14
+      });
+
+      // Construct high-detail sickle airfoil blade shape
+      const bladeShape = new THREE.Shape();
+      bladeShape.moveTo(4.6, -1.8);
+      bladeShape.quadraticCurveTo(fanRadius * 0.48, -3.2, fanRadius - 0.7, -1.2);
+      bladeShape.lineTo(fanRadius - 0.7, 1.6);
+      bladeShape.quadraticCurveTo(fanRadius * 0.48, 3.5, 4.6, 2.0);
+      bladeShape.closePath();
+
+      const extrudeConfig = {
+        steps: 1,
+        depth: 0.65,
+        bevelEnabled: true,
+        bevelThickness: 0.3,
+        bevelSize: 0.2,
+        bevelSegments: 2
+      };
+      const bladeGeom = new THREE.ExtrudeGeometry(bladeShape, extrudeConfig);
 
       for (let i = 0; i < fanCount; i++) {
-        const fanGroup = new THREE.Group();
-        const fanPosX = gpuOriginX + 7 + fanSpacing * (i + 0.5);
+        const fanPosX = fanCenters[i];
 
-        // Recessed Intake Well Cavity
+        // Recessed Dark Intake Well Cavity (open ended directly to heatsink fins)
         const wellCavity = new THREE.Mesh(
-          new THREE.CylinderGeometry(fanRadius + 0.2, fanRadius + 0.2, 5, 36),
-          new THREE.MeshStandardMaterial({ color: 0x07090e, roughness: 0.65, metalness: 0.3 })
+          new THREE.CylinderGeometry(fanRadius + 0.3, fanRadius + 0.3, 6, 36, 1, true),
+          new THREE.MeshStandardMaterial({ color: 0x05070a, roughness: 0.8, side: THREE.DoubleSide })
         );
         wellCavity.rotation.x = Math.PI / 2;
-        wellCavity.position.set(fanPosX, 49, 44);
+        wellCavity.position.set(fanPosX, 49, 43.5);
         group.add(wellCavity);
 
-        // Polished Gunmetal Chamfered Cowl Ring
-        const cowlRing = new THREE.Mesh(
-          new THREE.TorusGeometry(fanRadius + 0.4, 1.2, 16, 48),
-          new THREE.MeshStandardMaterial({ color: 0x64748b, metalness: 0.95, roughness: 0.15 })
-        );
-        cowlRing.position.set(fanPosX, 49, 47.0);
+        // Polished Chamfered Outer Cowl Ring
+        const cowlRing = new THREE.Mesh(new THREE.TorusGeometry(fanRadius + 0.5, 1.3, 16, 48), cowlRingMat);
+        cowlRing.position.set(fanPosX, 49, 46.8);
         group.add(cowlRing);
 
-        // Photorealistic Rotating Fan Disc
-        const fanMat = new THREE.MeshStandardMaterial({
-          map: fanTex,
-          transparent: true,
-          roughness: 0.2,
-          metalness: 0.4,
-          side: THREE.DoubleSide
-        });
-        const fanMesh = new THREE.Mesh(new THREE.CircleGeometry(fanRadius, 48), fanMat);
-        fanMesh.position.set(0, 0, 0);
-        fanGroup.add(fanMesh);
+        // 3D Rotating Fan Assembly Group
+        const fanGroup = new THREE.Group();
 
-        // Physical 3D Center Hub Cap with Brushed Metal Disc
-        const centerHub = new THREE.Mesh(
-          new THREE.CylinderGeometry(4.2, 4.2, 2.0, 24),
-          new THREE.MeshStandardMaterial({ color: 0x0f131a, metalness: 0.92, roughness: 0.18 })
+        // Central Motor Hub Cylinder
+        const hub = new THREE.Mesh(new THREE.CylinderGeometry(4.8, 4.8, 3.2, 32), hubMat);
+        hub.rotation.x = Math.PI / 2;
+        hub.position.z = 1.0;
+        fanGroup.add(hub);
+
+        // Brushed Metallic Emblem Disc on Center Hub
+        const emblem = new THREE.Mesh(new THREE.CylinderGeometry(3.6, 3.6, 0.4, 32), emblemMat);
+        emblem.rotation.x = Math.PI / 2;
+        emblem.position.z = 2.7;
+        fanGroup.add(emblem);
+
+        // Outer Axial-Tech Barrier Rim Connecting Blade Tips (Zero turbulence, authentic RTX 40-series design)
+        const outerRim = new THREE.Mesh(
+          new THREE.TorusGeometry(fanRadius - 0.6, 0.75, 12, 48),
+          new THREE.MeshStandardMaterial({ color: 0x161c28, metalness: 0.85, roughness: 0.22 })
         );
-        centerHub.rotation.x = Math.PI / 2;
-        centerHub.position.set(0, 0, 1.0);
-        fanGroup.add(centerHub);
+        outerRim.position.z = 1.2;
+        fanGroup.add(outerRim);
 
-        fanGroup.position.set(fanPosX, 49, 46.5);
+        // 9 Aerodynamic 3D Sickle Airfoil Blades with Realistic Pitch Twist
+        const bladeCount = 9;
+        for (let b = 0; b < bladeCount; b++) {
+          const bladeArm = new THREE.Group();
+          bladeArm.rotation.z = (b * Math.PI * 2) / bladeCount;
+
+          const bladeMesh = new THREE.Mesh(bladeGeom, bladeMat);
+          // Realistic 32-degree aerodynamic axial airflow pitch
+          bladeMesh.rotation.x = 0.55;
+          bladeMesh.position.z = 0.6;
+          bladeArm.add(bladeMesh);
+          fanGroup.add(bladeArm);
+        }
+
+        // Fan positioned cleanly in the unobstructed aperture (Z = 46.2)
+        fanGroup.position.set(fanPosX, 49, 46.2);
         group.add(fanGroup);
         meshNodes.gpuFanList.push(fanGroup);
       }
@@ -1529,14 +1788,19 @@ const htmlContent = `<!DOCTYPE html>
       }
       group.add(backplate);
 
-      // 8. Dynamic Illuminated "GEFORCE RTX" Side Lightbar
-      const lightbarMat = new THREE.MeshStandardMaterial({ color: 0x00f0ff, emissive: 0x00f0ff, emissiveIntensity: 0.7, roughness: 0.1 });
+      // 8. Dynamic Illuminated "GEFORCE RTX" Side Lightbar in Electric Lime
+      const lightbarMat = new THREE.MeshStandardMaterial({
+        color: 0x10f06a,
+        emissive: 0x10f06a,
+        emissiveIntensity: 0.75,
+        roughness: 0.1
+      });
       meshNodes.gpuLogoMat = lightbarMat;
       const sideLightbar = new THREE.Mesh(new THREE.BoxGeometry(75, 4.2, 3.0), lightbarMat);
       sideLightbar.position.set(gpuCenterX - 10, 73.5, 33);
       group.add(sideLightbar);
 
-      // 9. 12V-2x6 Modular Power Connector & Natural Braided Cable Arc to Deck Grommet
+      // 9. 12V-2x6 Modular Power Connector & Braided Cable Arc to Deck Grommet
       const pwrSocket = new THREE.Mesh(
         new THREE.BoxGeometry(16, 5.5, 7.5),
         new THREE.MeshStandardMaterial({ color: 0x090b10, roughness: 0.5 })
@@ -1544,7 +1808,7 @@ const htmlContent = `<!DOCTYPE html>
       pwrSocket.position.set(gpuCenterX + 35, 73.5, 27);
       group.add(pwrSocket);
 
-      // Sleek Braided Cable Arc (Curves cleanly downward into deck grommet at 55, 9, 50)
+      // Natural Braided Cable Arc (Curves cleanly downward into deck grommet at 55, 9, 50)
       const cableCurve = new THREE.CatmullRomCurve3([
         new THREE.Vector3(gpuCenterX + 35, 73.5, 27),
         new THREE.Vector3(gpuCenterX + 37, 60, 35),
@@ -1639,7 +1903,7 @@ const htmlContent = `<!DOCTYPE html>
           fanFrame.position.set(rf * 56, 174, -22);
           fanFrame.castShadow = true;
 
-          const halo = new THREE.Mesh(new THREE.TorusGeometry(20, 1.4, 12, 32), new THREE.MeshStandardMaterial({ color: 0x00f0ff, emissive: 0x00f0ff, emissiveIntensity: 0.55 }));
+          const halo = new THREE.Mesh(new THREE.TorusGeometry(20, 1.4, 12, 32), new THREE.MeshStandardMaterial({ color: 0x10f06a, emissive: 0x10f06a, emissiveIntensity: 0.55 }));
           halo.rotation.x = Math.PI / 2;
           halo.position.set(rf * 56, 169, -22);
           group.add(fanFrame, halo);
@@ -1847,8 +2111,7 @@ const htmlContent = `<!DOCTYPE html>
       const targetPos = anc.pos.clone();
       const lookPos = new THREE.Vector3(targetPos.x, targetPos.y - 10, targetPos.z);
       const camTarget = new THREE.Vector3(targetPos.x + 80, targetPos.y + 60, targetPos.z + 90);
-      camera.position.set(camTarget.x, camTarget.y, camTarget.z);
-      controls.target.set(lookPos.x, lookPos.y, lookPos.z);
+      smoothTransitionCamera(camTarget, lookPos);
     }
 
     // 3D Raycasting & Cursor Inspection
@@ -2042,27 +2305,35 @@ const htmlContent = `<!DOCTYPE html>
         }
       });
 
-      // Update badge counts
-      const badgeText = installedCount + '/8';
-      document.getElementById('tab-chosen-badge').textContent = badgeText;
-      document.getElementById('reopen-rig-count').textContent = badgeText;
+      // Update badge counts with animation
+      const prevInstalled = window._currentInstalledCount !== undefined ? window._currentInstalledCount : 0;
+      window._currentInstalledCount = installedCount;
+
+      const badgeNumEl = document.getElementById('badge-rig-count');
+      if (badgeNumEl) {
+        animateRollingNumber(badgeNumEl, prevInstalled, installedCount, 300, v => Math.round(v));
+      }
+      const reopenNumEl = document.getElementById('reopen-badge-rig-count');
+      if (reopenNumEl) {
+        animateRollingNumber(reopenNumEl, prevInstalled, installedCount, 300, v => Math.round(v));
+      }
 
       container.innerHTML = \`
-        <div class="chosen-summary-card">
-          <div class="chosen-summary-header">
+        <div class="chosen-summary-card" style="background: rgba(16, 240, 106, 0.08); border: 1px solid rgba(16, 240, 106, 0.28); border-radius: 8px; padding: 14px; display: flex; flex-direction: column; gap: 10px; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);">
+          <div style="display: flex; justify-content: space-between; align-items: flex-start;">
             <div>
-              <div class="chosen-summary-title">ACTIVE RIG CONFIGURATION</div>
-              <div style="font-family: var(--font-mono); font-size: 10px; color: var(--text-dim);">\${installedCount} of 8 Core Components Installed</div>
+              <div style="font-family: var(--font-display); font-size: 12px; font-weight: 800; color: #10f06a; letter-spacing: 0.6px; text-transform: uppercase;">ACTIVE HARDWARE RIG</div>
+              <div style="font-family: var(--font-mono); font-size: 10px; color: #94a3b8; margin-top: 2px;">\${installedCount} of 8 Core Components Configured</div>
             </div>
             <div style="text-align: right;">
-              <div style="font-family: var(--font-mono); font-size: 16px; font-weight: 800; color: #fff;">\$\${totalCost}</div>
-              <div style="font-family: var(--font-mono); font-size: 10px; color: #38bdf8;">\${totalWatts}W Peak Load</div>
+              <div style="font-family: var(--font-mono); font-size: 18px; font-weight: 800; color: #ffffff;">\\$\${totalCost.toLocaleString()}</div>
+              <div style="font-family: var(--font-mono); font-size: 10.5px; color: #10f06a; font-weight: 700;">\${totalWatts}W Peak Load</div>
             </div>
           </div>
-          <div class="chosen-summary-actions">
-            <button class="mini-icon-btn" onclick="loadHighEndPreset()" style="background: rgba(0, 240, 255, 0.15); border-color: var(--accent-cyan); color: #fff;">FLAGSHIP PRESET</button>
-            <button class="mini-icon-btn" onclick="loadSweetSpotPreset()">SWEET SPOT PRESET</button>
-            <button class="mini-icon-btn remove" onclick="clearAllParts()">RESET ALL</button>
+          <div style="display: flex; gap: 8px; flex-wrap: wrap; margin-top: 4px;">
+            <button class="mini-icon-btn" onclick="loadHighEndPreset()" style="background: #10f06a; color: #040805; font-weight: 800; border: none; padding: 6px 12px; border-radius: 5px; cursor: pointer;">FLAGSHIP PRESET</button>
+            <button class="mini-icon-btn" onclick="loadSweetSpotPreset()" style="background: rgba(255, 255, 255, 0.08); color: #ffffff; border: 1px solid var(--border-panel); padding: 6px 12px; border-radius: 5px; cursor: pointer;">SWEET SPOT</button>
+            <button class="mini-icon-btn remove" onclick="clearAllParts()" style="background: rgba(239, 68, 68, 0.15); color: #fca5a5; border: 1px solid rgba(239, 68, 68, 0.3); padding: 6px 12px; border-radius: 5px; cursor: pointer; margin-left: auto;">RESET ALL</button>
           </div>
         </div>
 
@@ -2482,7 +2753,7 @@ const htmlContent = `<!DOCTYPE html>
               '<div>' +
                 '<span class="part-brand-badge" style="font-size: 9px; padding: 1px 5px;">' + c.brand + '</span>' +
                 '<div style="font-size: 13px; font-weight: 800; color: #fff; margin-top: 3px;">' + c.name + '</div>' +
-                '<div style="font-family: var(--font-mono); font-size: 10px; color: #38bdf8; margin-top: 2px;">' +
+                '<div style="font-family: var(--font-mono); font-size: 10px; color: #84cc16; margin-top: 2px;">' +
                   'MATCHED: ' + (q.matchedName || c.name) +
                 '</div>' +
               '</div>' +
@@ -2617,11 +2888,11 @@ const htmlContent = `<!DOCTYPE html>
           '</div>' +
           '<div class="spec-row">' +
             '<span class="spec-key">CPU Tdie Junction</span>' +
-            '<span class="spec-val" style="color: ' + (currentCpuTemp > 80 ? '#ef4444' : '#00f0ff') + ';">' + currentCpuTemp + '°C</span>' +
+            '<span class="spec-val" style="color: ' + (currentCpuTemp > 80 ? '#ef4444' : '#10f06a') + ';">' + currentCpuTemp + '°C</span>' +
           '</div>' +
           '<div class="spec-row">' +
             '<span class="spec-key">GPU Core Temperature</span>' +
-            '<span class="spec-val" style="color: ' + (currentGpuTemp > 75 ? '#ef4444' : '#00f0ff') + ';">' + currentGpuTemp + '°C</span>' +
+            '<span class="spec-val" style="color: ' + (currentGpuTemp > 75 ? '#ef4444' : '#10f06a') + ';">' + currentGpuTemp + '°C</span>' +
           '</div>' +
           '<div class="spec-row">' +
             '<span class="spec-key">GPU Hotspot Junction</span>' +
@@ -2721,11 +2992,21 @@ const htmlContent = `<!DOCTYPE html>
           }
         }
         displayCost = realTotal;
-        document.getElementById('telem-cost').innerHTML = '<span style="color:#34d399;" title="Calculated from authentic live scraped market prices">$' + displayCost + '</span>';
-      } else {
-        document.getElementById('telem-cost').textContent = '$' + displayCost;
       }
-      document.getElementById('telem-power').textContent = vData.estimatedPeakWatts;
+
+      // Animate Top Telemetry Numbers Smoothly
+      const prevCost = window._currentDisplayCost !== undefined ? window._currentDisplayCost : 0;
+      window._currentDisplayCost = displayCost;
+      const telemCostEl = document.getElementById('telem-cost');
+      if (applyRealMarketPrices) {
+        animateRollingNumber(telemCostEl, prevCost, displayCost, 450, v => '<span style="color:#34d399;" title="Calculated from authentic live scraped market prices">$' + Math.round(v).toLocaleString() + '</span>');
+      } else {
+        animateRollingNumber(telemCostEl, prevCost, displayCost, 450, v => '$' + Math.round(v).toLocaleString());
+      }
+
+      const prevWatts = window._currentDisplayWatts !== undefined ? window._currentDisplayWatts : 0;
+      window._currentDisplayWatts = vData.estimatedPeakWatts;
+      animateRollingNumber(document.getElementById('telem-power'), prevWatts, vData.estimatedPeakWatts, 450, v => Math.round(v));
 
       const badge = document.getElementById('compat-status-btn');
       if (vData.isCompatible) {
@@ -2742,10 +3023,16 @@ const htmlContent = `<!DOCTYPE html>
         body: JSON.stringify(payload)
       });
       const pData = await pRes.json();
+
+      const prevCpuTemp = window._currentCpuTemp !== undefined ? window._currentCpuTemp : 28;
+      window._currentCpuTemp = pData.cpuLoadTempC;
       currentCpuTemp = pData.cpuLoadTempC;
+      animateRollingNumber(document.getElementById('telem-thermal-cpu'), prevCpuTemp, pData.cpuLoadTempC, 450, v => Math.round(v));
+
+      const prevGpuTemp = window._currentGpuTemp !== undefined ? window._currentGpuTemp : 28;
+      window._currentGpuTemp = pData.gpuLoadTempC;
       currentGpuTemp = pData.gpuLoadTempC;
-      document.getElementById('telem-thermal-cpu').textContent = pData.cpuLoadTempC;
-      document.getElementById('telem-thermal-gpu').textContent = pData.gpuLoadTempC;
+      animateRollingNumber(document.getElementById('telem-thermal-gpu'), prevGpuTemp, pData.gpuLoadTempC, 450, v => Math.round(v));
       updateAioLcdDisplay();
 
       const bRes = await fetch('/api/benchmark', {
@@ -2761,7 +3048,6 @@ const htmlContent = `<!DOCTYPE html>
     function renderBenchmarks() {
       const grid = document.getElementById('game-grid');
       if (!grid) return;
-      grid.innerHTML = '';
 
       const query = (document.getElementById('game-search-input')?.value || '').toLowerCase().trim();
 
@@ -2770,96 +3056,100 @@ const htmlContent = `<!DOCTYPE html>
         return (g.gameName || '').toLowerCase().includes(query) || (g.qualityPreset || '').toLowerCase().includes(query);
       });
 
+      const existingCards = {};
+      grid.querySelectorAll('.game-card-row').forEach(c => {
+        if (c.dataset.game) existingCards[c.dataset.game] = c;
+      });
+
+      grid.innerHTML = '';
+
+      let totalFps = 0;
+      let totalLow = 0;
+      let count = 0;
+
       filtered.forEach(g => {
         const steamMeta = STEAM_GAME_ASSETS[g.gameName] || {
           header: 'https://images.unsplash.com/photo-1542751371-adc38448a05e?w=300&auto=format&fit=crop&q=80'
         };
 
         const low1 = g.low1pctFps ?? g.low1PctFps ?? Math.round(g.avgFps * 0.74);
+        const prevCard = existingCards[g.gameName];
+        const prevFps = prevCard ? (prevCard._prevFps || g.avgFps) : Math.round(g.avgFps * 0.75);
+        const prevLow1 = prevCard ? (prevCard._prevLow1 || low1) : Math.round(low1 * 0.75);
+        const prevGpu = prevCard ? (prevCard._prevGpu || g.gpuBottleneckPct) : 50;
+
+        totalFps += g.avgFps;
+        totalLow += low1;
+        count++;
 
         const card = document.createElement('div');
-        card.className = 'game-card';
+        card.className = 'game-card-row';
+        card.dataset.game = g.gameName;
+        card._prevFps = g.avgFps;
+        card._prevLow1 = low1;
+        card._prevGpu = g.gpuBottleneckPct;
+
         card.innerHTML =
-          '<div class="game-banner-box">' +
-            '<img src="' + steamMeta.header + '" alt="' + g.gameName + '" onerror="this.onerror=null; this.src=\\'https://images.unsplash.com/photo-1542751371-adc38448a05e?w=300&auto=format&fit=crop&q=80\\';" />' +
+          '<div class="game-row-thumb">' +
+            '<img src="' + steamMeta.header + '" alt="' + g.gameName + '" />' +
           '</div>' +
-          '<div class="game-meta-box">' +
-            '<div class="game-title">' + g.gameName + '</div>' +
-            '<div class="game-fps-row">' +
-              '<span class="game-fps">' + g.avgFps + '<span class="game-fps-unit">FPS</span></span>' +
+          '<div class="game-row-info">' +
+            '<div class="game-row-title-bar">' +
+              '<span class="game-title">' + g.gameName + '</span>' +
               '<span class="game-preset-tag">' + (g.qualityPreset || 'Ultra') + '</span>' +
             '</div>' +
-            '<div class="game-sub">' +
-              '<span>1% Low: ' + low1 + '</span>' +
-              '<span>GPU ' + g.gpuBottleneckPct + '%</span>' +
+            '<div class="game-row-stats">' +
+              '<div class="game-fps-box">' +
+                '<span class="fps-num">' + prevFps + '</span>' +
+                '<span class="fps-unit">FPS</span>' +
+              '</div>' +
+              '<div class="game-sub-stats">' +
+                '<div class="sub-stat-line"><span class="lbl">1% LOW</span> <span class="val low1-val">' + prevLow1 + '</span></div>' +
+                '<div class="sub-stat-line"><span class="lbl">GPU LOAD</span> <span class="val gpu-val">' + prevGpu + '%</span></div>' +
+              '</div>' +
             '</div>' +
             '<div class="bottle-bar"><div class="bottle-fill" style="width: ' + g.gpuBottleneckPct + '%"></div></div>' +
           '</div>';
 
-        // 3D Perspective Mouse Parallax Inspection on Card Hover
-        card.addEventListener('mousemove', (e) => {
-          const rect = card.getBoundingClientRect();
-          const x = e.clientX - rect.left - rect.width / 2;
-          const y = e.clientY - rect.top - rect.height / 2;
-          card.style.transform = 'perspective(600px) rotateX(' + (-y * 0.08) + 'deg) rotateY(' + (x * 0.08) + 'deg) translateY(-3px)';
-        });
-        card.addEventListener('mouseleave', () => {
-          card.style.transform = '';
-        });
-
         grid.appendChild(card);
+
+        const bImg = card.querySelector('.game-row-thumb img');
+        if (bImg) {
+          bImg.onerror = function() {
+            this.onerror = null;
+            this.src = 'https://images.unsplash.com/photo-1542751371-adc38448a05e?w=300&auto=format&fit=crop&q=80';
+          };
+        }
+
+        // Animate rolling numbers smoothly
+        const fpsEl = card.querySelector('.fps-num');
+        const low1El = card.querySelector('.low1-val');
+        const gpuEl = card.querySelector('.gpu-val');
+        animateRollingNumber(fpsEl, prevFps, g.avgFps, 420, v => Math.round(v));
+        animateRollingNumber(low1El, prevLow1, low1, 420, v => Math.round(v));
+        animateRollingNumber(gpuEl, prevGpu, g.gpuBottleneckPct, 420, v => Math.round(v) + '%');
       });
-    }
 
-    // Custom Moving Carousel - Smooth Drag & Inertia Momentum (No White Native Bar!)
-    const gameGrid = document.getElementById('game-grid');
-    let isDraggingGrid = false;
-    let gridStartX = 0;
-    let gridScrollLeft = 0;
-    let gridVelocity = 0;
-    let momentumFrame;
+      // Update Top Benchmark Summary Numbers
+      if (count > 0) {
+        const avgOverall = Math.round(totalFps / count);
+        const lowOverall = Math.round(totalLow / count);
+        const prevAvg = window._currentBenchAvg || avgOverall;
+        const prevLow = window._currentBenchLow || lowOverall;
+        window._currentBenchAvg = avgOverall;
+        window._currentBenchLow = lowOverall;
 
-    gameGrid.addEventListener('mousedown', (e) => {
-      isDraggingGrid = true;
-      gameGrid.classList.add('grabbing');
-      gridStartX = e.pageX - gameGrid.offsetLeft;
-      gridScrollLeft = gameGrid.scrollLeft;
-      cancelAnimationFrame(momentumFrame);
-    });
+        const avgEl = document.getElementById('bench-avg-fps');
+        const lowEl = document.getElementById('bench-low-fps');
+        if (avgEl) animateRollingNumber(avgEl, prevAvg, avgOverall, 450, v => Math.round(v));
+        if (lowEl) animateRollingNumber(lowEl, prevLow, lowOverall, 450, v => Math.round(v));
 
-    window.addEventListener('mouseup', () => {
-      if (isDraggingGrid) {
-        isDraggingGrid = false;
-        gameGrid.classList.remove('grabbing');
-        applyGridMomentum();
-      }
-    });
-
-    window.addEventListener('mousemove', (e) => {
-      if (!isDraggingGrid) return;
-      e.preventDefault();
-      const x = e.pageX - gameGrid.offsetLeft;
-      const walk = (x - gridStartX) * 1.5;
-      const prev = gameGrid.scrollLeft;
-      gameGrid.scrollLeft = gridScrollLeft - walk;
-      gridVelocity = gameGrid.scrollLeft - prev;
-    });
-
-    function applyGridMomentum() {
-      if (Math.abs(gridVelocity) > 0.5) {
-        gameGrid.scrollLeft += gridVelocity;
-        gridVelocity *= 0.92;
-        momentumFrame = requestAnimationFrame(applyGridMomentum);
+        const tierEl = document.getElementById('bench-tier-badge');
+        if (tierEl) {
+          tierEl.textContent = avgOverall > 140 ? '4K ENTHUSIAST' : (avgOverall > 85 ? '1440p COMPETITIVE' : '1080p SMOOTH');
+        }
       }
     }
-
-    // Smooth Mouse Wheel Horizontal Scrolling
-    gameGrid.addEventListener('wheel', (e) => {
-      if (e.deltaY !== 0) {
-        e.preventDefault();
-        gameGrid.scrollBy({ left: e.deltaY * 2.2, behavior: 'smooth' });
-      }
-    }, { passive: false });
 
     // Sleek Custom Floating Carousel Chevrons
     document.getElementById('tray-nav-left')?.addEventListener('click', () => {
@@ -2910,25 +3200,51 @@ const htmlContent = `<!DOCTYPE html>
     document.getElementById('part-sort-select')?.addEventListener('change', renderCatalog);
     document.getElementById('game-search-input')?.addEventListener('input', renderBenchmarks);
 
-    // Panel Switcher Tabs
+    // Panel Switcher Tabs with Dedicated FPS Benchmark Panel
     document.querySelectorAll('.tab-switch-btn').forEach(btn => {
       btn.onclick = () => {
         document.querySelectorAll('.tab-switch-btn').forEach(b => b.classList.remove('active'));
         btn.classList.add('active');
         activeTab = btn.dataset.tab;
 
-        document.getElementById('view-chosen').style.display = activeTab === 'chosen' ? 'flex' : 'none';
-        document.getElementById('view-catalog').style.display = activeTab === 'catalog' ? 'flex' : 'none';
-        document.getElementById('view-build').style.display = activeTab === 'build' ? 'flex' : 'none';
-        document.getElementById('view-market').style.display = activeTab === 'market' ? 'flex' : 'none';
-        document.getElementById('view-thermal').style.display = activeTab === 'thermal' ? 'flex' : 'none';
+        const views = ['chosen', 'catalog', 'benchmarks', 'build', 'market'];
+        views.forEach(v => {
+          const el = document.getElementById('view-' + v);
+          if (el) {
+            if (activeTab === v) {
+              el.style.display = 'flex';
+              el.classList.remove('tab-entering');
+              void el.offsetWidth;
+              el.classList.add('tab-entering');
+            } else {
+              el.style.display = 'none';
+            }
+          }
+        });
 
         if (activeTab === 'chosen') renderChosenRigView();
         if (activeTab === 'catalog') renderCatalog();
+        if (activeTab === 'benchmarks') renderBenchmarks();
         if (activeTab === 'build') renderBuildSpecView();
         if (activeTab === 'market') renderMarketDealsView();
-        if (activeTab === 'thermal') renderThermalBenchView();
       };
+    });
+
+    // Quick Jump to FPS Benchmarks from Viewport Toolbar
+    document.getElementById('btn-quick-bench')?.addEventListener('click', () => {
+      sidebar.classList.remove('collapsed');
+      reopenSidebarBtn.style.display = 'none';
+      document.querySelectorAll('.tab-switch-btn').forEach(b => b.classList.remove('active'));
+      const benchBtn = document.querySelector('.tab-switch-btn[data-tab="benchmarks"]');
+      if (benchBtn) benchBtn.classList.add('active');
+      activeTab = 'benchmarks';
+
+      const views = ['chosen', 'catalog', 'benchmarks', 'build', 'market'];
+      views.forEach(v => {
+        const el = document.getElementById('view-' + v);
+        if (el) el.style.display = (v === 'benchmarks') ? 'flex' : 'none';
+      });
+      renderBenchmarks();
     });
 
     // Category Nav
@@ -2963,17 +3279,17 @@ const htmlContent = `<!DOCTYPE html>
           ambientLight.intensity = 1.4;
           keyLight.color.setHex(0xfefefe);
           keyLight.intensity = 2.0;
-          rimLight.color.setHex(0x00f0ff);
+          rimLight.color.setHex(0x10f06a);
           rimLight.intensity = 1.1;
           scene.background.setHex(0x07090e);
-        } else if (activeLightMode === 'cyber') {
-          ambientLight.color.setHex(0x06b6d4);
-          ambientLight.intensity = 1.0;
-          keyLight.color.setHex(0xa855f7);
-          keyLight.intensity = 2.2;
-          rimLight.color.setHex(0x3b82f6);
-          rimLight.intensity = 1.6;
-          scene.background.setHex(0x05060c);
+        } else if (activeLightMode === 'lime') {
+          ambientLight.color.setHex(0x122216);
+          ambientLight.intensity = 1.3;
+          keyLight.color.setHex(0x10f06a);
+          keyLight.intensity = 2.4;
+          rimLight.color.setHex(0xa6ff00);
+          rimLight.intensity = 1.5;
+          scene.background.setHex(0x040806);
         } else if (activeLightMode === 'stealth') {
           ambientLight.color.setHex(0x94a3b8);
           ambientLight.intensity = 0.8;
@@ -2986,28 +3302,24 @@ const htmlContent = `<!DOCTYPE html>
       };
     });
 
-    // Camera Angle Presets
+    // Smooth Animated Camera Angle Presets
     document.getElementById('btn-cam-iso').onclick = () => {
-      camera.position.set(240, 180, 290);
-      controls.target.set(0, 42, 0);
+      smoothTransitionCamera(new THREE.Vector3(240, 180, 290), new THREE.Vector3(0, 42, 0));
       controls.autoRotate = false;
       document.getElementById('btn-auto-rotate').classList.remove('active');
     };
     document.getElementById('btn-cam-front').onclick = () => {
-      camera.position.set(0, 50, 410);
-      controls.target.set(0, 50, 0);
+      smoothTransitionCamera(new THREE.Vector3(0, 50, 410), new THREE.Vector3(0, 50, 0));
       controls.autoRotate = false;
       document.getElementById('btn-auto-rotate').classList.remove('active');
     };
     document.getElementById('btn-cam-top').onclick = () => {
-      camera.position.set(0, 430, 0.1);
-      controls.target.set(0, 30, 0);
+      smoothTransitionCamera(new THREE.Vector3(0, 430, 0.1), new THREE.Vector3(0, 30, 0));
       controls.autoRotate = false;
       document.getElementById('btn-auto-rotate').classList.remove('active');
     };
     document.getElementById('btn-cam-side').onclick = () => {
-      camera.position.set(420, 50, 0);
-      controls.target.set(0, 50, 0);
+      smoothTransitionCamera(new THREE.Vector3(420, 50, 0), new THREE.Vector3(0, 50, 0));
       controls.autoRotate = false;
       document.getElementById('btn-auto-rotate').classList.remove('active');
     };
@@ -3017,30 +3329,32 @@ const htmlContent = `<!DOCTYPE html>
       e.target.classList.toggle('active', controls.autoRotate);
     };
 
-    // Zoom Buttons & Smooth Range Slider
+    // Smooth Animated Zoom Buttons & Distance Range Slider
     const zoomSlider = document.getElementById('cam-zoom-slider');
     document.getElementById('btn-zoom-in').onclick = () => {
       const curDist = camera.position.distanceTo(controls.target);
-      const newDist = Math.max(controls.minDistance, curDist * 0.8);
+      const newDist = Math.max(controls.minDistance, curDist * 0.75);
       const dir = camera.position.clone().sub(controls.target).normalize();
-      camera.position.copy(controls.target).addScaledVector(dir, newDist);
+      const newPos = controls.target.clone().addScaledVector(dir, newDist);
+      smoothTransitionCamera(newPos, controls.target);
     };
     document.getElementById('btn-zoom-out').onclick = () => {
       const curDist = camera.position.distanceTo(controls.target);
-      const newDist = Math.min(controls.maxDistance, curDist * 1.25);
+      const newDist = Math.min(controls.maxDistance, curDist * 1.30);
       const dir = camera.position.clone().sub(controls.target).normalize();
-      camera.position.copy(controls.target).addScaledVector(dir, newDist);
+      const newPos = controls.target.clone().addScaledVector(dir, newDist);
+      smoothTransitionCamera(newPos, controls.target);
     };
     zoomSlider.addEventListener('input', () => {
       const targetDist = parseFloat(zoomSlider.value);
       const dir = camera.position.clone().sub(controls.target).normalize();
-      camera.position.copy(controls.target).addScaledVector(dir, targetDist);
+      const newPos = controls.target.clone().addScaledVector(dir, targetDist);
+      smoothTransitionCamera(newPos, controls.target);
     });
 
     // Reset Camera
     document.getElementById('btn-reset-cam').onclick = () => {
-      camera.position.set(240, 180, 290);
-      controls.target.set(0, 42, 0);
+      smoothTransitionCamera(new THREE.Vector3(240, 180, 290), new THREE.Vector3(0, 42, 0));
       controls.autoRotate = false;
       document.getElementById('btn-auto-rotate').classList.remove('active');
     };
@@ -3086,7 +3400,7 @@ const htmlContent = `<!DOCTYPE html>
         if (node.isMesh && node !== basePlate && node !== meshNodes.glassPanel && node !== meshNodes.aioScreenMesh) {
           if (thermalMode) {
             node.userData.originalMat = node.material;
-            const heatColor = currentCpuTemp > 80 ? 0xef4444 : currentCpuTemp > 65 ? 0xf59e0b : 0x06b6d4;
+            const heatColor = currentCpuTemp > 80 ? 0xef4444 : currentCpuTemp > 65 ? 0xf59e0b : 0x22c55e;
             node.material = new THREE.MeshBasicMaterial({ color: heatColor, wireframe: false });
           } else if (node.userData.originalMat) {
             node.material = node.userData.originalMat;
@@ -3103,11 +3417,14 @@ const htmlContent = `<!DOCTYPE html>
       showToast(showGlass ? 'Mounted Smoked Tempered Glass' : 'Removed Tempered Glass');
     };
 
-    // Stress Test
+    // Stress Test (Compact text so it never overflows)
     document.getElementById('btn-stress').onclick = (e) => {
       stressActive = !stressActive;
       e.target.classList.toggle('active', stressActive);
-      e.target.textContent = stressActive ? 'STRESSING 100%' : 'STRESS TEST 100%';
+      e.target.textContent = stressActive ? 'STRESSING' : 'STRESS 100%';
+
+      const prevCpu = currentCpuTemp;
+      const prevGpu = currentGpuTemp;
 
       if (stressActive) {
         currentCpuTemp = 82;
@@ -3120,17 +3437,17 @@ const htmlContent = `<!DOCTYPE html>
         currentCpuTemp = 36;
         currentGpuTemp = 32;
         if (meshNodes.gpuLogoMat) {
-          meshNodes.gpuLogoMat.color.setHex(0x00f0ff);
-          meshNodes.gpuLogoMat.emissive.setHex(0x00f0ff);
+          meshNodes.gpuLogoMat.color.setHex(0x10f06a);
+          meshNodes.gpuLogoMat.emissive.setHex(0x10f06a);
         }
       }
-      document.getElementById('telem-thermal-cpu').textContent = currentCpuTemp;
-      document.getElementById('telem-thermal-gpu').textContent = currentGpuTemp;
+      animateRollingNumber(document.getElementById('telem-thermal-cpu'), prevCpu, currentCpuTemp, 400, v => Math.round(v));
+      animateRollingNumber(document.getElementById('telem-thermal-gpu'), prevGpu, currentGpuTemp, 400, v => Math.round(v));
       updateAioLcdDisplay();
       if (activeTab === 'thermal') renderThermalBenchView();
     };
 
-    // Animation Loop
+    // Animation Loop with Smooth Camera Dampening
     let lastTime = performance.now();
     function animate() {
       requestAnimationFrame(animate);
@@ -3138,7 +3455,18 @@ const htmlContent = `<!DOCTYPE html>
       const dt = (now - lastTime) / 1000;
       lastTime = now;
 
-      controls.update();
+      if (isCameraTransitioning) {
+        camera.position.lerp(targetCameraPos, 0.08);
+        controls.target.lerp(targetCameraTarget, 0.08);
+        controls.update();
+        if (camera.position.distanceTo(targetCameraPos) < 0.6 && controls.target.distanceTo(targetCameraTarget) < 0.6) {
+          camera.position.copy(targetCameraPos);
+          controls.target.copy(targetCameraTarget);
+          isCameraTransitioning = false;
+        }
+      } else {
+        controls.update();
+      }
 
       // Sync Zoom Slider with Current Camera Distance
       const curDist = camera.position.distanceTo(controls.target);
