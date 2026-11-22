@@ -69,9 +69,9 @@
     .zoom-btn { font-size: 13px; font-weight: 900; padding: 4px 7px; }
 
     /* Floating Re-Open Pills (When panels are closed) */
-    .floating-reopen-btn { position: absolute; z-index: 15; background: var(--bg-panel); border: 1px solid var(--accent-cyan); color: #fff; padding: 8px 14px; border-radius: 8px; font-family: var(--font-display); font-size: 11px; font-weight: 700; cursor: pointer; display: none; align-items: center; gap: 8px; box-shadow: 0 8px 24px rgba(16, 240, 106, 0.2); backdrop-filter: blur(16px); transition: all 0.2s; }
+    .floating-reopen-btn { position: absolute; z-index: 15; background: rgba(8, 14, 10, 0.95); border: 1px solid #10f06a; color: #ffffff; padding: 8px 16px; border-radius: 8px; font-family: var(--font-display); font-size: 11px; font-weight: 700; cursor: pointer; display: none; align-items: center; gap: 8px; box-shadow: 0 8px 24px rgba(0, 0, 0, 0.6), 0 0 12px rgba(16, 240, 106, 0.25); backdrop-filter: blur(16px); transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1); }
     .floating-reopen-btn:hover { background: var(--accent-cyan); color: #000; transform: translateY(-2px); }
-    .floating-reopen-btn.right-edge { top: 72px; right: 16px; }
+    .floating-reopen-btn.right-edge { top: 74px; right: 16px; }
     .floating-reopen-btn.bottom-edge { bottom: 58px; left: 16px; }
     .reopen-badge { background: rgba(16, 240, 106, 0.2); color: var(--accent-cyan); font-family: var(--font-mono); font-size: 10px; padding: 2px 6px; border-radius: 4px; }
     .floating-reopen-btn:hover .reopen-badge { background: #000; color: #fff; }
@@ -162,7 +162,26 @@
 
     /* Game Row Cards inside Benchmark Panel */
     .game-bench-feed { display: flex; flex-direction: column; gap: 10px; padding-bottom: 20px; }
-    .game-card-row { background: var(--bg-card); border: 1px solid var(--border-panel); border-radius: 8px; overflow: hidden; display: flex; flex-direction: column; gap: 0; transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.2s ease, box-shadow 0.2s ease; }
+    
+    .game-card { width: 234px; flex-shrink: 0; background: rgba(10, 16, 12, 0.95); border: 1px solid rgba(255, 255, 255, 0.10); border-radius: 8px; overflow: hidden; display: flex; flex-direction: column; transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.2s ease, box-shadow 0.25s ease; position: relative; }
+    .game-card:hover { transform: translateY(-3px) scale(1.02); border-color: #10f06a; box-shadow: 0 12px 28px rgba(0, 0, 0, 0.6), 0 0 16px rgba(16, 240, 106, 0.25); }
+    .game-banner-box { width: 100%; height: 72px; overflow: hidden; background: #000; position: relative; }
+    .game-banner-box img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.3s ease; }
+    .game-card:hover .game-banner-box img { transform: scale(1.05); }
+    .game-preset-tag { position: absolute; top: 6px; right: 6px; font-size: 8.5px; font-family: var(--font-mono); font-weight: 700; color: #a6ff00; background: rgba(0, 0, 0, 0.82); backdrop-filter: blur(8px); padding: 2px 7px; border-radius: 4px; border: 1px solid rgba(166, 255, 0, 0.35); z-index: 2; letter-spacing: 0.3px; text-transform: uppercase; }
+    .game-meta-box { padding: 9px 12px; display: flex; flex-direction: column; gap: 5px; }
+    .game-title { font-size: 11.5px; font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: #f8fafc; font-family: var(--font-sans); }
+    .game-fps-row { display: flex; justify-content: space-between; align-items: baseline; }
+    .game-fps { font-family: var(--font-mono); font-size: 20px; font-weight: 800; color: #ffffff; text-shadow: 0 0 10px rgba(16, 240, 106, 0.25); display: flex; align-items: baseline; gap: 3px; }
+    .game-fps-unit { font-size: 10.5px; color: #10f06a; font-weight: 700; }
+    .game-badge-load { font-size: 9.5px; font-family: var(--font-mono); font-weight: 700; color: #84cc16; }
+    .game-sub { display: flex; justify-content: space-between; font-size: 9px; font-family: var(--font-mono); color: var(--text-muted); margin-top: 1px; }
+    .bench-sub-stat { display: flex; align-items: baseline; gap: 4px; }
+    .stat-lbl { color: var(--text-dim); font-size: 8.5px; }
+    .stat-val { color: #cbd5e1; font-weight: 700; }
+    .bottle-bar { width: 100%; height: 3.5px; background: rgba(255, 255, 255, 0.08); border-radius: 2px; overflow: hidden; display: flex; margin-top: 3px; }
+    .bottle-fill { height: 100%; background: linear-gradient(90deg, #10f06a, #a6ff00); border-radius: 2px; transition: width 0.4s cubic-bezier(0.16, 1, 0.3, 1); }
+
     .game-card-row:hover { transform: translateY(-2px); border-color: #10f06a; box-shadow: 0 8px 24px rgba(16, 240, 106, 0.15); }
     .game-row-thumb { width: 100%; height: 74px; overflow: hidden; background: #000; position: relative; }
     .game-row-thumb img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.3s ease; }
@@ -341,7 +360,10 @@
   </div>
 
   <!-- Floating Re-Open Buttons when panels are closed -->
-
+  <button class="floating-reopen-btn right-edge" id="btn-reopen-sidebar">
+    <span>HARDWARE RIG</span>
+    <span class="rig-counter-badge" id="reopen-rig-badge"><span class="badge-num" id="reopen-badge-rig-count">8</span><span class="badge-sep">/</span><span class="badge-total">8</span></span>
+  </button>
   <button class="floating-reopen-btn bottom-edge" id="btn-reopen-bench">
     <span>GAMING BENCHMARKS</span>
     <span class="reopen-badge">FPS TELEMETRY</span>
@@ -371,10 +393,6 @@
           <span class="telem-val"><span id="telem-thermal-cpu">28</span><span class="telem-unit">°C</span> / <span id="telem-thermal-gpu">26</span><span class="telem-unit">°C</span></span>
         </div>
         <button class="compat-badge" id="compat-status-btn">Clearances Verified</button>
-        <button class="topbar-rig-toggle" id="btn-reopen-sidebar" title="Open Hardware Rig Workstation">
-          <span>HARDWARE RIG</span>
-          <span class="rig-counter-badge" id="reopen-rig-badge"><span class="badge-num" id="reopen-badge-rig-count">8</span><span class="badge-sep">/</span><span class="badge-total">8</span></span>
-        </button>
       </div>
     </div>
   </div>
@@ -3056,7 +3074,6 @@
         const prevCard = existingCards[g.gameName];
         const prevFps = prevCard ? (prevCard._prevFps || g.avgFps) : Math.round(g.avgFps * 0.75);
         const prevLow1 = prevCard ? (prevCard._prevLow1 || low1) : Math.round(low1 * 0.75);
-        const prevGpu = prevCard ? (prevCard._prevGpu || g.gpuBottleneckPct) : 50;
 
         const card = document.createElement('div');
         card.className = 'game-card';
@@ -3093,7 +3110,6 @@
           };
         }
 
-        // Animate rolling numbers smoothly
         const fpsEl = card.querySelector('.fps-num');
         const low1El = card.querySelector('.low1-val');
         animateRollingNumber(fpsEl, prevFps, g.avgFps, 420, v => Math.round(v));
@@ -3119,7 +3135,7 @@
 
     document.getElementById('btn-close-sidebar')?.addEventListener('click', () => {
       sidebar.classList.add('collapsed');
-      reopenSidebarBtn.style.display = 'inline-flex';
+      reopenSidebarBtn.style.display = 'flex';
       spatialHud.classList.add('expanded');
       benchTray.classList.add('expanded');
       viewportTools.classList.add('full-width');
@@ -3180,21 +3196,18 @@
       };
     });
 
-    // Quick Jump to FPS Benchmarks from Viewport Toolbar
+    // Toggle Floating Bottom FPS Benchmarks from Viewport Toolbar
     document.getElementById('btn-quick-bench')?.addEventListener('click', () => {
-      sidebar.classList.remove('collapsed');
-      reopenSidebarBtn.style.display = 'none';
-      document.querySelectorAll('.tab-switch-btn').forEach(b => b.classList.remove('active'));
-      const benchBtn = document.querySelector('.tab-switch-btn[data-tab="benchmarks"]');
-      if (benchBtn) benchBtn.classList.add('active');
-      activeTab = 'benchmarks';
-
-      const views = ['chosen', 'catalog', 'benchmarks', 'build', 'market'];
-      views.forEach(v => {
-        const el = document.getElementById('view-' + v);
-        if (el) el.style.display = (v === 'benchmarks') ? 'flex' : 'none';
-      });
-      renderBenchmarks();
+      const bTray = document.getElementById('benchmark-tray');
+      const bReopen = document.getElementById('btn-reopen-bench');
+      if (bTray) {
+        if (bTray.classList.contains('collapsed')) {
+          bTray.classList.remove('collapsed');
+          if (bReopen) bReopen.style.display = 'none';
+        } else {
+          bTray.scrollIntoView({ behavior: 'smooth' });
+        }
+      }
     });
 
     // Category Nav
@@ -3227,10 +3240,10 @@
         if (activeLightMode === 'studio') {
           ambientLight.color.setHex(0xffffff);
           ambientLight.intensity = 1.4;
-          keyLight.color.setHex(0xffffff);
-          keyLight.intensity = 2.2;
+          keyLight.color.setHex(0xfefefe);
+          keyLight.intensity = 2.0;
           rimLight.color.setHex(0xf1f5f9);
-          rimLight.intensity = 1.3;
+          rimLight.intensity = 1.1;
           scene.background.setHex(0x07090e);
         } else if (activeLightMode === 'ice') {
           ambientLight.color.setHex(0xe2e8f0);
@@ -3252,7 +3265,152 @@
       };
     });
 
-    // Animation Loop
+    // Smooth Animated Camera Angle Presets
+    document.getElementById('btn-cam-iso').onclick = () => {
+      smoothTransitionCamera(new THREE.Vector3(240, 180, 290), new THREE.Vector3(0, 42, 0));
+      controls.autoRotate = false;
+      document.getElementById('btn-auto-rotate').classList.remove('active');
+    };
+    document.getElementById('btn-cam-front').onclick = () => {
+      smoothTransitionCamera(new THREE.Vector3(0, 50, 410), new THREE.Vector3(0, 50, 0));
+      controls.autoRotate = false;
+      document.getElementById('btn-auto-rotate').classList.remove('active');
+    };
+    document.getElementById('btn-cam-top').onclick = () => {
+      smoothTransitionCamera(new THREE.Vector3(0, 430, 0.1), new THREE.Vector3(0, 30, 0));
+      controls.autoRotate = false;
+      document.getElementById('btn-auto-rotate').classList.remove('active');
+    };
+    document.getElementById('btn-cam-side').onclick = () => {
+      smoothTransitionCamera(new THREE.Vector3(420, 50, 0), new THREE.Vector3(0, 50, 0));
+      controls.autoRotate = false;
+      document.getElementById('btn-auto-rotate').classList.remove('active');
+    };
+    document.getElementById('btn-auto-rotate').onclick = (e) => {
+      controls.autoRotate = !controls.autoRotate;
+      controls.autoRotateSpeed = 2.0;
+      e.target.classList.toggle('active', controls.autoRotate);
+    };
+
+    // Smooth Animated Zoom Buttons & Distance Range Slider
+    const zoomSlider = document.getElementById('cam-zoom-slider');
+    document.getElementById('btn-zoom-in').onclick = () => {
+      const curDist = camera.position.distanceTo(controls.target);
+      const newDist = Math.max(controls.minDistance, curDist * 0.75);
+      const dir = camera.position.clone().sub(controls.target).normalize();
+      const newPos = controls.target.clone().addScaledVector(dir, newDist);
+      smoothTransitionCamera(newPos, controls.target);
+    };
+    document.getElementById('btn-zoom-out').onclick = () => {
+      const curDist = camera.position.distanceTo(controls.target);
+      const newDist = Math.min(controls.maxDistance, curDist * 1.30);
+      const dir = camera.position.clone().sub(controls.target).normalize();
+      const newPos = controls.target.clone().addScaledVector(dir, newDist);
+      smoothTransitionCamera(newPos, controls.target);
+    };
+    zoomSlider.addEventListener('input', () => {
+      const targetDist = parseFloat(zoomSlider.value);
+      const dir = camera.position.clone().sub(controls.target).normalize();
+      const newPos = controls.target.clone().addScaledVector(dir, targetDist);
+      smoothTransitionCamera(newPos, controls.target);
+    });
+
+    // Reset Camera
+    document.getElementById('btn-reset-cam').onclick = () => {
+      smoothTransitionCamera(new THREE.Vector3(240, 180, 290), new THREE.Vector3(0, 42, 0));
+      controls.autoRotate = false;
+      document.getElementById('btn-auto-rotate').classList.remove('active');
+    };
+
+    // Toggle Labels Button & Hotkey L
+    function toggleLabelsState() {
+      showLabels = !showLabels;
+      const btn = document.getElementById('btn-toggle-labels');
+      btn.textContent = showLabels ? 'LABELS: ON' : 'LABELS: OFF';
+      btn.classList.toggle('active-cyan', showLabels);
+      showToast(showLabels ? '3D Floating Part Labels Shown' : '3D Part Labels Hidden');
+    }
+    document.getElementById('btn-toggle-labels').onclick = toggleLabelsState;
+    window.addEventListener('keydown', (e) => {
+      if (e.target.tagName === 'INPUT' || e.target.tagName === 'SELECT') return;
+      if (e.key === 'l' || e.key === 'L') {
+        toggleLabelsState();
+      }
+    });
+
+    // Exploded View
+    document.getElementById('btn-explode').onclick = (e) => {
+      exploded = !exploded;
+      e.target.classList.toggle('active', exploded);
+    };
+
+    // Wireframe
+    document.getElementById('btn-wireframe').onclick = (e) => {
+      wireframeMode = !wireframeMode;
+      e.target.classList.toggle('active', wireframeMode);
+      benchGroup.traverse(node => {
+        if (node.isMesh && node !== basePlate && node !== meshNodes.glassPanel && node !== meshNodes.aioScreenMesh) {
+          node.material.wireframe = wireframeMode;
+        }
+      });
+    };
+
+    // Thermal Heatmap
+    document.getElementById('btn-thermal').onclick = (e) => {
+      thermalMode = !thermalMode;
+      e.target.classList.toggle('active', thermalMode);
+      benchGroup.traverse(node => {
+        if (node.isMesh && node !== basePlate && node !== meshNodes.glassPanel && node !== meshNodes.aioScreenMesh) {
+          if (thermalMode) {
+            node.userData.originalMat = node.material;
+            const heatColor = currentCpuTemp > 80 ? 0xef4444 : currentCpuTemp > 65 ? 0xf59e0b : 0x22c55e;
+            node.material = new THREE.MeshBasicMaterial({ color: heatColor, wireframe: false });
+          } else if (node.userData.originalMat) {
+            node.material = node.userData.originalMat;
+          }
+        }
+      });
+    };
+
+    // Side Glass Toggle
+    document.getElementById('btn-glass').onclick = (e) => {
+      showGlass = !showGlass;
+      e.target.classList.toggle('active', showGlass);
+      buildGlassPanel();
+      showToast(showGlass ? 'Mounted Smoked Tempered Glass' : 'Removed Tempered Glass');
+    };
+
+    // Stress Test (Compact text so it never overflows)
+    document.getElementById('btn-stress').onclick = (e) => {
+      stressActive = !stressActive;
+      e.target.classList.toggle('active', stressActive);
+      e.target.textContent = stressActive ? 'STRESSING' : 'STRESS 100%';
+
+      const prevCpu = currentCpuTemp;
+      const prevGpu = currentGpuTemp;
+
+      if (stressActive) {
+        currentCpuTemp = 82;
+        currentGpuTemp = 74;
+        if (meshNodes.gpuLogoMat) {
+          meshNodes.gpuLogoMat.color.setHex(0xef4444);
+          meshNodes.gpuLogoMat.emissive.setHex(0xef4444);
+        }
+      } else {
+        currentCpuTemp = 36;
+        currentGpuTemp = 32;
+        if (meshNodes.gpuLogoMat) {
+          meshNodes.gpuLogoMat.color.setHex(0x10f06a);
+          meshNodes.gpuLogoMat.emissive.setHex(0x10f06a);
+        }
+      }
+      animateRollingNumber(document.getElementById('telem-thermal-cpu'), prevCpu, currentCpuTemp, 400, v => Math.round(v));
+      animateRollingNumber(document.getElementById('telem-thermal-gpu'), prevGpu, currentGpuTemp, 400, v => Math.round(v));
+      updateAioLcdDisplay();
+      if (activeTab === 'thermal') renderThermalBenchView();
+    };
+
+    // Animation Loop with Smooth Camera Dampening
     let lastTime = performance.now();
     function animate() {
       requestAnimationFrame(animate);
@@ -3260,7 +3418,18 @@
       const dt = (now - lastTime) / 1000;
       lastTime = now;
 
-      controls.update();
+      if (isCameraTransitioning) {
+        camera.position.lerp(targetCameraPos, 0.08);
+        controls.target.lerp(targetCameraTarget, 0.08);
+        controls.update();
+        if (camera.position.distanceTo(targetCameraPos) < 0.6 && controls.target.distanceTo(targetCameraTarget) < 0.6) {
+          camera.position.copy(targetCameraPos);
+          controls.target.copy(targetCameraTarget);
+          isCameraTransitioning = false;
+        }
+      } else {
+        controls.update();
+      }
 
       // Sync Zoom Slider with Current Camera Distance
       const curDist = camera.position.distanceTo(controls.target);
