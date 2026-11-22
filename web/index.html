@@ -109,6 +109,13 @@
       100% { opacity: 1; transform: scale(1) translateY(0); }
     }
     .panel-view.tab-entering { animation: panelZoomFadeIn 0.30s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+    /* Live Steam Store Badge */
+    .online-live-badge { background: rgba(16, 240, 106, 0.22) !important; color: #10f06a !important; border: 1px solid rgba(16, 240, 106, 0.5) !important; display: inline-flex; align-items: center; gap: 4px; }
+    .live-dot { width: 5px; height: 5px; border-radius: 50%; background: #10f06a; box-shadow: 0 0 6px #10f06a; display: inline-block; animation: livePulse 1.2s infinite ease-in-out; }
+    @keyframes livePulse {
+      0%, 100% { transform: scale(1); opacity: 1; }
+      50% { transform: scale(1.4); opacity: 0.6; }
+    }
     /* Dedicated Sidebar Games & Benchmarks View */
     .sidebar-bench-container { padding: 12px; display: flex; flex-direction: column; gap: 12px; }
     .sidebar-bench-header { background: rgba(0, 0, 0, 0.45); border: 1px solid rgba(16, 240, 106, 0.2); border-radius: 8px; padding: 10px; display: flex; flex-direction: column; gap: 8px; }
@@ -701,29 +708,45 @@
 
     // Verified Steam CDN Capsule Artwork
     const STEAM_GAME_ASSETS = {
+      "Sons of the Forest": { appId: 1326400, header: "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/1326400/header.jpg", genre: "Survival Horror" },
       "Cyberpunk 2077": { appId: 1091500, header: "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/1091500/header.jpg", genre: "Ray Tracing Ultra" },
       "Black Myth: Wukong": { appId: 2358720, header: "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/2358720/header.jpg", genre: "Unreal Engine 5" },
       "Counter-Strike 2": { appId: 730, header: "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/730/header.jpg", genre: "Competitive Esports" },
       "Red Dead Redemption 2": { appId: 1174180, header: "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/1174180/header.jpg", genre: "Open World Ultra" },
-      "Shadow of the Tomb Raider": { appId: 750920, header: "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/750920/header.jpg", genre: "Action Adventure" },
-      "Hogwarts Legacy": { appId: 990080, header: "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/990080/header.jpg", genre: "Action RPG" },
       "Grand Theft Auto V": { appId: 271590, header: "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/271590/header.jpg", genre: "Open World" },
+      "Elden Ring": { appId: 1245620, header: "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/1245620/header.jpg", genre: "Action RPG" },
+      "Baldur's Gate 3": { appId: 1086940, header: "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/1086940/header.jpg", genre: "Turn-Based RPG" },
+      "Helldivers 2": { appId: 553850, header: "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/553850/header.jpg", genre: "Galactic Co-Op" },
+      "Call of Duty: Warzone": { appId: 1938090, header: "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/1938090/header.jpg", genre: "Battle Royale" },
       "Fortnite": { appId: null, header: "https://images.unsplash.com/photo-1589241062272-c0a000072dfa?w=460&auto=format&fit=crop&q=80", genre: "Battle Royale" },
       "Valorant": { appId: null, header: "https://images.unsplash.com/photo-1542751371-adc38448a05e?w=460&auto=format&fit=crop&q=80", genre: "Tactical FPS" },
-      "Elden Ring": { appId: 1245620, header: "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/1245620/header.jpg", genre: "Action RPG" },
-      "Call of Duty: Warzone": { appId: 1938090, header: "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/1938090/header.jpg", genre: "Battle Royale" },
-      "Baldur's Gate 3": { appId: 1086940, header: "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/1086940/header.jpg", genre: "Turn-Based RPG" },
-      "Alan Wake 2": { appId: null, header: "https://images.unsplash.com/photo-1518709268805-4e9042af9f23?w=460&auto=format&fit=crop&q=80", genre: "Survival Horror" },
       "Apex Legends": { appId: 1172470, header: "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/1172470/header.jpg", genre: "Competitive BR" },
       "Forza Horizon 5": { appId: 1551360, header: "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/1551360/header.jpg", genre: "Open World Racing" },
       "Starfield": { appId: 1716740, header: "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/1716740/header.jpg", genre: "Space RPG" },
+      "Hogwarts Legacy": { appId: 990080, header: "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/990080/header.jpg", genre: "Action RPG" },
+      "Shadow of the Tomb Raider": { appId: 750920, header: "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/750920/header.jpg", genre: "Action Adventure" },
       "Marvel's Spider-Man Remastered": { appId: 1817070, header: "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/1817070/header.jpg", genre: "Action Adventure" },
       "God of War": { appId: 1593500, header: "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/1593500/header.jpg", genre: "Mythological Action" },
       "Rainbow Six Siege": { appId: 359550, header: "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/359550/header.jpg", genre: "Tactical FPS" },
       "Overwatch 2": { appId: 2357570, header: "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/2357570/header.jpg", genre: "Hero Shooter" },
       "The Witcher 3 Next-Gen": { appId: 292030, header: "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/292030/header.jpg", genre: "Next-Gen RPG" },
-      "Helldivers 2": { appId: 553850, header: "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/553850/header.jpg", genre: "Galactic Co-Op" },
       "Resident Evil 4 Remake": { appId: 2050650, header: "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/2050650/header.jpg", genre: "Survival Horror" },
+      "Warhammer 40,000: Space Marine 2": { appId: 2183900, header: "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/2183900/header.jpg", genre: "Action Shooter" },
+      "Ghost of Tsushima": { appId: 2215430, header: "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/2215430/header.jpg", genre: "Action Adventure" },
+      "The Last of Us Part I": { appId: 1888930, header: "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/1888930/header.jpg", genre: "Survival Action" },
+      "Horizon Forbidden West": { appId: 2420110, header: "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/2420110/header.jpg", genre: "Open World Action" },
+      "Palworld": { appId: 1623730, header: "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/1623730/header.jpg", genre: "Survival Craft" },
+      "Rust": { appId: 252490, header: "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/252490/header.jpg", genre: "Survival PvP" },
+      "Dragon's Dogma 2": { appId: 2054970, header: "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/2054970/header.jpg", genre: "Action RPG" },
+      "Dying Light 2 Stay Human": { appId: 534380, header: "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/534380/header.jpg", genre: "Ray Tracing Action" },
+      "Alan Wake 2": { appId: null, header: "https://images.unsplash.com/photo-1518709268805-4e9042af9f23?w=460&auto=format&fit=crop&q=80", genre: "Survival Horror" },
+      "Dead Space Remake": { appId: 1693980, header: "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/1693980/header.jpg", genre: "Sci-Fi Horror" },
+      "Microsoft Flight Simulator": { appId: 1250410, header: "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/1250410/header.jpg", genre: "Flight Simulation" },
+      "ARK: Survival Ascended": { appId: 2399830, header: "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/2399830/header.jpg", genre: "Survival Adventure" },
+      "Escape from Tarkov": { appId: null, header: "https://images.unsplash.com/photo-1542751371-adc38448a05e?w=460&auto=format&fit=crop&q=80", genre: "Hardcore FPS" },
+      "Diablo IV": { appId: 2344520, header: "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/2344520/header.jpg", genre: "Action RPG" },
+      "DOOM Eternal": { appId: 782330, header: "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/782330/header.jpg", genre: "Fast-Paced FPS" },
+      "Hunt: Showdown 1896": { appId: 594650, header: "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/594650/header.jpg", genre: "Extraction Shooter" },
       "Minecraft RTX": { appId: null, header: "https://images.unsplash.com/photo-1627856013091-fed6e4e30025?w=460&auto=format&fit=crop&q=80", genre: "Ray Traced Sandbox" }
     };
 
@@ -3125,45 +3148,10 @@
     }
 
     // Render Steam Benchmarks & Dedicated Sidebar Games View
-    function renderBenchmarks() {
+    let onlineSearchDebounce = null;
+
+    function renderGameCards(gamesList, isOnline = false) {
       const grid = document.getElementById('game-grid');
-      const bottomInput = document.getElementById('game-search-input');
-      const sidebarInput = document.getElementById('sidebar-game-search');
-      const query = ((bottomInput && bottomInput.value) || (sidebarInput && sidebarInput.value) || '').toLowerCase().trim();
-
-      let filtered = currentBenchmarkList.filter(g => {
-        if (!query) return true;
-        return (g.gameName || '').toLowerCase().includes(query) || (g.qualityPreset || '').toLowerCase().includes(query);
-      });
-
-      // Dynamic Simulation Fallback: If unlisted game is searched (e.g. Roblox, Crysis), compute simulated performance
-      if (filtered.length === 0 && query.length > 0) {
-        const cleanName = query.split(' ').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
-        let baseGpuPower = 110;
-        if (activeBuild.gpu) {
-          const gid = (activeBuild.gpu.id || '').toLowerCase();
-          if (gid.includes('4090')) baseGpuPower = 180;
-          else if (gid.includes('4080')) baseGpuPower = 145;
-          else if (gid.includes('4070') || gid.includes('7900')) baseGpuPower = 120;
-          else if (gid.includes('4060') || gid.includes('7600')) baseGpuPower = 85;
-        }
-        const resScale = currentResolution === '4k' ? 0.55 : (currentResolution === '1080p' ? 1.4 : 1.0);
-        const estFps = Math.round(baseGpuPower * resScale);
-        const estLow1 = Math.round(estFps * 0.76);
-        const estGpuBottle = currentResolution === '4k' ? 96 : (currentResolution === '1440p' ? 84 : 68);
-
-        filtered = [{
-          gameName: cleanName,
-          avgFps: estFps,
-          low1pctFps: estLow1,
-          gpuBottleneckPct: estGpuBottle,
-          qualityPreset: 'Simulated High/Ultra'
-        }];
-      }
-
-      // Update Dedicated Sidebar View simultaneously
-      renderSidebarGamesView(filtered);
-
       if (!grid) return;
 
       const existingCards = {};
@@ -3173,11 +3161,12 @@
 
       grid.innerHTML = '';
 
-      filtered.forEach(g => {
+      gamesList.forEach(g => {
         const steamMeta = STEAM_GAME_ASSETS[g.gameName] || {
-          header: 'https://images.unsplash.com/photo-1542751371-adc38448a05e?w=300&auto=format&fit=crop&q=80'
+          header: g.header || 'https://images.unsplash.com/photo-1542751371-adc38448a05e?w=300&auto=format&fit=crop&q=80'
         };
 
+        const headerImg = g.header || steamMeta.header;
         const low1 = g.low1pctFps ?? g.low1PctFps ?? Math.round(g.avgFps * 0.74);
         const prevCard = existingCards[g.gameName];
         const prevFps = prevCard ? (prevCard._prevFps || g.avgFps) : Math.round(g.avgFps * 0.75);
@@ -3190,10 +3179,14 @@
         card._prevLow1 = low1;
         card._prevGpu = g.gpuBottleneckPct;
 
+        const badgeHtml = isOnline || g.isOnlineLive
+          ? '<span class="game-preset-tag online-live-badge"><span class="live-dot"></span> STEAM LIVE</span>'
+          : '<span class="game-preset-tag">' + (g.qualityPreset || 'Ultra') + '</span>';
+
         card.innerHTML =
           '<div class="game-banner-box">' +
-            '<img src="' + steamMeta.header + '" alt="' + g.gameName + '" />' +
-            '<span class="game-preset-tag">' + (g.qualityPreset || 'Ultra') + '</span>' +
+            '<img src="' + headerImg + '" alt="' + g.gameName + '" />' +
+            badgeHtml +
           '</div>' +
           '<div class="game-meta-box">' +
             '<div class="game-title" title="' + g.gameName + '">' + g.gameName + '</div>' +
@@ -3225,8 +3218,67 @@
       });
     }
 
+    function triggerOnlineSteamSearch(query) {
+      if (!query || query.length < 2) return;
+      if (onlineSearchDebounce) clearTimeout(onlineSearchDebounce);
 
-    // Render Dedicated Sidebar Games View
+      onlineSearchDebounce = setTimeout(async () => {
+        try {
+          const gpuId = (activeBuild.gpu && activeBuild.gpu.id) ? activeBuild.gpu.id : '';
+          const res = await fetch('/api/games/online?query=' + encodeURIComponent(query) + '&resolution=' + encodeURIComponent(currentResolution) + '&gpu=' + encodeURIComponent(gpuId));
+          if (!res.ok) return;
+          const onlineGames = await res.json();
+          if (!Array.isArray(onlineGames) || onlineGames.length === 0) return;
+
+          const bottomInput = document.getElementById('game-search-input');
+          const sidebarInput = document.getElementById('sidebar-game-search');
+          const currentQ = ((bottomInput && bottomInput.value) || (sidebarInput && sidebarInput.value) || '').toLowerCase().trim();
+          if (currentQ !== query) return;
+
+          renderGameCards(onlineGames, true);
+          renderSidebarGamesView(onlineGames);
+        } catch (e) {
+          console.warn('Steam live online search:', e);
+        }
+      }, 250);
+    }
+
+    // Render Steam Benchmarks & Dedicated Sidebar Games View
+    function renderBenchmarks() {
+      const grid = document.getElementById('game-grid');
+      const bottomInput = document.getElementById('game-search-input');
+      const sidebarInput = document.getElementById('sidebar-game-search');
+      const query = ((bottomInput && bottomInput.value) || (sidebarInput && sidebarInput.value) || '').toLowerCase().trim();
+
+      let filtered = currentBenchmarkList;
+      if (query) {
+        const tokens = query.split(/s+/).filter(t => t.length >= 2 && t !== 'of' && t !== 'the' && t !== 'th' && t !== 'in');
+        filtered = currentBenchmarkList.filter(g => {
+          const name = (g.gameName || '').toLowerCase();
+          const preset = (g.qualityPreset || '').toLowerCase();
+          if (name.includes(query) || preset.includes(query)) return true;
+          if (tokens.length > 0 && tokens.every(tok => name.includes(tok))) return true;
+          return false;
+        });
+
+        // Trigger live Steam Online API search in background
+        triggerOnlineSteamSearch(query);
+      }
+
+      // Update Dedicated Sidebar View simultaneously
+      renderSidebarGamesView(filtered);
+
+      if (!grid) return;
+
+      if (filtered.length === 0) {
+        grid.innerHTML = '<div style="padding:22px; color:var(--text-muted); font-family:var(--font-mono); font-size:12px; display:flex; align-items:center; gap:8px;">Searching Steam Store online for "' + query + '"...</div>';
+        return;
+      }
+
+      renderGameCards(filtered, false);
+    }
+
+        // Render Dedicated Sidebar Games View
     function renderSidebarGamesView(gamesList) {
       const feed = document.getElementById('sidebar-game-list');
       if (!feed) return;
@@ -3252,19 +3304,25 @@
       feed.innerHTML = '';
       games.forEach(g => {
         const steamMeta = STEAM_GAME_ASSETS[g.gameName] || {
-          header: 'https://images.unsplash.com/photo-1542751371-adc38448a05e?w=460&auto=format&fit=crop&q=80',
+          header: g.header || 'https://images.unsplash.com/photo-1542751371-adc38448a05e?w=460&auto=format&fit=crop&q=80',
           genre: 'Gaming'
         };
 
+        const headerImg = g.header || steamMeta.header;
         const low1 = g.low1pctFps ?? g.low1PctFps ?? Math.round(g.avgFps * 0.74);
         const card = document.createElement('div');
         card.className = 'sidebar-game-card';
+
+        const badgeHtml = g.isOnlineLive
+          ? '<span class="sidebar-game-preset online-live-badge"><span class="live-dot"></span> STEAM LIVE</span>'
+          : '<span class="sidebar-game-preset">' + (g.qualityPreset || 'Ultra') + '</span>';
+
         card.innerHTML = 
           '<div class="sidebar-game-banner">' +
-            '<img src="' + steamMeta.header + '" alt="' + g.gameName + '" />' +
+            '<img src="' + headerImg + '" alt="' + g.gameName + '" />' +
             '<div class="sidebar-game-banner-overlay">' +
               '<div class="sidebar-game-title" title="' + g.gameName + '">' + g.gameName + '</div>' +
-              '<span class="sidebar-game-preset">' + (g.qualityPreset || 'Ultra') + '</span>' +
+              badgeHtml +
             '</div>' +
           '</div>' +
           '<div class="sidebar-game-body">' +
@@ -3289,7 +3347,7 @@
       });
     }
 
-    // Sleek Custom Floating Carousel Chevrons
+// Sleek Custom Floating Carousel Chevrons
     document.getElementById('tray-nav-left')?.addEventListener('click', () => {
       gameGrid.scrollBy({ left: -360, behavior: 'smooth' });
     });

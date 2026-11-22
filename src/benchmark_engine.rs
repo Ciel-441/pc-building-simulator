@@ -1,7 +1,7 @@
 use crate::types::{BuildConfiguration, GameBenchmark};
 
 pub fn simulate_benchmarks(build: &BuildConfiguration, resolution: &str) -> Vec<GameBenchmark> {
-    let mut benchmarks = Vec::with_capacity(24);
+    let mut benchmarks = Vec::with_capacity(40);
 
     // 1. GPU Compute Index (Base 100 = RTX 4070 Super)
     let gpu_index = if let Some(ref gpu) = build.gpu {
@@ -87,315 +87,484 @@ pub fn simulate_benchmarks(build: &BuildConfiguration, resolution: &str) -> Vec<
         )
     };
 
-    // Game 1: Cyberpunk 2077
-    let (cp_fps, cp_1pct, cp_cpu, cp_gpu) = calc_fps(98, false, res_scale_pct);
+    // Game 1: Sons of the Forest
+    let (g0_fps, g0_1pct, g0_cpu, g0_gpu) = calc_fps(110, false, res_scale_pct + 2);
+    benchmarks.push(GameBenchmark::new(
+        "Sons of the Forest",
+        res_width,
+        res_height,
+        g0_fps,
+        g0_1pct,
+        g0_cpu,
+        g0_gpu,
+        "Ultra Preset",
+    ));
+    // Game 2: Cyberpunk 2077
+    let (g1_fps, g1_1pct, g1_cpu, g1_gpu) = calc_fps(98, false, res_scale_pct);
     benchmarks.push(GameBenchmark::new(
         "Cyberpunk 2077",
         res_width,
         res_height,
-        cp_fps,
-        cp_1pct,
-        cp_cpu,
-        cp_gpu,
+        g1_fps,
+        g1_1pct,
+        g1_cpu,
+        g1_gpu,
         "Ray Tracing Ultra",
     ));
-
-    // Game 2: Black Myth: Wukong
-    let (bm_fps, bm_1pct, bm_cpu, bm_gpu) = calc_fps(86, false, res_scale_pct);
+    // Game 3: Black Myth: Wukong
+    let (g2_fps, g2_1pct, g2_cpu, g2_gpu) = calc_fps(86, false, res_scale_pct);
     benchmarks.push(GameBenchmark::new(
         "Black Myth: Wukong",
         res_width,
         res_height,
-        bm_fps,
-        bm_1pct,
-        bm_cpu,
-        bm_gpu,
+        g2_fps,
+        g2_1pct,
+        g2_cpu,
+        g2_gpu,
         "Cinematic TSR",
     ));
-
-    // Game 3: Counter-Strike 2
-    let (cs_fps, cs_1pct, cs_cpu, cs_gpu) = calc_fps(350, true, res_scale_pct);
+    // Game 4: Counter-Strike 2
+    let (g3_fps, g3_1pct, g3_cpu, g3_gpu) = calc_fps(350, true, res_scale_pct);
     benchmarks.push(GameBenchmark::new(
         "Counter-Strike 2",
         res_width,
         res_height,
-        cs_fps,
-        cs_1pct,
-        cs_cpu,
-        cs_gpu,
+        g3_fps,
+        g3_1pct,
+        g3_cpu,
+        g3_gpu,
         "Competitive Max",
     ));
-
-    // Game 4: Red Dead Redemption 2
-    let (rd_fps, rd_1pct, rd_cpu, rd_gpu) = calc_fps(125, false, res_scale_pct + 4);
+    // Game 5: Red Dead Redemption 2
+    let (g4_fps, g4_1pct, g4_cpu, g4_gpu) = calc_fps(125, false, res_scale_pct + 4);
     benchmarks.push(GameBenchmark::new(
         "Red Dead Redemption 2",
         res_width,
         res_height,
-        rd_fps,
-        rd_1pct,
-        rd_cpu,
-        rd_gpu,
-        "Ultra",
+        g4_fps,
+        g4_1pct,
+        g4_cpu,
+        g4_gpu,
+        "Ultra Preset",
     ));
-
-    // Game 5: Shadow of the Tomb Raider
-    let (tr_fps, tr_1pct, tr_cpu, tr_gpu) = calc_fps(185, false, res_scale_pct + 3);
-    benchmarks.push(GameBenchmark::new(
-        "Shadow of the Tomb Raider",
-        res_width,
-        res_height,
-        tr_fps,
-        tr_1pct,
-        tr_cpu,
-        tr_gpu,
-        "Highest Preset",
-    ));
-
-    // Game 6: Hogwarts Legacy
-    let (hw_fps, hw_1pct, hw_cpu, hw_gpu) = calc_fps(95, false, res_scale_pct);
-    benchmarks.push(GameBenchmark::new(
-        "Hogwarts Legacy",
-        res_width,
-        res_height,
-        hw_fps,
-        hw_1pct,
-        hw_cpu,
-        hw_gpu,
-        "Ultra Ray Tracing",
-    ));
-
-    // Game 7: Grand Theft Auto V / GTA V
-    let (gta_fps, gta_1pct, gta_cpu, gta_gpu) = calc_fps(195, false, res_scale_pct + 12);
+    // Game 6: Grand Theft Auto V
+    let (g5_fps, g5_1pct, g5_cpu, g5_gpu) = calc_fps(175, false, res_scale_pct + 5);
     benchmarks.push(GameBenchmark::new(
         "Grand Theft Auto V",
         res_width,
         res_height,
-        gta_fps,
-        gta_1pct,
-        gta_cpu,
-        gta_gpu,
+        g5_fps,
+        g5_1pct,
+        g5_cpu,
+        g5_gpu,
         "Very High / Ultra",
     ));
-
-    // Game 8: Fortnite
-    let (fn_fps, fn_1pct, fn_cpu, fn_gpu) = calc_fps(145, true, res_scale_pct + 5);
-    benchmarks.push(GameBenchmark::new(
-        "Fortnite",
-        res_width,
-        res_height,
-        fn_fps,
-        fn_1pct,
-        fn_cpu,
-        fn_gpu,
-        "Epic Nanite & Lumen",
-    ));
-
-    // Game 9: Valorant
-    let (val_fps, val_1pct, val_cpu, val_gpu) = calc_fps(420, true, res_scale_pct);
-    benchmarks.push(GameBenchmark::new(
-        "Valorant",
-        res_width,
-        res_height,
-        val_fps,
-        val_1pct,
-        val_cpu,
-        val_gpu,
-        "Competitive Max",
-    ));
-
-    // Game 10: Elden Ring
-    let (er_fps, er_1pct, er_cpu, er_gpu) = calc_fps(135, false, res_scale_pct + 2);
+    // Game 7: Elden Ring
+    let (g6_fps, g6_1pct, g6_cpu, g6_gpu) = calc_fps(105, false, res_scale_pct + 2);
     benchmarks.push(GameBenchmark::new(
         "Elden Ring",
         res_width,
         res_height,
-        er_fps,
-        er_1pct,
-        er_cpu,
-        er_gpu,
+        g6_fps,
+        g6_1pct,
+        g6_cpu,
+        g6_gpu,
         "Maximum Settings",
     ));
-
-    // Game 11: Call of Duty: Warzone
-    let (wz_fps, wz_1pct, wz_cpu, wz_gpu) = calc_fps(165, true, res_scale_pct);
-    benchmarks.push(GameBenchmark::new(
-        "Call of Duty: Warzone",
-        res_width,
-        res_height,
-        wz_fps,
-        wz_1pct,
-        wz_cpu,
-        wz_gpu,
-        "Competitive High",
-    ));
-
-    // Game 12: Baldur's Gate 3
-    let (bg_fps, bg_1pct, bg_cpu, bg_gpu) = calc_fps(130, false, res_scale_pct + 4);
+    // Game 8: Baldur's Gate 3
+    let (g7_fps, g7_1pct, g7_cpu, g7_gpu) = calc_fps(120, false, res_scale_pct + 3);
     benchmarks.push(GameBenchmark::new(
         "Baldur's Gate 3",
         res_width,
         res_height,
-        bg_fps,
-        bg_1pct,
-        bg_cpu,
-        bg_gpu,
-        "Ultra Vulkan",
-    ));
-
-    // Game 13: Alan Wake 2
-    let (aw_fps, aw_1pct, aw_cpu, aw_gpu) = calc_fps(72, false, res_scale_pct - 2);
-    benchmarks.push(GameBenchmark::new(
-        "Alan Wake 2",
-        res_width,
-        res_height,
-        aw_fps,
-        aw_1pct,
-        aw_cpu,
-        aw_gpu,
-        "Full Path Tracing",
-    ));
-
-    // Game 14: Apex Legends
-    let (apex_fps, apex_1pct, apex_cpu, apex_gpu) = calc_fps(240, true, res_scale_pct + 6);
-    benchmarks.push(GameBenchmark::new(
-        "Apex Legends",
-        res_width,
-        res_height,
-        apex_fps,
-        apex_1pct,
-        apex_cpu,
-        apex_gpu,
-        "Competitive Max",
-    ));
-
-    // Game 15: Forza Horizon 5
-    let (fz_fps, fz_1pct, fz_cpu, fz_gpu) = calc_fps(155, false, res_scale_pct + 6);
-    benchmarks.push(GameBenchmark::new(
-        "Forza Horizon 5",
-        res_width,
-        res_height,
-        fz_fps,
-        fz_1pct,
-        fz_cpu,
-        fz_gpu,
-        "Extreme Settings",
-    ));
-
-    // Game 16: Starfield
-    let (sf_fps, sf_1pct, sf_cpu, sf_gpu) = calc_fps(92, false, res_scale_pct);
-    benchmarks.push(GameBenchmark::new(
-        "Starfield",
-        res_width,
-        res_height,
-        sf_fps,
-        sf_1pct,
-        sf_cpu,
-        sf_gpu,
+        g7_fps,
+        g7_1pct,
+        g7_cpu,
+        g7_gpu,
         "Ultra Preset",
     ));
-
-    // Game 17: Marvel's Spider-Man Remastered
-    let (sm_fps, sm_1pct, sm_cpu, sm_gpu) = calc_fps(138, false, res_scale_pct + 2);
-    benchmarks.push(GameBenchmark::new(
-        "Marvel's Spider-Man Remastered",
-        res_width,
-        res_height,
-        sm_fps,
-        sm_1pct,
-        sm_cpu,
-        sm_gpu,
-        "Very High Ray Tracing",
-    ));
-
-    // Game 18: God of War
-    let (gow_fps, gow_1pct, gow_cpu, gow_gpu) = calc_fps(142, false, res_scale_pct + 3);
-    benchmarks.push(GameBenchmark::new(
-        "God of War",
-        res_width,
-        res_height,
-        gow_fps,
-        gow_1pct,
-        gow_cpu,
-        gow_gpu,
-        "Ultra Preset",
-    ));
-
-    // Game 19: Rainbow Six Siege
-    let (r6_fps, r6_1pct, r6_cpu, r6_gpu) = calc_fps(360, true, res_scale_pct + 10);
-    benchmarks.push(GameBenchmark::new(
-        "Rainbow Six Siege",
-        res_width,
-        res_height,
-        r6_fps,
-        r6_1pct,
-        r6_cpu,
-        r6_gpu,
-        "Ultra High Refresh",
-    ));
-
-    // Game 20: Overwatch 2
-    let (ow_fps, ow_1pct, ow_cpu, ow_gpu) = calc_fps(280, true, res_scale_pct + 8);
-    benchmarks.push(GameBenchmark::new(
-        "Overwatch 2",
-        res_width,
-        res_height,
-        ow_fps,
-        ow_1pct,
-        ow_cpu,
-        ow_gpu,
-        "Epic Settings",
-    ));
-
-    // Game 21: The Witcher 3: Wild Hunt
-    let (tw_fps, tw_1pct, tw_cpu, tw_gpu) = calc_fps(105, false, res_scale_pct);
-    benchmarks.push(GameBenchmark::new(
-        "The Witcher 3: Wild Hunt",
-        res_width,
-        res_height,
-        tw_fps,
-        tw_1pct,
-        tw_cpu,
-        tw_gpu,
-        "Next-Gen RT Ultra",
-    ));
-
-    // Game 22: Helldivers 2
-    let (hd_fps, hd_1pct, hd_cpu, hd_gpu) = calc_fps(115, false, res_scale_pct);
+    // Game 9: Helldivers 2
+    let (g8_fps, g8_1pct, g8_cpu, g8_gpu) = calc_fps(112, false, res_scale_pct + 1);
     benchmarks.push(GameBenchmark::new(
         "Helldivers 2",
         res_width,
         res_height,
-        hd_fps,
-        hd_1pct,
-        hd_cpu,
-        hd_gpu,
+        g8_fps,
+        g8_1pct,
+        g8_cpu,
+        g8_gpu,
         "Ultra Preset",
     ));
-
+    // Game 10: Call of Duty: Warzone
+    let (g9_fps, g9_1pct, g9_cpu, g9_gpu) = calc_fps(155, true, res_scale_pct);
+    benchmarks.push(GameBenchmark::new(
+        "Call of Duty: Warzone",
+        res_width,
+        res_height,
+        g9_fps,
+        g9_1pct,
+        g9_cpu,
+        g9_gpu,
+        "Competitive Ultra",
+    ));
+    // Game 11: Fortnite
+    let (g10_fps, g10_1pct, g10_cpu, g10_gpu) = calc_fps(135, true, res_scale_pct);
+    benchmarks.push(GameBenchmark::new(
+        "Fortnite",
+        res_width,
+        res_height,
+        g10_fps,
+        g10_1pct,
+        g10_cpu,
+        g10_gpu,
+        "UE5 Nanite/Lumen Epic",
+    ));
+    // Game 12: Valorant
+    let (g11_fps, g11_1pct, g11_cpu, g11_gpu) = calc_fps(450, true, res_scale_pct);
+    benchmarks.push(GameBenchmark::new(
+        "Valorant",
+        res_width,
+        res_height,
+        g11_fps,
+        g11_1pct,
+        g11_cpu,
+        g11_gpu,
+        "High Max Settings",
+    ));
+    // Game 13: Apex Legends
+    let (g12_fps, g12_1pct, g12_cpu, g12_gpu) = calc_fps(220, true, res_scale_pct + 2);
+    benchmarks.push(GameBenchmark::new(
+        "Apex Legends",
+        res_width,
+        res_height,
+        g12_fps,
+        g12_1pct,
+        g12_cpu,
+        g12_gpu,
+        "Very High / Max",
+    ));
+    // Game 14: Forza Horizon 5
+    let (g13_fps, g13_1pct, g13_cpu, g13_gpu) = calc_fps(145, false, res_scale_pct + 4);
+    benchmarks.push(GameBenchmark::new(
+        "Forza Horizon 5",
+        res_width,
+        res_height,
+        g13_fps,
+        g13_1pct,
+        g13_cpu,
+        g13_gpu,
+        "Extreme Settings",
+    ));
+    // Game 15: Starfield
+    let (g14_fps, g14_1pct, g14_cpu, g14_gpu) = calc_fps(88, false, res_scale_pct);
+    benchmarks.push(GameBenchmark::new(
+        "Starfield",
+        res_width,
+        res_height,
+        g14_fps,
+        g14_1pct,
+        g14_cpu,
+        g14_gpu,
+        "Ultra Preset",
+    ));
+    // Game 16: Hogwarts Legacy
+    let (g15_fps, g15_1pct, g15_cpu, g15_gpu) = calc_fps(95, false, res_scale_pct);
+    benchmarks.push(GameBenchmark::new(
+        "Hogwarts Legacy",
+        res_width,
+        res_height,
+        g15_fps,
+        g15_1pct,
+        g15_cpu,
+        g15_gpu,
+        "Ultra Ray Tracing",
+    ));
+    // Game 17: Shadow of the Tomb Raider
+    let (g16_fps, g16_1pct, g16_cpu, g16_gpu) = calc_fps(185, false, res_scale_pct + 3);
+    benchmarks.push(GameBenchmark::new(
+        "Shadow of the Tomb Raider",
+        res_width,
+        res_height,
+        g16_fps,
+        g16_1pct,
+        g16_cpu,
+        g16_gpu,
+        "Highest Preset",
+    ));
+    // Game 18: Marvel's Spider-Man Remastered
+    let (g17_fps, g17_1pct, g17_cpu, g17_gpu) = calc_fps(115, false, res_scale_pct + 2);
+    benchmarks.push(GameBenchmark::new(
+        "Marvel's Spider-Man Remastered",
+        res_width,
+        res_height,
+        g17_fps,
+        g17_1pct,
+        g17_cpu,
+        g17_gpu,
+        "Very High RT",
+    ));
+    // Game 19: God of War
+    let (g18_fps, g18_1pct, g18_cpu, g18_gpu) = calc_fps(128, false, res_scale_pct + 3);
+    benchmarks.push(GameBenchmark::new(
+        "God of War",
+        res_width,
+        res_height,
+        g18_fps,
+        g18_1pct,
+        g18_cpu,
+        g18_gpu,
+        "Ultra Settings",
+    ));
+    // Game 20: Rainbow Six Siege
+    let (g19_fps, g19_1pct, g19_cpu, g19_gpu) = calc_fps(360, true, res_scale_pct);
+    benchmarks.push(GameBenchmark::new(
+        "Rainbow Six Siege",
+        res_width,
+        res_height,
+        g19_fps,
+        g19_1pct,
+        g19_cpu,
+        g19_gpu,
+        "Ultra Preset",
+    ));
+    // Game 21: Overwatch 2
+    let (g20_fps, g20_1pct, g20_cpu, g20_gpu) = calc_fps(280, true, res_scale_pct);
+    benchmarks.push(GameBenchmark::new(
+        "Overwatch 2",
+        res_width,
+        res_height,
+        g20_fps,
+        g20_1pct,
+        g20_cpu,
+        g20_gpu,
+        "Epic Settings",
+    ));
+    // Game 22: The Witcher 3 Next-Gen
+    let (g21_fps, g21_1pct, g21_cpu, g21_gpu) = calc_fps(92, false, res_scale_pct);
+    benchmarks.push(GameBenchmark::new(
+        "The Witcher 3 Next-Gen",
+        res_width,
+        res_height,
+        g21_fps,
+        g21_1pct,
+        g21_cpu,
+        g21_gpu,
+        "Next-Gen RT Ultra",
+    ));
     // Game 23: Resident Evil 4 Remake
-    let (re_fps, re_1pct, re_cpu, re_gpu) = calc_fps(128, false, res_scale_pct + 2);
+    let (g22_fps, g22_1pct, g22_cpu, g22_gpu) = calc_fps(118, false, res_scale_pct + 2);
     benchmarks.push(GameBenchmark::new(
         "Resident Evil 4 Remake",
         res_width,
         res_height,
-        re_fps,
-        re_1pct,
-        re_cpu,
-        re_gpu,
+        g22_fps,
+        g22_1pct,
+        g22_cpu,
+        g22_gpu,
         "Max Ray Tracing",
     ));
-
-    // Game 24: Minecraft (RTX)
-    let (mc_fps, mc_1pct, mc_cpu, mc_gpu) = calc_fps(120, false, res_scale_pct + 4);
+    // Game 24: Warhammer 40,000: Space Marine 2
+    let (g23_fps, g23_1pct, g23_cpu, g23_gpu) = calc_fps(96, false, res_scale_pct);
+    benchmarks.push(GameBenchmark::new(
+        "Warhammer 40,000: Space Marine 2",
+        res_width,
+        res_height,
+        g23_fps,
+        g23_1pct,
+        g23_cpu,
+        g23_gpu,
+        "Ultra Preset",
+    ));
+    // Game 25: Ghost of Tsushima
+    let (g24_fps, g24_1pct, g24_cpu, g24_gpu) = calc_fps(122, false, res_scale_pct + 2);
+    benchmarks.push(GameBenchmark::new(
+        "Ghost of Tsushima",
+        res_width,
+        res_height,
+        g24_fps,
+        g24_1pct,
+        g24_cpu,
+        g24_gpu,
+        "Very High Preset",
+    ));
+    // Game 26: The Last of Us Part I
+    let (g25_fps, g25_1pct, g25_cpu, g25_gpu) = calc_fps(85, false, res_scale_pct);
+    benchmarks.push(GameBenchmark::new(
+        "The Last of Us Part I",
+        res_width,
+        res_height,
+        g25_fps,
+        g25_1pct,
+        g25_cpu,
+        g25_gpu,
+        "Ultra Preset",
+    ));
+    // Game 27: Horizon Forbidden West
+    let (g26_fps, g26_1pct, g26_cpu, g26_gpu) = calc_fps(104, false, res_scale_pct + 1);
+    benchmarks.push(GameBenchmark::new(
+        "Horizon Forbidden West",
+        res_width,
+        res_height,
+        g26_fps,
+        g26_1pct,
+        g26_cpu,
+        g26_gpu,
+        "Very High Preset",
+    ));
+    // Game 28: Palworld
+    let (g27_fps, g27_1pct, g27_cpu, g27_gpu) = calc_fps(116, false, res_scale_pct + 2);
+    benchmarks.push(GameBenchmark::new(
+        "Palworld",
+        res_width,
+        res_height,
+        g27_fps,
+        g27_1pct,
+        g27_cpu,
+        g27_gpu,
+        "Epic Settings",
+    ));
+    // Game 29: Rust
+    let (g28_fps, g28_1pct, g28_cpu, g28_gpu) = calc_fps(130, true, res_scale_pct + 2);
+    benchmarks.push(GameBenchmark::new(
+        "Rust",
+        res_width,
+        res_height,
+        g28_fps,
+        g28_1pct,
+        g28_cpu,
+        g28_gpu,
+        "Fantastic Settings",
+    ));
+    // Game 30: Dragon's Dogma 2
+    let (g29_fps, g29_1pct, g29_cpu, g29_gpu) = calc_fps(82, false, res_scale_pct);
+    benchmarks.push(GameBenchmark::new(
+        "Dragon's Dogma 2",
+        res_width,
+        res_height,
+        g29_fps,
+        g29_1pct,
+        g29_cpu,
+        g29_gpu,
+        "High RT",
+    ));
+    // Game 31: Dying Light 2 Stay Human
+    let (g30_fps, g30_1pct, g30_cpu, g30_gpu) = calc_fps(100, false, res_scale_pct);
+    benchmarks.push(GameBenchmark::new(
+        "Dying Light 2 Stay Human",
+        res_width,
+        res_height,
+        g30_fps,
+        g30_1pct,
+        g30_cpu,
+        g30_gpu,
+        "Ray Tracing Ultra",
+    ));
+    // Game 32: Alan Wake 2
+    let (g31_fps, g31_1pct, g31_cpu, g31_gpu) = calc_fps(78, false, res_scale_pct);
+    benchmarks.push(GameBenchmark::new(
+        "Alan Wake 2",
+        res_width,
+        res_height,
+        g31_fps,
+        g31_1pct,
+        g31_cpu,
+        g31_gpu,
+        "High Preset",
+    ));
+    // Game 33: Dead Space Remake
+    let (g32_fps, g32_1pct, g32_cpu, g32_gpu) = calc_fps(98, false, res_scale_pct);
+    benchmarks.push(GameBenchmark::new(
+        "Dead Space Remake",
+        res_width,
+        res_height,
+        g32_fps,
+        g32_1pct,
+        g32_cpu,
+        g32_gpu,
+        "Ultra RT",
+    ));
+    // Game 34: Microsoft Flight Simulator
+    let (g33_fps, g33_1pct, g33_cpu, g33_gpu) = calc_fps(74, false, res_scale_pct);
+    benchmarks.push(GameBenchmark::new(
+        "Microsoft Flight Simulator",
+        res_width,
+        res_height,
+        g33_fps,
+        g33_1pct,
+        g33_cpu,
+        g33_gpu,
+        "Ultra Settings",
+    ));
+    // Game 35: ARK: Survival Ascended
+    let (g34_fps, g34_1pct, g34_cpu, g34_gpu) = calc_fps(64, false, res_scale_pct);
+    benchmarks.push(GameBenchmark::new(
+        "ARK: Survival Ascended",
+        res_width,
+        res_height,
+        g34_fps,
+        g34_1pct,
+        g34_cpu,
+        g34_gpu,
+        "Epic UE5",
+    ));
+    // Game 36: Escape from Tarkov
+    let (g35_fps, g35_1pct, g35_cpu, g35_gpu) = calc_fps(115, true, res_scale_pct);
+    benchmarks.push(GameBenchmark::new(
+        "Escape from Tarkov",
+        res_width,
+        res_height,
+        g35_fps,
+        g35_1pct,
+        g35_cpu,
+        g35_gpu,
+        "Ultra Settings",
+    ));
+    // Game 37: Diablo IV
+    let (g36_fps, g36_1pct, g36_cpu, g36_gpu) = calc_fps(165, false, res_scale_pct + 3);
+    benchmarks.push(GameBenchmark::new(
+        "Diablo IV",
+        res_width,
+        res_height,
+        g36_fps,
+        g36_1pct,
+        g36_cpu,
+        g36_gpu,
+        "Ultra Preset",
+    ));
+    // Game 38: DOOM Eternal
+    let (g37_fps, g37_1pct, g37_cpu, g37_gpu) = calc_fps(260, false, res_scale_pct + 5);
+    benchmarks.push(GameBenchmark::new(
+        "DOOM Eternal",
+        res_width,
+        res_height,
+        g37_fps,
+        g37_1pct,
+        g37_cpu,
+        g37_gpu,
+        "Ultra Nightmare",
+    ));
+    // Game 39: Hunt: Showdown 1896
+    let (g38_fps, g38_1pct, g38_cpu, g38_gpu) = calc_fps(140, true, res_scale_pct + 1);
+    benchmarks.push(GameBenchmark::new(
+        "Hunt: Showdown 1896",
+        res_width,
+        res_height,
+        g38_fps,
+        g38_1pct,
+        g38_cpu,
+        g38_gpu,
+        "High Settings",
+    ));
+    // Game 40: Minecraft RTX
+    let (g39_fps, g39_1pct, g39_cpu, g39_gpu) = calc_fps(114, false, res_scale_pct);
     benchmarks.push(GameBenchmark::new(
         "Minecraft RTX",
         res_width,
         res_height,
-        mc_fps,
-        mc_1pct,
-        mc_cpu,
-        mc_gpu,
+        g39_fps,
+        g39_1pct,
+        g39_cpu,
+        g39_gpu,
         "Ray Tracing 24 Chunks",
     ));
 

@@ -20,7 +20,7 @@ fn test_gaming_benchmark_engine() {
     let b4k = simulate_benchmarks(&build, "4k");
     assert!(b4k.len() >= 6, "At least 6 verified game benchmarks at 4K");
 
-    let cp4k = &b4k[0];
+    let cp4k = b4k.iter().find(|b| b.game_name == "Cyberpunk 2077").expect("Cyberpunk 2077 present");
     assert_eq!(cp4k.game_name, "Cyberpunk 2077");
     assert_eq!(cp4k.resolution_width, 3840);
     assert_eq!(cp4k.resolution_height, 2160);
@@ -28,11 +28,15 @@ fn test_gaming_benchmark_engine() {
     assert!(cp4k.low_1pct_fps >= 55 && cp4k.low_1pct_fps <= 75, "Verified 4K 1% low FPS");
     assert!(cp4k.gpu_bottleneck_pct >= 85, "4K is heavily GPU bound (>=85%)");
 
+    let sotf = b4k.iter().find(|b| b.game_name == "Sons of the Forest").expect("Sons of the Forest present");
+    assert_eq!(sotf.resolution_width, 3840);
+    assert!(sotf.avg_fps >= 80, "Sons of the Forest 4K benchmark verified");
+
     // -------------------------------------------------------------
     // Test 2: 1080p Competitive Gaming Benchmarks (CPU Bound & High Refresh)
     // -------------------------------------------------------------
     let b1080 = simulate_benchmarks(&build, "1080p");
-    let cs2 = &b1080[2];
+    let cs2 = b1080.iter().find(|b| b.game_name == "Counter-Strike 2").expect("CS2 present");
     assert_eq!(cs2.game_name, "Counter-Strike 2");
     assert_eq!(cs2.resolution_width, 1920);
     assert!(cs2.avg_fps >= 500, "CS2 1080p averages over 500 FPS on 7800X3D");

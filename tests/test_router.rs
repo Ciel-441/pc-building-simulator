@@ -38,4 +38,11 @@ fn test_router_dispatch() {
     let res_bench = dispatch_request("POST", "/api/benchmark", payload_bench);
     assert_eq!(res_bench.status_code, 200, "Benchmark status 200");
     assert!(res_bench.body.len() > 100, "Benchmark JSON results returned");
+
+    // -------------------------------------------------------------
+    // Test 5: Live Steam Store Online Game Fetcher
+    // -------------------------------------------------------------
+    let res_online = dispatch_request("GET", "/api/games/online?query=sons+of+the+forest&resolution=1440p&gpu=gpu_rtx_4080s", "");
+    assert_eq!(res_online.status_code, 200, "Online steam search status 200");
+    assert_eq!(res_online.content_type, "application/json");
 }
