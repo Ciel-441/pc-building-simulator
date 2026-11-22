@@ -46,7 +46,7 @@ const htmlContent = `<!DOCTYPE html>
     .spatial-hud.expanded { right: 16px; }
     .hud-header { display: flex; align-items: center; justify-content: space-between; background: var(--bg-panel); backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px); border: 1px solid var(--border-panel); border-radius: 10px; padding: 12px 22px; pointer-events: auto; box-shadow: 0 16px 36px rgba(0,0,0,0.55); }
     .brand-cluster { display: flex; align-items: center; gap: 14px; }
-    .brand-logo-badge { background: #fff; color: #000; font-family: var(--font-mono); font-weight: 800; font-size: 11px; padding: 4px 8px; border-radius: 4px; letter-spacing: 1.2px; }
+    .brand-logo-badge { background: rgba(16, 240, 106, 0.12); color: #10f06a; border: 1px solid rgba(16, 240, 106, 0.45); font-family: var(--font-mono); font-weight: 800; font-size: 11px; padding: 4px 10px; border-radius: 6px; letter-spacing: 1.2px; box-shadow: 0 0 12px rgba(16, 240, 106, 0.2); }
     .brand-title { font-family: var(--font-display); font-weight: 700; font-size: 14px; letter-spacing: 0.5px; color: #fff; display: flex; align-items: center; gap: 8px; }
     .brand-tag { font-size: 10px; font-weight: 600; padding: 3px 8px; border: 1px solid var(--border-panel); border-radius: 4px; color: var(--text-dim); letter-spacing: 0.5px; font-family: var(--font-mono); }
     
@@ -74,12 +74,12 @@ const htmlContent = `<!DOCTYPE html>
     .zoom-btn { font-size: 13px; font-weight: 900; padding: 4px 7px; }
 
     /* Floating Re-Open Pills (When panels are closed) */
-    .floating-reopen-btn { position: absolute; z-index: 15; background: rgba(8, 14, 10, 0.95); border: 1px solid #10f06a; color: #ffffff; padding: 8px 16px; border-radius: 8px; font-family: var(--font-display); font-size: 11px; font-weight: 700; cursor: pointer; display: none; align-items: center; gap: 8px; box-shadow: 0 8px 24px rgba(0, 0, 0, 0.6), 0 0 12px rgba(16, 240, 106, 0.25); backdrop-filter: blur(16px); transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1); }
-    .floating-reopen-btn:hover { background: var(--accent-cyan); color: #000; transform: translateY(-2px); }
+    .floating-reopen-btn { position: absolute; z-index: 15; background: rgba(6, 12, 8, 0.95); border: 1px solid #10f06a; color: #ffffff; padding: 8px 16px; border-radius: 8px; font-family: var(--font-display); font-size: 11px; font-weight: 700; cursor: pointer; display: none; align-items: center; gap: 8px; box-shadow: 0 8px 24px rgba(0, 0, 0, 0.65), 0 0 14px rgba(16, 240, 106, 0.3); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1); }
+    .floating-reopen-btn:hover { background: #10f06a; color: #040805; transform: translateY(-2px); box-shadow: 0 10px 28px rgba(16, 240, 106, 0.45); }
     .floating-reopen-btn.right-edge { top: 74px; right: 16px; }
     .floating-reopen-btn.bottom-edge { bottom: 58px; left: 16px; }
-    .reopen-badge { background: rgba(16, 240, 106, 0.2); color: var(--accent-cyan); font-family: var(--font-mono); font-size: 10px; padding: 2px 6px; border-radius: 4px; }
-    .floating-reopen-btn:hover .reopen-badge { background: #000; color: #fff; }
+    .reopen-badge { background: rgba(16, 240, 106, 0.18); color: #10f06a; font-family: var(--font-mono); font-size: 10px; padding: 2px 6px; border-radius: 4px; border: 1px solid rgba(16, 240, 106, 0.3); }
+    .floating-reopen-btn:hover .reopen-badge { background: #040805; color: #10f06a; }
 
     /* Workstation Multi-Panel Sidebar */
     .workstation-sidebar { position: absolute; top: 16px; right: 16px; bottom: 16px; width: 480px; background: var(--bg-panel); backdrop-filter: blur(28px); -webkit-backdrop-filter: blur(28px); border: 1px solid var(--border-panel); border-radius: 12px; z-index: 10; display: flex; flex-direction: column; overflow: hidden; box-shadow: 0 20px 48px rgba(0,0,0,0.55); transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.25s; }
@@ -114,6 +114,36 @@ const htmlContent = `<!DOCTYPE html>
       100% { opacity: 1; transform: scale(1) translateY(0); }
     }
     .panel-view.tab-entering { animation: panelZoomFadeIn 0.30s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+    /* Dedicated Sidebar Games & Benchmarks View */
+    .sidebar-bench-container { padding: 12px; display: flex; flex-direction: column; gap: 12px; }
+    .sidebar-bench-header { background: rgba(0, 0, 0, 0.45); border: 1px solid rgba(16, 240, 106, 0.2); border-radius: 8px; padding: 10px; display: flex; flex-direction: column; gap: 8px; }
+    .sidebar-search-row { display: flex; gap: 8px; }
+    .sidebar-res-row { display: flex; gap: 6px; }
+    .sidebar-res-btn { flex: 1; padding: 6px 8px; font-family: var(--font-mono); font-size: 10px; font-weight: 700; background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.1); color: var(--text-dim); border-radius: 5px; cursor: pointer; transition: all 0.2s; text-align: center; }
+    .sidebar-res-btn:hover { color: #fff; background: rgba(255,255,255,0.08); }
+    .sidebar-res-btn.active { background: #10f06a; color: #040805; border-color: #10f06a; font-weight: 800; box-shadow: 0 0 10px rgba(16, 240, 106, 0.3); }
+
+    .bench-kpi-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; }
+    .bench-kpi-card { background: rgba(10, 16, 12, 0.7); border: 1px solid rgba(16, 240, 106, 0.18); border-radius: 6px; padding: 8px; display: flex; flex-direction: column; }
+    .bench-kpi-lbl { font-size: 8.5px; font-family: var(--font-mono); color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.6px; margin-bottom: 2px; }
+    .bench-kpi-val { font-size: 14px; font-family: var(--font-mono); font-weight: 800; color: #10f06a; }
+
+    .sidebar-game-feed { display: flex; flex-direction: column; gap: 8px; }
+    .sidebar-game-card { display: flex; flex-direction: column; background: rgba(8, 14, 11, 0.85); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 8px; overflow: hidden; transition: all 0.2s ease; box-shadow: 0 4px 12px rgba(0,0,0,0.3); }
+    .sidebar-game-card:hover { border-color: rgba(16, 240, 106, 0.4); transform: translateY(-1px); box-shadow: 0 6px 18px rgba(0,0,0,0.45); }
+    .sidebar-game-banner { position: relative; width: 100%; height: 72px; overflow: hidden; background: #000; }
+    .sidebar-game-banner img { width: 100%; height: 100%; object-fit: cover; }
+    .sidebar-game-banner-overlay { position: absolute; inset: 0; background: linear-gradient(0deg, rgba(8, 14, 11, 0.95) 0%, rgba(8, 14, 11, 0.2) 60%, transparent 100%); display: flex; align-items: flex-end; justify-content: space-between; padding: 6px 10px; }
+    .sidebar-game-title { font-family: var(--font-display); font-size: 12px; font-weight: 700; color: #fff; text-shadow: 0 1px 3px rgba(0,0,0,0.8); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 250px; }
+    .sidebar-game-preset { font-family: var(--font-mono); font-size: 9px; font-weight: 700; color: #10f06a; background: rgba(16, 240, 106, 0.15); border: 1px solid rgba(16, 240, 106, 0.3); padding: 1px 6px; border-radius: 4px; }
+    .sidebar-game-body { padding: 8px 10px; display: flex; flex-direction: column; gap: 6px; }
+    .sidebar-game-metrics { display: flex; align-items: baseline; justify-content: space-between; }
+    .sidebar-game-fps-badge { display: flex; align-items: baseline; gap: 4px; font-family: var(--font-mono); font-size: 18px; font-weight: 900; color: #fff; }
+    .sidebar-game-fps-unit { font-size: 10px; color: #10f06a; font-weight: 700; }
+    .sidebar-game-submetrics { display: flex; gap: 12px; font-family: var(--font-mono); font-size: 10px; color: var(--text-dim); }
+    .sidebar-game-submetrics b { color: #fff; font-weight: 700; }
+    .sidebar-game-bar { height: 3px; background: rgba(255,255,255,0.08); border-radius: 2px; overflow: hidden; }
+    .sidebar-game-bar-fill { height: 100%; background: linear-gradient(90deg, #10f06a, #84cc16); border-radius: 2px; }
 
     /* Close Button */
     .panel-close-btn { width: 30px; height: 30px; display: flex; align-items: center; justify-content: center; background: transparent; border: 1px solid transparent; color: var(--text-dim); border-radius: 6px; cursor: pointer; font-size: 15px; font-weight: 700; transition: all 0.18s; flex-shrink: 0; }
@@ -450,6 +480,7 @@ const htmlContent = `<!DOCTYPE html>
       <div class="panel-switcher-tabs">
         <button class="tab-switch-btn active" data-tab="chosen">My Rig <span class="rig-counter-badge" id="tab-chosen-badge"><span class="badge-num" id="badge-rig-count">8</span><span class="badge-sep">/</span><span class="badge-total">8</span></span></button>
         <button class="tab-switch-btn" data-tab="catalog">Catalog</button>
+        <button class="tab-switch-btn" data-tab="games">Games</button>
         <button class="tab-switch-btn" data-tab="build">Specs</button>
         <button class="tab-switch-btn" data-tab="market">Deals</button>
         <button class="tab-switch-btn" data-tab="thermal">Thermals</button>
@@ -460,6 +491,39 @@ const htmlContent = `<!DOCTYPE html>
     <!-- VIEW 0: CHOSEN RIG SETUP (The user's configured PC parts tab) -->
     <div class="panel-view" id="view-chosen">
       <div class="chosen-rig-container" id="chosen-rig-container"></div>
+    </div>
+
+    <!-- VIEW: GAMES & FPS BENCHMARKS (Dedicated Sidebar Panel) -->
+    <div class="panel-view" id="view-games" style="display: none;">
+      <div class="sidebar-bench-container">
+        <div class="sidebar-bench-header">
+          <div class="sidebar-search-row">
+            <input type="text" class="search-input" id="sidebar-game-search" placeholder="Search games (e.g. GTA V, Fortnite, Valorant)..." />
+          </div>
+          <div class="sidebar-res-row">
+            <button class="sidebar-res-btn" data-res="1080p">1080p FHD</button>
+            <button class="sidebar-res-btn active" data-res="1440p">1440p QHD</button>
+            <button class="sidebar-res-btn" data-res="4k">4K UHD</button>
+          </div>
+        </div>
+
+        <div class="bench-kpi-grid">
+          <div class="bench-kpi-card">
+            <span class="bench-kpi-lbl">Target Tier</span>
+            <span class="bench-kpi-val" id="bench-kpi-tier">Ultra 1440p</span>
+          </div>
+          <div class="bench-kpi-card">
+            <span class="bench-kpi-lbl">Avg FPS (All)</span>
+            <span class="bench-kpi-val" id="bench-kpi-avg">--</span>
+          </div>
+          <div class="bench-kpi-card">
+            <span class="bench-kpi-lbl">GPU Headroom</span>
+            <span class="bench-kpi-val" id="bench-kpi-headroom">--</span>
+          </div>
+        </div>
+
+        <div class="sidebar-game-feed" id="sidebar-game-list"></div>
+      </div>
     </div>
 
     <!-- VIEW 1: CATALOG -->
@@ -642,16 +706,30 @@ const htmlContent = `<!DOCTYPE html>
 
     // Verified Steam CDN Capsule Artwork
     const STEAM_GAME_ASSETS = {
-      'Cyberpunk 2077': { appId: 1091500, header: 'https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/1091500/header.jpg', genre: 'Ray Tracing' },
-      'Black Myth: Wukong': { appId: 2358720, header: 'https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/2358720/header.jpg', genre: 'Unreal Engine 5' },
-      'Counter-Strike 2': { appId: 730, header: 'https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/730/header.jpg', genre: 'Esports' },
-      'Red Dead Redemption 2': { appId: 1174180, header: 'https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/1174180/header.jpg', genre: 'Open World' },
-      'Shadow of the Tomb Raider': { appId: 750920, header: 'https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/750920/header.jpg', genre: 'Action' },
-      'Hogwarts Legacy': { appId: 990080, header: 'https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/990080/header.jpg', genre: 'Open World' },
-      'Elden Ring': { appId: 1245620, header: 'https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/1245620/header.jpg', genre: 'Action RPG' },
-      'Starfield': { appId: 1716740, header: 'https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/1716740/header.jpg', genre: 'Space RPG' },
-      'Forza Horizon 5': { appId: 1551360, header: 'https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/1551360/header.jpg', genre: 'Racing' },
-      'Baldur\\'s Gate 3': { appId: 1086940, header: 'https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/1086940/header.jpg', genre: 'RPG' }
+      "Cyberpunk 2077": { appId: 1091500, header: "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/1091500/header.jpg", genre: "Ray Tracing Ultra" },
+      "Black Myth: Wukong": { appId: 2358720, header: "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/2358720/header.jpg", genre: "Unreal Engine 5" },
+      "Counter-Strike 2": { appId: 730, header: "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/730/header.jpg", genre: "Competitive Esports" },
+      "Red Dead Redemption 2": { appId: 1174180, header: "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/1174180/header.jpg", genre: "Open World Ultra" },
+      "Shadow of the Tomb Raider": { appId: 750920, header: "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/750920/header.jpg", genre: "Action Adventure" },
+      "Hogwarts Legacy": { appId: 990080, header: "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/990080/header.jpg", genre: "Action RPG" },
+      "Grand Theft Auto V": { appId: 271590, header: "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/271590/header.jpg", genre: "Open World" },
+      "Fortnite": { appId: null, header: "https://images.unsplash.com/photo-1589241062272-c0a000072dfa?w=460&auto=format&fit=crop&q=80", genre: "Battle Royale" },
+      "Valorant": { appId: null, header: "https://images.unsplash.com/photo-1542751371-adc38448a05e?w=460&auto=format&fit=crop&q=80", genre: "Tactical FPS" },
+      "Elden Ring": { appId: 1245620, header: "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/1245620/header.jpg", genre: "Action RPG" },
+      "Call of Duty: Warzone": { appId: 1938090, header: "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/1938090/header.jpg", genre: "Battle Royale" },
+      "Baldur's Gate 3": { appId: 1086940, header: "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/1086940/header.jpg", genre: "Turn-Based RPG" },
+      "Alan Wake 2": { appId: null, header: "https://images.unsplash.com/photo-1518709268805-4e9042af9f23?w=460&auto=format&fit=crop&q=80", genre: "Survival Horror" },
+      "Apex Legends": { appId: 1172470, header: "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/1172470/header.jpg", genre: "Competitive BR" },
+      "Forza Horizon 5": { appId: 1551360, header: "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/1551360/header.jpg", genre: "Open World Racing" },
+      "Starfield": { appId: 1716740, header: "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/1716740/header.jpg", genre: "Space RPG" },
+      "Marvel's Spider-Man Remastered": { appId: 1817070, header: "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/1817070/header.jpg", genre: "Action Adventure" },
+      "God of War": { appId: 1593500, header: "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/1593500/header.jpg", genre: "Mythological Action" },
+      "Rainbow Six Siege": { appId: 359550, header: "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/359550/header.jpg", genre: "Tactical FPS" },
+      "Overwatch 2": { appId: 2357570, header: "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/2357570/header.jpg", genre: "Hero Shooter" },
+      "The Witcher 3 Next-Gen": { appId: 292030, header: "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/292030/header.jpg", genre: "Next-Gen RPG" },
+      "Helldivers 2": { appId: 553850, header: "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/553850/header.jpg", genre: "Galactic Co-Op" },
+      "Resident Evil 4 Remake": { appId: 2050650, header: "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/2050650/header.jpg", genre: "Survival Horror" },
+      "Minecraft RTX": { appId: null, header: "https://images.unsplash.com/photo-1627856013091-fed6e4e30025?w=460&auto=format&fit=crop&q=80", genre: "Ray Traced Sandbox" }
     };
 
     // Three.js Scene Setup with Realistic Analytical Lighting & Studio Reflections
@@ -665,7 +743,7 @@ const htmlContent = `<!DOCTYPE html>
 
     const renderer = new THREE.WebGLRenderer({ antialias: true, powerPreference: 'high-performance' });
     renderer.setSize(window.innerWidth, window.innerHeight);
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.5));
     renderer.shadowMap.enabled = true;
     renderer.shadowMap.type = THREE.PCFSoftShadowMap;
     renderer.toneMapping = THREE.ACESFilmicToneMapping;
@@ -681,12 +759,12 @@ const htmlContent = `<!DOCTYPE html>
       p1.rotation.x = Math.PI / 2;
       envScene.add(p1);
 
-      const p2 = new THREE.Mesh(new THREE.PlaneGeometry(160, 90), new THREE.MeshBasicMaterial({ color: 0x10f06a }));
+      const p2 = new THREE.Mesh(new THREE.PlaneGeometry(160, 90), new THREE.MeshBasicMaterial({ color: 0xf1f5f9 }));
       p2.position.set(60, 20, 0);
       p2.rotation.y = -Math.PI / 2;
       envScene.add(p2);
 
-      const p3 = new THREE.Mesh(new THREE.PlaneGeometry(160, 90), new THREE.MeshBasicMaterial({ color: 0x84cc16 }));
+      const p3 = new THREE.Mesh(new THREE.PlaneGeometry(160, 90), new THREE.MeshBasicMaterial({ color: 0xdbeafe }));
       p3.position.set(-60, 20, 0);
       p3.rotation.y = Math.PI / 2;
       envScene.add(p3);
@@ -777,8 +855,8 @@ const htmlContent = `<!DOCTYPE html>
     const keyLight = new THREE.DirectionalLight(0xffffff, 2.0);
     keyLight.position.set(220, 320, 200);
     keyLight.castShadow = true;
-    keyLight.shadow.mapSize.width = 2048;
-    keyLight.shadow.mapSize.height = 2048;
+    keyLight.shadow.mapSize.width = 1024;
+    keyLight.shadow.mapSize.height = 1024;
     keyLight.shadow.bias = -0.0001;
     scene.add(keyLight);
 
@@ -2068,10 +2146,10 @@ const htmlContent = `<!DOCTYPE html>
     function updateSpatialLabels() {
       const container = document.getElementById('labels-container');
       if (!showLabels || wireframeMode) {
-        container.style.display = 'none';
+        if (container.style.display !== 'none') container.style.display = 'none';
         return;
       }
-      container.style.display = 'block';
+      if (container.style.display !== 'block') container.style.display = 'block';
 
       labelAnchors.forEach(anc => {
         const el = document.getElementById('label-' + anc.id);
@@ -3051,17 +3129,47 @@ const htmlContent = `<!DOCTYPE html>
       renderBenchmarks();
     }
 
-    // Render Steam Benchmarks with Interactive Cursor Momentum Pan
+    // Render Steam Benchmarks & Dedicated Sidebar Games View
     function renderBenchmarks() {
       const grid = document.getElementById('game-grid');
-      if (!grid) return;
+      const bottomInput = document.getElementById('game-search-input');
+      const sidebarInput = document.getElementById('sidebar-game-search');
+      const query = ((bottomInput && bottomInput.value) || (sidebarInput && sidebarInput.value) || '').toLowerCase().trim();
 
-      const query = (document.getElementById('game-search-input')?.value || '').toLowerCase().trim();
-
-      const filtered = currentBenchmarkList.filter(g => {
+      let filtered = currentBenchmarkList.filter(g => {
         if (!query) return true;
         return (g.gameName || '').toLowerCase().includes(query) || (g.qualityPreset || '').toLowerCase().includes(query);
       });
+
+      // Dynamic Simulation Fallback: If unlisted game is searched (e.g. Roblox, Crysis), compute simulated performance
+      if (filtered.length === 0 && query.length > 0) {
+        const cleanName = query.split(' ').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
+        let baseGpuPower = 110;
+        if (activeBuild.gpu) {
+          const gid = (activeBuild.gpu.id || '').toLowerCase();
+          if (gid.includes('4090')) baseGpuPower = 180;
+          else if (gid.includes('4080')) baseGpuPower = 145;
+          else if (gid.includes('4070') || gid.includes('7900')) baseGpuPower = 120;
+          else if (gid.includes('4060') || gid.includes('7600')) baseGpuPower = 85;
+        }
+        const resScale = currentResolution === '4k' ? 0.55 : (currentResolution === '1080p' ? 1.4 : 1.0);
+        const estFps = Math.round(baseGpuPower * resScale);
+        const estLow1 = Math.round(estFps * 0.76);
+        const estGpuBottle = currentResolution === '4k' ? 96 : (currentResolution === '1440p' ? 84 : 68);
+
+        filtered = [{
+          gameName: cleanName,
+          avgFps: estFps,
+          low1pctFps: estLow1,
+          gpuBottleneckPct: estGpuBottle,
+          qualityPreset: 'Simulated High/Ultra'
+        }];
+      }
+
+      // Update Dedicated Sidebar View simultaneously
+      renderSidebarGamesView(filtered);
+
+      if (!grid) return;
 
       const existingCards = {};
       grid.querySelectorAll('.game-card').forEach(c => {
@@ -3122,6 +3230,70 @@ const htmlContent = `<!DOCTYPE html>
       });
     }
 
+
+    // Render Dedicated Sidebar Games View
+    function renderSidebarGamesView(gamesList) {
+      const feed = document.getElementById('sidebar-game-list');
+      if (!feed) return;
+
+      const games = gamesList || currentBenchmarkList;
+      if (!games || games.length === 0) {
+        feed.innerHTML = '<div style="padding:24px; text-align:center; color:var(--text-muted); font-family:var(--font-mono); font-size:12px;">No benchmarks loaded yet.</div>';
+        return;
+      }
+
+      // Calculate KPI Aggregates
+      const avgFpsTotal = Math.round(games.reduce((acc, g) => acc + (g.avgFps || 0), 0) / games.length);
+      const avgGpuBottle = Math.round(games.reduce((acc, g) => acc + (g.gpuBottleneckPct || 0), 0) / games.length);
+
+      const kpiTierEl = document.getElementById('bench-kpi-tier');
+      const kpiAvgEl = document.getElementById('bench-kpi-avg');
+      const kpiHeadroomEl = document.getElementById('bench-kpi-headroom');
+
+      if (kpiTierEl) kpiTierEl.textContent = 'Ultra ' + currentResolution.toUpperCase();
+      if (kpiAvgEl) animateRollingNumber(kpiAvgEl, parseFloat(kpiAvgEl.textContent) || avgFpsTotal, avgFpsTotal, 350, v => Math.round(v) + ' FPS');
+      if (kpiHeadroomEl) kpiHeadroomEl.textContent = avgGpuBottle + '% Load';
+
+      feed.innerHTML = '';
+      games.forEach(g => {
+        const steamMeta = STEAM_GAME_ASSETS[g.gameName] || {
+          header: 'https://images.unsplash.com/photo-1542751371-adc38448a05e?w=460&auto=format&fit=crop&q=80',
+          genre: 'Gaming'
+        };
+
+        const low1 = g.low1pctFps ?? g.low1PctFps ?? Math.round(g.avgFps * 0.74);
+        const card = document.createElement('div');
+        card.className = 'sidebar-game-card';
+        card.innerHTML = 
+          '<div class="sidebar-game-banner">' +
+            '<img src="' + steamMeta.header + '" alt="' + g.gameName + '" />' +
+            '<div class="sidebar-game-banner-overlay">' +
+              '<div class="sidebar-game-title" title="' + g.gameName + '">' + g.gameName + '</div>' +
+              '<span class="sidebar-game-preset">' + (g.qualityPreset || 'Ultra') + '</span>' +
+            '</div>' +
+          '</div>' +
+          '<div class="sidebar-game-body">' +
+            '<div class="sidebar-game-metrics">' +
+              '<div class="sidebar-game-fps-badge"><span class="fps-num-side">' + g.avgFps + '</span> <span class="sidebar-game-fps-unit">FPS</span></div>' +
+              '<div class="sidebar-game-submetrics">' +
+                '<span>1% LOW: <b>' + low1 + ' FPS</b></span>' +
+                '<span>LOAD: <b>' + g.gpuBottleneckPct + '%</b></span>' +
+              '</div>' +
+            '</div>' +
+            '<div class="sidebar-game-bar"><div class="sidebar-game-bar-fill" style="width:' + g.gpuBottleneckPct + '%;"></div></div>' +
+          '</div>';
+
+        const bImg = card.querySelector('img');
+        if (bImg) {
+          bImg.onerror = function() {
+            this.onerror = null;
+            this.src = 'https://images.unsplash.com/photo-1542751371-adc38448a05e?w=460&auto=format&fit=crop&q=80';
+          };
+        }
+        feed.appendChild(card);
+      });
+    }
+
     // Sleek Custom Floating Carousel Chevrons
     document.getElementById('tray-nav-left')?.addEventListener('click', () => {
       gameGrid.scrollBy({ left: -360, behavior: 'smooth' });
@@ -3169,7 +3341,40 @@ const htmlContent = `<!DOCTYPE html>
     // Search and Input Listeners
     document.getElementById('part-search-input')?.addEventListener('input', renderCatalog);
     document.getElementById('part-sort-select')?.addEventListener('change', renderCatalog);
-    document.getElementById('game-search-input')?.addEventListener('input', renderBenchmarks);
+
+    const btmSearch = document.getElementById('game-search-input');
+    const sideSearch = document.getElementById('sidebar-game-search');
+
+    if (btmSearch) {
+      btmSearch.addEventListener('input', () => {
+        if (sideSearch && sideSearch.value !== btmSearch.value) {
+          sideSearch.value = btmSearch.value;
+        }
+        renderBenchmarks();
+      });
+    }
+
+    if (sideSearch) {
+      sideSearch.addEventListener('input', () => {
+        if (btmSearch && btmSearch.value !== sideSearch.value) {
+          btmSearch.value = sideSearch.value;
+        }
+        renderBenchmarks();
+      });
+    }
+
+    // Sidebar Resolution Buttons
+    document.querySelectorAll('.sidebar-res-btn').forEach(btn => {
+      btn.onclick = () => {
+        document.querySelectorAll('.sidebar-res-btn').forEach(b => b.classList.remove('active'));
+        document.querySelectorAll('.res-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        currentResolution = btn.dataset.res;
+        const matchingBottom = document.querySelector('.res-btn[data-res="' + currentResolution + '"]');
+        if (matchingBottom) matchingBottom.classList.add('active');
+        syncBuildAnalysis();
+      };
+    });
 
     // Panel Switcher Tabs
     document.querySelectorAll('.tab-switch-btn').forEach(btn => {
@@ -3178,7 +3383,7 @@ const htmlContent = `<!DOCTYPE html>
         btn.classList.add('active');
         activeTab = btn.dataset.tab;
 
-        const views = ['chosen', 'catalog', 'build', 'market', 'thermal'];
+        const views = ['chosen', 'catalog', 'games', 'build', 'market', 'thermal'];
         views.forEach(v => {
           const el = document.getElementById('view-' + v);
           if (el) {
@@ -3195,6 +3400,7 @@ const htmlContent = `<!DOCTYPE html>
 
         if (activeTab === 'chosen') renderChosenRigView();
         if (activeTab === 'catalog') renderCatalog();
+        if (activeTab === 'games') renderSidebarGamesView();
         if (activeTab === 'build') renderBuildSpecView();
         if (activeTab === 'market') renderMarketDealsView();
         if (activeTab === 'thermal') renderThermalBenchView();
@@ -3229,8 +3435,11 @@ const htmlContent = `<!DOCTYPE html>
     document.querySelectorAll('.res-btn').forEach(btn => {
       btn.onclick = () => {
         document.querySelectorAll('.res-btn').forEach(b => b.classList.remove('active'));
+        document.querySelectorAll('.sidebar-res-btn').forEach(b => b.classList.remove('active'));
         btn.classList.add('active');
         currentResolution = btn.dataset.res;
+        const matchingSide = document.querySelector('.sidebar-res-btn[data-res="' + currentResolution + '"]');
+        if (matchingSide) matchingSide.classList.add('active');
         syncBuildAnalysis();
       };
     });
