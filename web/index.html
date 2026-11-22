@@ -38,7 +38,7 @@
 
     /* Top Telemetry Header */
     .spatial-hud { position: absolute; top: 16px; left: 16px; right: 500px; z-index: 10; display: flex; flex-direction: column; gap: 8px; pointer-events: none; transition: right 0.3s cubic-bezier(0.16, 1, 0.3, 1); }
-    .spatial-hud.expanded { right: 16px; }
+    .spatial-hud.expanded { right: 216px; }
     .hud-header { display: flex; align-items: center; justify-content: space-between; background: var(--bg-panel); backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px); border: 1px solid var(--border-panel); border-radius: 10px; padding: 12px 22px; pointer-events: auto; box-shadow: 0 16px 36px rgba(0,0,0,0.55); }
     .brand-cluster { display: flex; align-items: center; gap: 14px; }
     .brand-logo-badge { background: rgba(16, 240, 106, 0.12); color: #10f06a; border: 1px solid rgba(16, 240, 106, 0.45); font-family: var(--font-mono); font-weight: 800; font-size: 11px; padding: 4px 10px; border-radius: 6px; letter-spacing: 1.2px; box-shadow: 0 0 12px rgba(16, 240, 106, 0.2); }
@@ -71,7 +71,7 @@
     /* Floating Re-Open Pills (When panels are closed) */
     .floating-reopen-btn { position: absolute; z-index: 15; background: rgba(6, 12, 8, 0.95); border: 1px solid #10f06a; color: #ffffff; padding: 8px 16px; border-radius: 8px; font-family: var(--font-display); font-size: 11px; font-weight: 700; cursor: pointer; display: none; align-items: center; gap: 8px; box-shadow: 0 8px 24px rgba(0, 0, 0, 0.65), 0 0 14px rgba(16, 240, 106, 0.3); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1); }
     .floating-reopen-btn:hover { background: #10f06a; color: #040805; transform: translateY(-2px); box-shadow: 0 10px 28px rgba(16, 240, 106, 0.45); }
-    .floating-reopen-btn.right-edge { top: 74px; right: 16px; }
+    .floating-reopen-btn.right-edge { top: 16px; right: 16px; height: 50px; }
     .floating-reopen-btn.bottom-edge { bottom: 58px; left: 16px; }
     .reopen-badge { background: rgba(16, 240, 106, 0.18); color: #10f06a; font-family: var(--font-mono); font-size: 10px; padding: 2px 6px; border-radius: 4px; border: 1px solid rgba(16, 240, 106, 0.3); }
     .floating-reopen-btn:hover .reopen-badge { background: #040805; color: #10f06a; }
@@ -81,26 +81,27 @@
     .workstation-sidebar.collapsed { transform: translateX(calc(100% + 24px)); pointer-events: none; opacity: 0; }
     
     /* Sidebar Header with Segmented Modern Tabs */
-    .sidebar-header-bar { display: flex; align-items: center; justify-content: space-between; background: rgba(6, 12, 8, 0.94); border-bottom: 1px solid rgba(16, 240, 106, 0.22); padding: 8px 10px; gap: 6px; flex-shrink: 0; }
-    .panel-switcher-tabs { display: flex; flex: 1; gap: 3px; background: rgba(0, 0, 0, 0.6); padding: 3px; border-radius: 8px; border: 1px solid rgba(255, 255, 255, 0.08); }
+    .sidebar-header-bar { display: flex; align-items: center; justify-content: space-between; background: rgba(6, 12, 8, 0.94); border-bottom: 1px solid rgba(16, 240, 106, 0.22); padding: 6px 8px; gap: 6px; flex-shrink: 0; }
+    .panel-switcher-tabs { display: flex; flex: 1; gap: 2px; background: rgba(0, 0, 0, 0.6); padding: 2px; border-radius: 7px; border: 1px solid rgba(255, 255, 255, 0.08); align-items: center; height: 32px; }
     
-    .tab-switch-btn { flex: 1; min-width: 0; padding: 7px 5px; font-family: var(--font-display); font-size: 10px; font-weight: 700; letter-spacing: 0.3px; text-transform: uppercase; background: transparent; border: none; color: #94a3b8; border-radius: 6px; cursor: pointer; transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1); text-align: center; white-space: nowrap; display: inline-flex; align-items: center; justify-content: center; gap: 5px; }
-    .tab-switch-btn:hover { color: #ffffff; background: rgba(255, 255, 255, 0.07); transform: translateY(-1px); }
-    .tab-switch-btn.active { color: #040805 !important; background: #10f06a !important; font-weight: 800; box-shadow: 0 0 16px rgba(16, 240, 106, 0.45); transform: scale(1.02); }
-    .tab-switch-btn.active .rig-counter-badge { background: #040805; color: #10f06a; border-color: rgba(0, 0, 0, 0.4); }
-    .tab-switch-btn.active .badge-num { color: #10f06a; }
-    .tab-switch-btn.active .badge-total { color: #a6ff00; }
+    .tab-switch-btn { flex: 1; min-width: 0; height: 28px; padding: 0 4px; font-family: var(--font-display); font-size: 10px; font-weight: 700; letter-spacing: 0.3px; text-transform: uppercase; background: transparent; border: none; color: #94a3b8; border-radius: 5px; cursor: pointer; transition: background 0.18s ease, color 0.18s ease; text-align: center; white-space: nowrap; display: inline-flex; align-items: center; justify-content: center; gap: 3px; }
+    .tab-switch-btn:hover { color: #ffffff; background: rgba(255, 255, 255, 0.08); }
+    .tab-switch-btn.active { color: #040805 !important; background: #10f06a !important; font-weight: 800; box-shadow: 0 1px 4px rgba(0, 0, 0, 0.35); }
+    .tab-switch-btn.active .rig-counter-badge { background: rgba(0, 0, 0, 0.18); border: none; color: #040805; }
+    .tab-switch-btn.active .badge-num { color: #040805; font-weight: 800; }
+    .tab-switch-btn.active .badge-total { color: #040805; font-weight: 800; }
+    .tab-switch-btn.active .badge-sep { color: rgba(0, 0, 0, 0.45); }
     
     /* Dedicated High-Tech Counter Badge with Pulse Animation */
     @keyframes badgePulse {
       0% { transform: scale(1); }
-      50% { transform: scale(1.22); }
+      50% { transform: scale(1.15); }
       100% { transform: scale(1); }
     }
-    .rig-counter-badge { display: inline-flex; align-items: center; gap: 1px; padding: 1px 6px; background: rgba(16, 240, 106, 0.15); border: 1px solid rgba(16, 240, 106, 0.4); border-radius: 5px; font-family: var(--font-mono); font-size: 9px; font-weight: 800; color: #10f06a; line-height: 1.2; transition: all 0.2s ease; }
+    .rig-counter-badge { display: inline-flex; align-items: center; gap: 1px; padding: 1px 4px; background: rgba(255, 255, 255, 0.07); border: 1px solid rgba(255, 255, 255, 0.12); border-radius: 4px; font-family: var(--font-mono); font-size: 8.5px; font-weight: 700; color: #94a3b8; line-height: 1.1; transition: all 0.2s ease; }
     .rig-counter-badge.pulse { animation: badgePulse 0.35s cubic-bezier(0.16, 1, 0.3, 1); }
     .badge-num { color: #ffffff; }
-    .badge-sep { color: rgba(255, 255, 255, 0.45); margin: 0 1px; font-weight: 400; }
+    .badge-sep { color: rgba(255, 255, 255, 0.4); margin: 0 1px; font-weight: 400; }
     .badge-total { color: #10f06a; }
 
     /* Tab Transition Smooth Zoom-In / Zoom-Out Animation */
@@ -109,13 +110,7 @@
       100% { opacity: 1; transform: scale(1) translateY(0); }
     }
     .panel-view.tab-entering { animation: panelZoomFadeIn 0.30s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
-    /* Live Steam Store Badge */
-    .online-live-badge { background: rgba(16, 240, 106, 0.22) !important; color: #10f06a !important; border: 1px solid rgba(16, 240, 106, 0.5) !important; display: inline-flex; align-items: center; gap: 4px; }
-    .live-dot { width: 5px; height: 5px; border-radius: 50%; background: #10f06a; box-shadow: 0 0 6px #10f06a; display: inline-block; animation: livePulse 1.2s infinite ease-in-out; }
-    @keyframes livePulse {
-      0%, 100% { transform: scale(1); opacity: 1; }
-      50% { transform: scale(1.4); opacity: 0.6; }
-    }
+    /* (Steam live badge removed) */
     /* Dedicated Sidebar Games & Benchmarks View */
     .sidebar-bench-container { padding: 12px; display: flex; flex-direction: column; gap: 12px; }
     .sidebar-bench-header { background: rgba(0, 0, 0, 0.45); border: 1px solid rgba(16, 240, 106, 0.2); border-radius: 8px; padding: 10px; display: flex; flex-direction: column; gap: 8px; }
@@ -575,7 +570,7 @@
     <div class="tray-header">
       <div class="tray-title-cluster">
         <div class="tray-title">REAL-WORLD GAMING BENCHMARKS</div>
-        <div class="tray-subtitle">Simulated Ray Tracing & Frametime Telemetry</div>
+        <div class="tray-subtitle">Ray Tracing & Frametime Telemetry</div>
       </div>
       <div class="game-search-box">
         <input type="text" class="game-search-input" id="game-search-input" placeholder="Search benchmarks (Cyberpunk, Wukong, CS2)..." />
@@ -799,7 +794,7 @@
     const controls = new THREE.OrbitControls(camera, renderer.domElement);
     controls.enableDamping = true;
     controls.dampingFactor = 0.06;
-    controls.maxPolarAngle = Math.PI * 0.90; // Free tilting around without cutoff
+    controls.maxPolarAngle = Math.PI * 0.48; // Clamped to horizon so camera never drops under the turntable
     controls.minPolarAngle = 0.05;          // Direct overhead plan view
     controls.minDistance = 25;              // Zoom right into CPU/GPU/RAM
     controls.maxDistance = 1400;            // Wide panorama without clipping
@@ -2322,23 +2317,41 @@
     // API Sync: Load Catalog & Live Prices
     async function loadCatalog() {
       try {
-        const [cRes, pRes] = await Promise.all([
-          fetch('/api/components'),
-          fetch('/api/live-prices').catch(() => null)
-        ]);
-        allComponents = await cRes.json();
-        if (pRes) {
+        const cRes = await fetch('/api/components');
+        if (cRes.ok) {
+          allComponents = await cRes.json();
+        }
+      } catch (err) {
+        console.warn('Components fetch error:', err);
+      }
+
+      try {
+        const pRes = await fetch('/api/live-prices');
+        if (pRes && pRes.ok) {
           const pData = await pRes.json();
           liveMarketQuotes = pData.quotes || {};
         }
-        renderChosenRigView();
-        renderCatalog();
-        renderBuildSpecView();
-        renderMarketDealsView();
-        renderThermalBenchView();
-      } catch (err) {
-        console.error('Failed to load components', err);
+      } catch (e) {}
+
+      // Guarantee initial build components are assigned immediately
+      if (allComponents && allComponents.length > 0) {
+        if (!activeBuild.cpu) activeBuild.cpu = allComponents.find(c => c.id === 'cpu_7800x3d') || allComponents.find(c => c.id === 'cpu_7950x3d') || allComponents[0];
+        if (!activeBuild.motherboard) activeBuild.motherboard = allComponents.find(c => c.id === 'mb_b650e') || allComponents.find(c => c.id === 'mb_x670e_hero');
+        if (!activeBuild.gpu) activeBuild.gpu = allComponents.find(c => c.id === 'gpu_rtx_4080s') || allComponents.find(c => c.id === 'gpu_rtx_4090');
+        if (!activeBuild.memory) activeBuild.memory = allComponents.find(c => c.id === 'ram_dominator_titanium_64gb') || allComponents.find(c => c.id === 'ram_trident_32gb');
+        if (!activeBuild.cooler) activeBuild.cooler = allComponents.find(c => c.id === 'cooler_icue_titan_360') || allComponents.find(c => c.id === 'cooler_arctic_360');
+        if (!activeBuild.psu) activeBuild.psu = allComponents.find(c => c.id === 'psu_rm1000x_shift') || allComponents.find(c => c.id === 'psu_seasonic_1000w');
+        if (!activeBuild.storage) activeBuild.storage = allComponents.find(c => c.id === 'ssd_samsung_990pro');
+        if (!activeBuild.chassis) activeBuild.chassis = allComponents.find(c => c.id === 'case_5000d_airflow') || allComponents.find(c => c.id === 'case_o11_evo');
       }
+
+      update3DScene();
+      syncBuildAnalysis();
+      renderChosenRigView();
+      renderCatalog();
+      renderBuildSpecView();
+      renderMarketDealsView();
+      renderThermalBenchView();
     }
 
     // Render View 0: Dedicated "MY RIG / CHOSEN SETUP" Panel (Requested by User)
@@ -3179,9 +3192,7 @@
         card._prevLow1 = low1;
         card._prevGpu = g.gpuBottleneckPct;
 
-        const badgeHtml = isOnline || g.isOnlineLive
-          ? '<span class="game-preset-tag online-live-badge"><span class="live-dot"></span> STEAM LIVE</span>'
-          : '<span class="game-preset-tag">' + (g.qualityPreset || 'Ultra') + '</span>';
+        const badgeHtml = '<span class="game-preset-tag">' + (g.qualityPreset || 'Ultra') + '</span>';
 
         card.innerHTML =
           '<div class="game-banner-box">' +
@@ -3313,9 +3324,7 @@
         const card = document.createElement('div');
         card.className = 'sidebar-game-card';
 
-        const badgeHtml = g.isOnlineLive
-          ? '<span class="sidebar-game-preset online-live-badge"><span class="live-dot"></span> STEAM LIVE</span>'
-          : '<span class="sidebar-game-preset">' + (g.qualityPreset || 'Ultra') + '</span>';
+        const badgeHtml = '<span class="sidebar-game-preset">' + (g.qualityPreset || 'Ultra') + '</span>';
 
         card.innerHTML = 
           '<div class="sidebar-game-banner">' +
@@ -3369,6 +3378,7 @@
       spatialHud.classList.add('expanded');
       benchTray.classList.add('expanded');
       viewportTools.classList.add('full-width');
+      setTimeout(handleResize, 350);
       showToast('Sidebar collapsed for full 3D view');
     });
 
@@ -3378,6 +3388,7 @@
       spatialHud.classList.remove('expanded');
       benchTray.classList.remove('expanded');
       viewportTools.classList.remove('full-width');
+      setTimeout(handleResize, 350);
     });
 
     document.getElementById('btn-close-bench')?.addEventListener('click', () => {
@@ -3727,36 +3738,15 @@
     }
     animate();
 
-    window.onresize = () => {
+    function handleResize() {
       camera.aspect = window.innerWidth / window.innerHeight;
       camera.updateProjectionMatrix();
       renderer.setSize(window.innerWidth, window.innerHeight);
-    };
+    }
+    window.onresize = handleResize;
 
     // Bootstrap Initial System Rig
-    loadCatalog().then(() => {
-      const cpu = allComponents.find(c => c.id === 'cpu_7800x3d') || allComponents.find(c => c.id === 'cpu_7950x3d');
-      const mb = allComponents.find(c => c.id === 'mb_b650e') || allComponents.find(c => c.id === 'mb_x670e_hero');
-      const gpu = allComponents.find(c => c.id === 'gpu_rtx_4080s') || allComponents.find(c => c.id === 'gpu_rtx_4090');
-      const ram = allComponents.find(c => c.id === 'ram_dominator_titanium_64gb') || allComponents.find(c => c.id === 'ram_trident_32gb');
-      const cooler = allComponents.find(c => c.id === 'cooler_icue_titan_360') || allComponents.find(c => c.id === 'cooler_arctic_360');
-      const psu = allComponents.find(c => c.id === 'psu_rm1000x_shift') || allComponents.find(c => c.id === 'psu_seasonic_1000w');
-      const storage = allComponents.find(c => c.id === 'ssd_samsung_990pro');
-      const chassis = allComponents.find(c => c.id === 'case_5000d_airflow') || allComponents.find(c => c.id === 'case_o11_evo');
-
-      if (cpu) activeBuild.cpu = cpu;
-      if (mb) activeBuild.motherboard = mb;
-      if (gpu) activeBuild.gpu = gpu;
-      if (ram) activeBuild.memory = ram;
-      if (cooler) activeBuild.cooler = cooler;
-      if (psu) activeBuild.psu = psu;
-      if (storage) activeBuild.storage = storage;
-      if (chassis) activeBuild.chassis = chassis;
-
-      update3DScene();
-      syncBuildAnalysis();
-      renderChosenRigView();
-    });
+    loadCatalog();
   </script>
 </body>
 </html>
