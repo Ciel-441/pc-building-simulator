@@ -47,4 +47,26 @@ fn test_compatibility_engine() {
     let rep3 = verify_compatibility(&bad_clearance_build);
     assert!(!rep3.is_compatible, "Cooler clearance violation caught");
     assert!(rep3.errors.len() >= 1, "Cooler height error recorded");
+
+    // -------------------------------------------------------------
+    // Test 4: AM4 + DDR4 Build Compatibility & SFF 360mm Radiator Check
+    // -------------------------------------------------------------
+    let mut am4_build = BuildConfiguration::new();
+    am4_build.cpu = get_component_by_id("cpu_5800x3d");
+    am4_build.motherboard = get_component_by_id("mb_b550_tomahawk");
+    am4_build.memory = get_component_by_id("ram_vengeance_lpx_32gb_ddr4");
+    am4_build.psu = get_component_by_id("psu_corsair_750w");
+    am4_build.chassis = get_component_by_id("case_4000d_airflow");
+    let rep4 = verify_compatibility(&am4_build);
+    assert!(rep4.is_compatible, "AM4 + DDR4 build is fully compatible");
+
+    let mut sff_rad_build = BuildConfiguration::new();
+    sff_rad_build.cpu = get_component_by_id("cpu_7800x3d");
+    sff_rad_build.motherboard = get_component_by_id("mb_b650i_itx");
+    sff_rad_build.memory = get_component_by_id("ram_vengeance_32gb");
+    sff_rad_build.cooler = get_component_by_id("cooler_icue_titan_360");
+    sff_rad_build.chassis = get_component_by_id("case_terra");
+    sff_rad_build.psu = get_component_by_id("psu_corsair_750w");
+    let rep5 = verify_compatibility(&sff_rad_build);
+    assert!(!rep5.is_compatible, "360mm AIO rejected in Fractal Terra SFF case");
 }

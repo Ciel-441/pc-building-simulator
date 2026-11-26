@@ -1,5 +1,5 @@
 use crate::types::{
-    BuildConfiguration, CompatibilityReport, CoolerType, FormFactor, SocketType,
+    BuildConfiguration, CompatibilityReport, CoolerType, FormFactor, MemoryType, SocketType,
 };
 
 pub fn socket_name(s: SocketType) -> &'static str {
@@ -8,6 +8,14 @@ pub fn socket_name(s: SocketType) -> &'static str {
         SocketType::Lga1700 => "Intel LGA1700",
         SocketType::Am4 => "AMD AM4",
         SocketType::NotApplicable => "Universal",
+    }
+}
+
+pub fn memory_type_name(m: MemoryType) -> &'static str {
+    match m {
+        MemoryType::Ddr5 => "DDR5",
+        MemoryType::Ddr4 => "DDR4",
+        MemoryType::NotApplicable => "Universal",
     }
 }
 
@@ -64,8 +72,11 @@ pub fn verify_compatibility(build: &BuildConfiguration) -> CompatibilityReport {
         if let Some(ref mb) = build.motherboard {
             if ram.mem_type != mb.mem_type {
                 errors.push(format!(
-                    "Memory Protocol Mismatch: RAM '{}' is DDR5, but Motherboard requires DDR4.",
-                    ram.name
+                    "Memory Protocol Mismatch: RAM '{}' is {}, but Motherboard '{}' requires {}.",
+                    ram.name,
+                    memory_type_name(ram.mem_type),
+                    mb.name,
+                    memory_type_name(mb.mem_type)
                 ));
             }
         }
@@ -100,15 +111,23 @@ pub fn verify_compatibility(build: &BuildConfiguration) -> CompatibilityReport {
         total_cost += cooler.price_usd;
         peak_watts += cooler.tdp_watts;
 
-        // Height clearance in chassis for air coolers
-        if cooler.cooler_type == CoolerType::Air {
-            if let Some(ref ch) = build.chassis {
-                if cooler.height_mm > ch.height_mm {
-                    errors.push(format!(
-                        "Cooler Clearance Violation: Air cooler height ({}mm) exceeds Chassis side panel clearance ({}mm).",
-                        cooler.height_mm, ch.height_mm
-                    ));
-                }
+        // Height clearance in chassis for air coolers, and radiator envelope for SFF Mini-ITX cases
+        if let Some(ref ch) = build.chassis {
+            if cooler.cooler_type == CoolerType::Air && cooler.height_mm > ch.height_mm {
+                errors.push(format!(
+                    "Cooler Clearance Violation: Air cooler height ({}mm) exceeds Chassis side panel clearance ({}mm).",
+                    cooler.height_mm, ch.height_mm
+                ));
+            } else if ch.form_factor == FormFactor::MiniItx
+                && matches!(
+                    cooler.cooler_type,
+                    CoolerType::LiquidAio360 | CoolerType::LiquidAio420
+                )
+            {
+                errors.push(format!(
+                    "Radiator Clearance Violation: Cooler '{}' ({}mm radiator) does not fit inside Mini-ITX SFF chassis '{}'.",
+                    cooler.name, cooler.length_mm, ch.name
+                ));
             }
         }
     }
@@ -126,6 +145,15 @@ pub fn verify_compatibility(build: &BuildConfiguration) -> CompatibilityReport {
 
     if let Some(ref psu) = build.psu {
         total_cost += psu.price_usd;
+
+        if let Some(ref ch) = build.chassis {
+            if ch.form_factor == FormFactor::MiniItx && psu.length_mm > 160 {
+                warnings.push(format!(
+                    "Tight SFF PSU Clearance: '{}' ({}mm long) is oversized for Mini-ITX '{}'. Consider SFX or compact <=150mm PSU.",
+                    psu.name, psu.length_mm, ch.name
+                ));
+            }
+        }
 
         if psu.psu_wattage < peak_watts {
             errors.push(format!(

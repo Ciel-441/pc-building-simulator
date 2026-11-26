@@ -69,6 +69,8 @@ pub fn calculate_thermal_metrics(build: &BuildConfiguration) -> ThermalMetrics {
             250
         } else if cooler.id == "cooler_peerless_120" {
             220
+        } else if cooler.id == "cooler_nh_l12s" {
+            135
         } else {
             180
         }

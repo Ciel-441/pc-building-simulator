@@ -1,4 +1,4 @@
-import { BuildConfiguration, CompatibilityReport, SocketType } from './types.js';
+import { BuildConfiguration, CompatibilityReport, MemoryType, SocketType } from './types.js';
 
 export function socketName(s: SocketType): string {
   switch (s) {
@@ -8,6 +8,17 @@ export function socketName(s: SocketType): string {
       return 'Intel LGA1700';
     case 'am4':
       return 'AMD AM4';
+    default:
+      return 'Universal';
+  }
+}
+
+export function memoryTypeName(m: MemoryType): string {
+  switch (m) {
+    case 'ddr5':
+      return 'DDR5';
+    case 'ddr4':
+      return 'DDR4';
     default:
       return 'Universal';
   }
@@ -70,7 +81,7 @@ export function verifyCompatibility(build: BuildConfiguration): CompatibilityRep
       const mb = build.motherboard;
       if (ram.memType !== mb.memType) {
         errors.push(
-          `Memory Protocol Mismatch: RAM '${ram.name}' is DDR5, but Motherboard requires DDR4.`
+          `Memory Protocol Mismatch: RAM '${ram.name}' is ${memoryTypeName(ram.memType)}, but Motherboard '${mb.name}' requires ${memoryTypeName(mb.memType)}.`
         );
       }
     }
@@ -108,12 +119,19 @@ export function verifyCompatibility(build: BuildConfiguration): CompatibilityRep
     totalCost += cooler.priceUsd;
     peakWatts += cooler.tdpWatts;
 
-    // Height clearance in chassis for air coolers
-    if (cooler.coolerType === 'air' && build.chassis) {
+    // Height clearance in chassis for air coolers & radiator clearance in SFF Mini-ITX cases
+    if (build.chassis) {
       const ch = build.chassis;
-      if (cooler.heightMm > ch.heightMm) {
+      if (cooler.coolerType === 'air' && cooler.heightMm > ch.heightMm) {
         errors.push(
           `Cooler Clearance Violation: Air cooler height (${cooler.heightMm}mm) exceeds Chassis side panel clearance (${ch.heightMm}mm).`
+        );
+      } else if (
+        ch.formFactor === 'mini_itx' &&
+        (cooler.coolerType === 'liquid_aio_360' || cooler.coolerType === 'liquid_aio_420')
+      ) {
+        errors.push(
+          `Radiator Clearance Violation: Cooler '${cooler.name}' (${cooler.lengthMm}mm radiator) does not fit inside Mini-ITX SFF chassis '${ch.name}'.`
         );
       }
     }
@@ -133,6 +151,12 @@ export function verifyCompatibility(build: BuildConfiguration): CompatibilityRep
   if (build.psu) {
     const psu = build.psu;
     totalCost += psu.priceUsd;
+
+    if (build.chassis && build.chassis.formFactor === 'mini_itx' && psu.lengthMm > 160) {
+      warnings.push(
+        `Tight SFF PSU Clearance: '${psu.name}' (${psu.lengthMm}mm long) is oversized for Mini-ITX '${build.chassis.name}'. Consider SFX or compact <=150mm PSU.`
+      );
+    }
 
     if (psu.psuWattage < peakWatts) {
       errors.push(

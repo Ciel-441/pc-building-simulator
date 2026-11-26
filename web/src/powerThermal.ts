@@ -73,6 +73,8 @@ export function calculateThermalMetrics(build: BuildConfiguration): ThermalMetri
       coolerCap = 250;
     } else if (c.id === 'cooler_peerless_120') {
       coolerCap = 220;
+    } else if (c.id === 'cooler_nh_l12s') {
+      coolerCap = 135;
     } else {
       coolerCap = 180;
     }

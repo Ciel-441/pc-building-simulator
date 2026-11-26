@@ -100,12 +100,26 @@ export function handleRequest(
   body: string
 ): { status: number; contentType: string; body: string } {
   const m = method.toUpperCase();
+  const cleanPath = url.split('?')[0];
 
   if (m === 'OPTIONS') {
     return { status: 200, contentType: 'text/plain', body: 'OK' };
   }
 
-  if (m === 'GET' && (url === '/' || url === '/index.html')) {
+  if (m === 'GET' && (cleanPath === '/' || cleanPath === '/index.html')) {
+    const htmlCandidates = [
+      path.join(process.cwd(), 'web', 'index.html'),
+      path.join(process.cwd(), 'index.html'),
+    ];
+    for (const p of htmlCandidates) {
+      if (fs.existsSync(p)) {
+        return {
+          status: 200,
+          contentType: 'text/html; charset=utf-8',
+          body: fs.readFileSync(p, 'utf8'),
+        };
+      }
+    }
     return {
       status: 200,
       contentType: 'text/html; charset=utf-8',
@@ -113,7 +127,7 @@ export function handleRequest(
     };
   }
 
-  if (m === 'GET' && url === '/health') {
+  if (m === 'GET' && cleanPath === '/health') {
     return {
       status: 200,
       contentType: 'application/json',
@@ -121,7 +135,7 @@ export function handleRequest(
     };
   }
 
-  if (m === 'GET' && url === '/api/components') {
+  if (m === 'GET' && cleanPath === '/api/components') {
     return {
       status: 200,
       contentType: 'application/json',
@@ -129,7 +143,7 @@ export function handleRequest(
     };
   }
 
-  if (m === 'POST' && url === '/api/verify') {
+  if (m === 'POST' && cleanPath === '/api/verify') {
     const build = parseBuildFromJson(body);
     const rep = verifyCompatibility(build);
     return {
@@ -139,7 +153,7 @@ export function handleRequest(
     };
   }
 
-  if (m === 'POST' && url === '/api/power') {
+  if (m === 'POST' && cleanPath === '/api/power') {
     const build = parseBuildFromJson(body);
     const pwr = calculatePowerMetrics(build);
     const therm = calculateThermalMetrics(build);
@@ -150,7 +164,7 @@ export function handleRequest(
     };
   }
 
-  if (m === 'POST' && url === '/api/benchmark') {
+  if (m === 'POST' && cleanPath === '/api/benchmark') {
     const build = parseBuildFromJson(body);
     const resolution = body.includes('"4k"') || body.includes('"4K"')
       ? '4k'
@@ -165,7 +179,7 @@ export function handleRequest(
     };
   }
 
-  if (m === 'GET' && url === '/api/live-prices') {
+  if (m === 'GET' && cleanPath === '/api/live-prices') {
     try {
       const candidates = [
         path.join(process.cwd(), 'scripts', 'authentic_market_data.json'),

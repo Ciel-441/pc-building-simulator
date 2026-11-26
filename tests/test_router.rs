@@ -1,7 +1,12 @@
-use pc_build_sim::router::dispatch_request;
+use pc_build_sim::router::{dispatch_request, extract_query_param};
 
 #[test]
 fn test_router_dispatch() {
+    assert_eq!(
+        extract_query_param("/api/games/online?query=elden%20ring&resolution=1440p", "query").as_deref(),
+        Some("elden ring"),
+        "Percent-encoded query params decode properly"
+    );
     // -------------------------------------------------------------
     // Test 0: Spatial 3D Web UI Root Dispatch
     // -------------------------------------------------------------

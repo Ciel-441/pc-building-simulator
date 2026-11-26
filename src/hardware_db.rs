@@ -368,6 +368,34 @@ pub fn get_all_components() -> Vec<Component> {
             0, 0, 0, 0, 0, 0, 0, 6400, 0,
             "black", "micro_atx_armor", false, "12+2+1 VRM mATX",
         ),
+        Component::new(
+            "mb_b650i_itx",
+            "ROG Strix B650E-I Gaming WiFi",
+            "ASUS",
+            ComponentKind::Motherboard,
+            299,
+            45,
+            SocketType::Am5,
+            MemoryType::Ddr5,
+            FormFactor::MiniItx,
+            CoolerType::NotApplicable,
+            0, 0, 0, 0, 0, 0, 0, 6400, 0,
+            "black", "mini_itx_armor", true, "10+2 VRM Mini-ITX PCIe 5.0",
+        ),
+        Component::new(
+            "mb_b550_tomahawk",
+            "MAG B550 Tomahawk MAX WiFi",
+            "MSI",
+            ComponentKind::Motherboard,
+            159,
+            40,
+            SocketType::Am4,
+            MemoryType::Ddr4,
+            FormFactor::Atx,
+            CoolerType::NotApplicable,
+            0, 0, 0, 0, 0, 0, 0, 4400, 0,
+            "stealth", "tomahawk_military", false, "10+2+1 VRM AM4 DDR4",
+        ),
 
         // ==========================================
         // COOLERS (Corsair & Enthusiast)
@@ -470,6 +498,20 @@ pub fn get_all_components() -> Vec<Component> {
             125, 155, 0, 0, 0, 0, 0, 0, 0,
             "grey", "dual_tower_budget", false, "Dual Tower 6 AGHP Pipes",
         ),
+        Component::new(
+            "cooler_nh_l12s",
+            "NH-L12S Low-Profile SFF",
+            "Noctua",
+            ComponentKind::Cooler,
+            59,
+            5,
+            SocketType::NotApplicable,
+            MemoryType::NotApplicable,
+            FormFactor::NotApplicable,
+            CoolerType::Air,
+            128, 70, 0, 0, 0, 0, 0, 0, 0,
+            "silver_brown", "low_profile_sff_downdraft", false, "70mm SFF Top-Flow 4 Heatpipes",
+        ),
 
         // ==========================================
         // MEMORY (RAM - Corsair & Enthusiast)
@@ -543,6 +585,20 @@ pub fn get_all_components() -> Vec<Component> {
             CoolerType::NotApplicable,
             0, 35, 0, 0, 0, 0, 0, 5600, 32,
             "stealth", "low_profile_aluminum", false, "DDR5-5600 35mm Low Profile",
+        ),
+        Component::new(
+            "ram_vengeance_lpx_32gb_ddr4",
+            "Vengeance LPX 32GB (2x16GB) DDR4",
+            "Corsair",
+            ComponentKind::Memory,
+            69,
+            10,
+            SocketType::NotApplicable,
+            MemoryType::Ddr4,
+            FormFactor::NotApplicable,
+            CoolerType::NotApplicable,
+            0, 33, 0, 0, 0, 0, 0, 3600, 32,
+            "stealth", "low_profile_aluminum", false, "DDR4-3600 CL18 Low Profile",
         ),
 
         // ==========================================

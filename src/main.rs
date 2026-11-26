@@ -5,55 +5,90 @@ use std::net::{TcpListener, TcpStream};
 use std::process;
 use std::thread;
 
-fn handle_client(mut stream: TcpStream) {
-    let mut buffer = [0u8; 8192];
-    match stream.read(&mut buffer) {
-        Ok(bytes_read) => {
-            if bytes_read == 0 {
-                return;
+use std::time::Duration;
+
+fn parse_content_length(headers: &str) -> usize {
+    for line in headers.lines() {
+        if let Some((name, value)) = line.split_once(':') {
+            if name.trim().eq_ignore_ascii_case("Content-Length") {
+                if let Ok(len) = value.trim().parse::<usize>() {
+                    return len.min(65536);
+                }
             }
-
-            let raw_req = String::from_utf8_lossy(&buffer[..bytes_read]);
-            let mut lines = raw_req.split("\r\n");
-            let req_line = lines.next().unwrap_or("");
-            let parts: Vec<&str> = req_line.split_whitespace().collect();
-
-            let method = if !parts.is_empty() { parts[0] } else { "GET" };
-            let path = if parts.len() > 1 { parts[1] } else { "/" };
-
-            let body = if let Some(pos) = raw_req.find("\r\n\r\n") {
-                &raw_req[pos + 4..]
-            } else if let Some(pos) = raw_req.find("\n\n") {
-                &raw_req[pos + 2..]
-            } else {
-                ""
-            };
-
-            let res = dispatch_request(method, path, body);
-
-            let status_text = match res.status_code {
-                200 => "OK",
-                404 => "Not Found",
-                500 => "Internal Server Error",
-                _ => "Unknown",
-            };
-
-            let response_header = format!(
-                "HTTP/1.1 {} {}\r\nContent-Type: {}\r\nContent-Length: {}\r\nCache-Control: no-cache, no-store, must-revalidate\r\nPragma: no-cache\r\nExpires: 0\r\nAccess-Control-Allow-Origin: *\r\nAccess-Control-Allow-Methods: GET, POST, OPTIONS\r\nAccess-Control-Allow-Headers: Content-Type\r\nConnection: close\r\n\r\n",
-                res.status_code,
-                status_text,
-                res.content_type,
-                res.body.as_bytes().len()
-            );
-
-            let _ = stream.write_all(response_header.as_bytes());
-            let _ = stream.write_all(res.body.as_bytes());
-            let _ = stream.flush();
-        }
-        Err(e) => {
-            eprintln!("Connection read error: {}", e);
         }
     }
+    0
+}
+
+fn handle_client(mut stream: TcpStream) {
+    let _ = stream.set_read_timeout(Some(Duration::from_secs(2)));
+    let mut raw_buf = Vec::with_capacity(4096);
+    let mut chunk = [0u8; 4096];
+
+    loop {
+        match stream.read(&mut chunk) {
+            Ok(0) => break,
+            Ok(n) => {
+                raw_buf.extend_from_slice(&chunk[..n]);
+                let raw_str = String::from_utf8_lossy(&raw_buf);
+                if let Some((sep_pos, sep_len)) = raw_str
+                    .find("\r\n\r\n")
+                    .map(|p| (p, 4))
+                    .or_else(|| raw_str.find("\n\n").map(|p| (p, 2)))
+                {
+                    let content_len = parse_content_length(&raw_str[..sep_pos]);
+                    if raw_buf.len() >= sep_pos + sep_len + content_len {
+                        break;
+                    }
+                }
+                if raw_buf.len() >= 65536 {
+                    break;
+                }
+            }
+            Err(_) => break,
+        }
+    }
+
+    if raw_buf.is_empty() {
+        return;
+    }
+
+    let raw_req = String::from_utf8_lossy(&raw_buf);
+    let mut lines = raw_req.split("\r\n");
+    let req_line = lines.next().unwrap_or("");
+    let parts: Vec<&str> = req_line.split_whitespace().collect();
+
+    let method = if !parts.is_empty() { parts[0] } else { "GET" };
+    let path = if parts.len() > 1 { parts[1] } else { "/" };
+
+    let body = if let Some(pos) = raw_req.find("\r\n\r\n") {
+        &raw_req[pos + 4..]
+    } else if let Some(pos) = raw_req.find("\n\n") {
+        &raw_req[pos + 2..]
+    } else {
+        ""
+    };
+
+    let res = dispatch_request(method, path, body);
+
+    let status_text = match res.status_code {
+        200 => "OK",
+        404 => "Not Found",
+        500 => "Internal Server Error",
+        _ => "Unknown",
+    };
+
+    let response_header = format!(
+        "HTTP/1.1 {} {}\r\nContent-Type: {}\r\nContent-Length: {}\r\nCache-Control: no-cache, no-store, must-revalidate\r\nPragma: no-cache\r\nExpires: 0\r\nAccess-Control-Allow-Origin: *\r\nAccess-Control-Allow-Methods: GET, POST, OPTIONS\r\nAccess-Control-Allow-Headers: Content-Type\r\nConnection: close\r\n\r\n",
+        res.status_code,
+        status_text,
+        res.content_type,
+        res.body.as_bytes().len()
+    );
+
+    let _ = stream.write_all(response_header.as_bytes());
+    let _ = stream.write_all(res.body.as_bytes());
+    let _ = stream.flush();
 }
 
 fn main() {

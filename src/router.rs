@@ -25,25 +25,7 @@ impl HttpResponse {
 
 pub fn parse_build_from_json(body: &str) -> BuildConfiguration {
     let mut build = BuildConfiguration::new();
-    let all = get_all_components();
 
-    for c in all {
-        let pattern = format!("\"{}\"", c.id);
-        if body.contains(&pattern) {
-            match c.kind {
-                ComponentKind::Processor => build.cpu = Some(c),
-                ComponentKind::GraphicsCard => build.gpu = Some(c),
-                ComponentKind::Motherboard => build.motherboard = Some(c),
-                ComponentKind::Memory => build.memory = Some(c),
-                ComponentKind::Storage => build.storage = Some(c),
-                ComponentKind::PowerSupply => build.psu = Some(c),
-                ComponentKind::Cooler => build.cooler = Some(c),
-                ComponentKind::Chassis => build.chassis = Some(c),
-            }
-        }
-    }
-
-    // Also support direct JSON object parse with keys: cpu, gpu, etc.
     if let Ok(val) = serde_json::from_str::<serde_json::Value>(body) {
         if let Some(obj) = val.as_object() {
             let slot_map = [
@@ -72,6 +54,25 @@ pub fn parse_build_from_json(body: &str) -> BuildConfiguration {
                         }
                     }
                 }
+            }
+            return build;
+        }
+    }
+
+    // Fallback substring match for non-JSON or array-style payloads
+    let all = get_all_components();
+    for c in all {
+        let pattern = format!("\"{}\"", c.id);
+        if body.contains(&pattern) {
+            match c.kind {
+                ComponentKind::Processor => build.cpu = Some(c),
+                ComponentKind::GraphicsCard => build.gpu = Some(c),
+                ComponentKind::Motherboard => build.motherboard = Some(c),
+                ComponentKind::Memory => build.memory = Some(c),
+                ComponentKind::Storage => build.storage = Some(c),
+                ComponentKind::PowerSupply => build.psu = Some(c),
+                ComponentKind::Cooler => build.cooler = Some(c),
+                ComponentKind::Chassis => build.chassis = Some(c),
             }
         }
     }
@@ -178,14 +179,55 @@ pub fn dispatch_request(method: &str, path: &str, body: &str) -> HttpResponse {
     HttpResponse::new(404, "application/json", r#"{"error":"Not Found"}"#)
 }
 
-fn extract_query_param(path: &str, param: &str) -> Option<String> {
+fn percent_decode(raw: &str) -> String {
+    let bytes = raw.as_bytes();
+    let mut out = Vec::with_capacity(bytes.len());
+    let mut i = 0;
+    while i < bytes.len() {
+        if bytes[i] == b'+' {
+            out.push(b' ');
+            i += 1;
+        } else if bytes[i] == b'%' && i + 2 < bytes.len() {
+            if let (Some(hi), Some(lo)) = (
+                (bytes[i + 1] as char).to_digit(16),
+                (bytes[i + 2] as char).to_digit(16),
+            ) {
+                out.push(((hi << 4) | lo) as u8);
+                i += 3;
+                continue;
+            }
+            out.push(bytes[i]);
+            i += 1;
+        } else {
+            out.push(bytes[i]);
+            i += 1;
+        }
+    }
+    String::from_utf8_lossy(&out).to_string()
+}
+
+fn percent_encode(raw: &str) -> String {
+    let mut out = String::with_capacity(raw.len());
+    for b in raw.bytes() {
+        if b.is_ascii_alphanumeric() || matches!(b, b'-' | b'_' | b'.' | b'~') {
+            out.push(b as char);
+        } else if b == b' ' {
+            out.push('+');
+        } else {
+            out.push_str(&format!("%{:02X}", b));
+        }
+    }
+    out
+}
+
+pub fn extract_query_param(path: &str, param: &str) -> Option<String> {
     let q_pos = path.find('?')?;
     let query_str = &path[q_pos + 1..];
     for pair in query_str.split('&') {
-        let mut parts = pair.split('=');
+        let mut parts = pair.splitn(2, '=');
         if let (Some(k), Some(v)) = (parts.next(), parts.next()) {
             if k == param {
-                return Some(v.replace('+', " ").to_string());
+                return Some(percent_decode(v));
             }
         }
     }
@@ -193,12 +235,16 @@ fn extract_query_param(path: &str, param: &str) -> Option<String> {
 }
 
 fn fetch_steam_online_benchmarks(query: &str, resolution: &str, gpu_id: &str) -> String {
-    let clean_query = query.trim().replace('"', "").replace('&', "").replace('%', "");
+    let clean_query: String = query
+        .trim()
+        .chars()
+        .filter(|c| !c.is_control() && *c != '"' && *c != '<' && *c != '>')
+        .collect();
     if clean_query.is_empty() {
         return "[]".to_string();
     }
 
-    let encoded = clean_query.replace(' ', "+");
+    let encoded = percent_encode(&clean_query);
     let url = format!(
         "https://store.steampowered.com/api/storesearch/?term={}&l=english&cc=US",
         encoded
